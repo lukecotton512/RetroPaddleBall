@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  RetroPaddleBall
+
+  Created by Luke Cotton on 7/14/11.
+  Copyright 2011. All rights reserved.
+*/
+
+//HighScoreViewController.m
+"HIGHSCORESMESSAGETITLE" = "Really clear out high scores";
+"HIGHSCORESMESSAGEMESSAGE" = "All high scores will be deleted";
+"HIGHSCORESMESSAGENO" = "No";
+"HIGHSCORESMESSAGEDELETE" = "Delete";
+//SettingsViewController.m
+
+//GameOverViewController.m
+"NEWHIGHSCORE" = "New High Score";
+"ENTERYOURNAME" = "Enter your name:";
+"CANCEL" = "Cancel";
+"OK" = "OK";
+
+//CoreGraphicsDrawingViewController.m
+"SCORE:" = "Score: %i";
