@@ -30,8 +30,6 @@
     
     // Override point for customization after application launch.
     self.databaseCreated=NO;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *libraryDirectory = [paths objectAtIndex:0];
     highScoresEnabled=NO;
     if (([[[UIDevice currentDevice] model] rangeOfString:@"iPad"].location!=NSNotFound)) {
         isOniPad=YES;
@@ -91,9 +89,9 @@
     }
     NSSet *productIdentifiers;
     if (self.upgradeEligible) {
-        NSLog(@"Upgrade Eligible = YES");
+        RPBLOG(@"Upgrade Eligible = YES");
     } else {
-        NSLog(@"Upgrade Eligible = NO");
+        RPBLOG(@"Upgrade Eligible = NO");
     }
     productIdentifiers = [NSSet setWithObjects:@"com.lukecotton.retropaddleball.disableadsfree",@"com.lukecotton.retropaddleball.disableads", nil];
     productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
@@ -249,7 +247,6 @@
 -(void)loadData:(NSMetadataQuery *)query2 {
     [[NSUbiquitousKeyValueStore defaultStore] synchronize];
     if ([query2 resultCount]==1) {
-        NSMetadataItem *item = [query2 resultAtIndex:0];
         NSURL *url = [[[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"highscoredatabase.db"];
         HighScoreDocument *doc = [[HighScoreDocument alloc] initWithFileURL:url];
         self.highScoreDoc = doc;
