@@ -191,10 +191,10 @@
             randomNumberx = (arc4random() % 214) + 38;
             randomNumbery = (arc4random() % 200) + 50;
         } else if (j==1) {
-            randomNumberx = (arc4random() % 420) + 204;
+            randomNumberx = (arc4random() % 400) + 204;
             randomNumbery = (arc4random() % 200) + 50;
         } else if (j==2) {
-            randomNumberx = (arc4random() % 470) + 38;
+            randomNumberx = (arc4random() % 400) + 38;
             randomNumbery = (arc4random() % 500) + 260;
         }
         randomRect=CGRectMake(randomNumberx, randomNumbery, 160, 60);
