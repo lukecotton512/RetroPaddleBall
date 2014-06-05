@@ -9,12 +9,11 @@
 #import "RPBRandomRect.h"
 
 @implementation RPBRandomRect
-@synthesize rectView, leftRect, rightRect, topRect, bottomRect, powerUpAbsorbed, leftRectBall, rightRectBall, topRectBall, bottomRectBall, topRectIntersection, bottomRectIntersection, leftRectIntersection, rightRectIntersection, brickBaseEffect;
+@synthesize leftRect, rightRect, topRect, bottomRect, powerUpAbsorbed, leftRectBall, rightRectBall, topRectBall, bottomRectBall, topRectIntersection, bottomRectIntersection, leftRectIntersection, rightRectIntersection, brickBaseEffect;
 -(id)init
 {
     self=[super init];
     if (self) {
-        rectView=[[UIView alloc] init];
         self.rectOfView = CGRectMake(0, 0, 120, 40);
     }
     return self;
@@ -22,7 +21,6 @@
 -(void)setRectOfView:(CGRect)theRectOfView
 {
     rectOfView=theRectOfView;
-    rectView.frame=theRectOfView;
     leftRect = CGRectMake(rectOfView.origin.x, rectOfView.origin.y, 1, rectOfView.size.height);
     rightRect = CGRectMake((rectOfView.origin.x+rectOfView.size.width)-1, rectOfView.origin.y, 1, rectOfView.size.height);
     topRect = CGRectMake(rectOfView.origin.x, rectOfView.origin.y+1, rectOfView.size.width, 1);

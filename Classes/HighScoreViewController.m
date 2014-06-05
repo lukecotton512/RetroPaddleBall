@@ -47,10 +47,6 @@
         i++;
     }
 }
--(IBAction)showMainMenu:(id)sender
-{
-	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] showMainMenu];
-}
 -(IBAction)resetHighScores:(id)sender
 {
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"HIGHSCORESMESSAGETITLE", nil) message:NSLocalizedString(@"HIGHSCORESMESSAGEMESSAGE", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"HIGHSCORESMESSAGENO", nil) otherButtonTitles:NSLocalizedString(@"HIGHSCORESMESSAGEDELETE", nil), nil];

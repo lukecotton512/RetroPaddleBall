@@ -10,7 +10,6 @@
 #import <GLKit/GLKit.h>
 @interface RPBBall : NSObject
 {
-    UIView *ballView;
     CGRect ballRect;
     float xBounce;
     float bounce;
@@ -25,7 +24,6 @@
     int ballHitCounterScore;
     GLKBaseEffect *ballEffect;
 }
-@property (nonatomic, strong) UIView *ballView;
 @property (nonatomic, assign) CGRect ballRect;
 @property (nonatomic, assign) float xBounce;
 @property (nonatomic, assign) float bounce;

@@ -15,10 +15,6 @@
 	IBOutlet UIWindow *window;
     IBOutlet ADBannerView *bannerAd;
 }
--(IBAction)playGame:(id)sender;
--(IBAction)showSettings:(id)sender;
--(IBAction)showHighScores:(id)sender;
--(IBAction)showHowToPlay:(id)sender;
 -(IBAction)goToBeginning:(UIStoryboardSegue *)unwindSegue;
 -(void)hideAds;
 @property (nonatomic, strong) IBOutlet UIWindow *window;

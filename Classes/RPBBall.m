@@ -9,12 +9,11 @@
 #import "RPBBall.h"
 
 @implementation RPBBall
-@synthesize ballView, ballRect, ballHitCounter, ballHitCounterLeft, ballHitCounterTop, ballHitCounterRight, ballHitCounterScore, oldbounce, oldxBounce, oldSpeedMultiplier, xBounce, bounce, ballEffect;
+@synthesize ballRect, ballHitCounter, ballHitCounterLeft, ballHitCounterTop, ballHitCounterRight, ballHitCounterScore, oldbounce, oldxBounce, oldSpeedMultiplier, xBounce, bounce, ballEffect;
 -(id)init
 {
     if (self=[super init]) {
         ballRect = CGRectMake(0, 0, 10, 10);
-        ballView = [[UIView alloc] initWithFrame:ballRect];
         speedMultiplier=2.0f;
         oldSpeedMultiplier=2.0f;
         ballHitCounter = 0;

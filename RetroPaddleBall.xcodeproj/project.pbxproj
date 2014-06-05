@@ -55,13 +55,8 @@
 		6C2AC84B134A5DBB00F05242 /* YellowBallButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2AC843134A5DBB00F05242 /* YellowBallButton.png */; };
 		6C2AC84C134A5DBB00F05242 /* YellowBallButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2AC844134A5DBB00F05242 /* YellowBallButton@2x.png */; };
 		6C2CEB451680DECE0025E29A /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB441680DECE0025E29A /* MainWindow-iPad.xib */; };
-		6C2CEB481680E0D00025E29A /* CoreGraphicsDrawingViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB461680E0D00025E29A /* CoreGraphicsDrawingViewController~ipad.xib */; };
 		6C2CEB4E1681107D0025E29A /* RetroPaddleBallMainDisplay~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB4D1681107D0025E29A /* RetroPaddleBallMainDisplay~ipad.png */; };
 		6C2CEB50168110870025E29A /* RetroPaddleBallMainDisplay@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB4F168110870025E29A /* RetroPaddleBallMainDisplay@2x~ipad.png */; };
-		6C2CEB53168111260025E29A /* MainMenuViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB51168111260025E29A /* MainMenuViewController~ipad.xib */; };
-		6C2CEB5A168111620025E29A /* GameOverViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB54168111620025E29A /* GameOverViewController~ipad.xib */; };
-		6C2CEB5B168111620025E29A /* HighScoreViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB56168111620025E29A /* HighScoreViewController~ipad.xib */; };
-		6C2CEB5C168111620025E29A /* HowToPlayViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB58168111620025E29A /* HowToPlayViewController~ipad.xib */; };
 		6C3C3DF4169CBE3500F6B1FB /* Icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3DF2169CBE3500F6B1FB /* Icon@2x~ipad.png */; };
 		6C3C3DF5169CBE3500F6B1FB /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3DF3169CBE3500F6B1FB /* Icon~ipad.png */; };
 		6C3C3DF8169CD35B00F6B1FB /* PauseButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3DF6169CD35B00F6B1FB /* PauseButton~ipad.png */; };
@@ -79,7 +74,6 @@
 		6C59770C14EC6580008444B5 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C59770A14EC6580008444B5 /* Icon.png */; };
 		6C59770D14EC6580008444B5 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C59770B14EC6580008444B5 /* Icon@2x.png */; };
 		6C5D3BD517D1AB4D00558B2D /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C5D3BD417D1AB4D00558B2D /* iAd.framework */; };
-		6C6FA39F16F3AF680065A1F7 /* SettingsViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6FA39D16F3AF680065A1F7 /* SettingsViewController~ipad.xib */; };
 		6C78401715F68B34008F9D0A /* HighScoreDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C78401615F68B34008F9D0A /* HighScoreDocument.m */; };
 		6C7B3C401306015C0051DBE0 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C7B3C3E1306015C0051DBE0 /* MainMenuViewController.m */; };
 		6C7B3C53130603360051DBE0 /* RetroPaddleBallMainDisplay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C7B3C52130603360051DBE0 /* RetroPaddleBallMainDisplay.png */; };
@@ -159,15 +153,8 @@
 		6CBDABC813C0EB9C003569E2 /* GameOver@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABCA13C0EB9C003569E2 /* GameOver@2x.png */; };
 		6CBDABCB13C0EBA0003569E2 /* PlayGameButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABCD13C0EBA0003569E2 /* PlayGameButton.png */; };
 		6CBDABCE13C0EBA3003569E2 /* PlayGameButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABD013C0EBA3003569E2 /* PlayGameButton@2x.png */; };
-		6CBDABD913C0ECE9003569E2 /* GameOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABDB13C0ECE9003569E2 /* GameOverViewController.xib */; };
-		6CBDABDC13C0ECF2003569E2 /* MainMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABDE13C0ECF2003569E2 /* MainMenuViewController.xib */; };
-		6CBDABDF13C0ECF7003569E2 /* CoreGraphicsDrawingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABE113C0ECF7003569E2 /* CoreGraphicsDrawingViewController.xib */; };
-		6CBDABE213C0ECFC003569E2 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABE413C0ECFC003569E2 /* SettingsViewController.xib */; };
-		6CBDABE513C0ED01003569E2 /* HighScoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABE713C0ED01003569E2 /* HighScoreViewController.xib */; };
-		6CBDABE813C0ED05003569E2 /* HowToPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABEA13C0ED05003569E2 /* HowToPlayViewController.xib */; };
 		6CBDABF813C10425003569E2 /* HowToPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABFA13C10425003569E2 /* HowToPlay.png */; };
 		6CBDABFB13C1042A003569E2 /* HowToPlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABFD13C1042A003569E2 /* HowToPlay@2x.png */; };
-		6CBDAC0113C107CC003569E2 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDAC0213C107CC003569E2 /* MainWindow.xib */; };
 		6CC7EABA192B0B0800B9307D /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CC7EAB9192B0B0800B9307D /* GLKit.framework */; };
 		6CC7EABC192B0B3600B9307D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CC7EABB192B0B3600B9307D /* OpenGLES.framework */; };
 		6CC8413116AC89990028D177 /* GameOver~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CC8412D16AC89990028D177 /* GameOver~ipad.png */; };
@@ -179,7 +166,6 @@
 		6CE865C91810C90F0019CAE0 /* MainMenuButton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE865C71810C90F0019CAE0 /* MainMenuButton@2x~ipad.png */; };
 		6CE865CA1810C90F0019CAE0 /* MainMenuButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE865C81810C90F0019CAE0 /* MainMenuButton~ipad.png */; };
 		6CED55A218635EDF00BC7ED2 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CED55A118635EDF00BC7ED2 /* TutorialViewController.m */; };
-		6CEFB2F712FDEA4C00417135 /* CoreGraphicsDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CEFB2F612FDEA4C00417135 /* CoreGraphicsDrawingView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -236,13 +222,8 @@
 		6C2AC843134A5DBB00F05242 /* YellowBallButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = YellowBallButton.png; sourceTree = "<group>"; };
 		6C2AC844134A5DBB00F05242 /* YellowBallButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "YellowBallButton@2x.png"; sourceTree = "<group>"; };
 		6C2CEB441680DECE0025E29A /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
-		6C2CEB471680E0D00025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/CoreGraphicsDrawingViewController~ipad.xib"; sourceTree = "<group>"; };
 		6C2CEB4D1681107D0025E29A /* RetroPaddleBallMainDisplay~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RetroPaddleBallMainDisplay~ipad.png"; sourceTree = "<group>"; };
 		6C2CEB4F168110870025E29A /* RetroPaddleBallMainDisplay@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RetroPaddleBallMainDisplay@2x~ipad.png"; sourceTree = "<group>"; };
-		6C2CEB52168111260025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Classes/en.lproj/MainMenuViewController~ipad.xib"; sourceTree = "<group>"; };
-		6C2CEB55168111620025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Classes/en.lproj/GameOverViewController~ipad.xib"; sourceTree = "<group>"; };
-		6C2CEB57168111620025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Classes/en.lproj/HighScoreViewController~ipad.xib"; sourceTree = "<group>"; };
-		6C2CEB59168111620025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Classes/en.lproj/HowToPlayViewController~ipad.xib"; sourceTree = "<group>"; };
 		6C3C3DF2169CBE3500F6B1FB /* Icon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x~ipad.png"; sourceTree = "<group>"; };
 		6C3C3DF3169CBE3500F6B1FB /* Icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon~ipad.png"; sourceTree = "<group>"; };
 		6C3C3DF6169CD35B00F6B1FB /* PauseButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PauseButton~ipad.png"; sourceTree = "<group>"; };
@@ -262,7 +243,6 @@
 		6C59770A14EC6580008444B5 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		6C59770B14EC6580008444B5 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		6C5D3BD417D1AB4D00558B2D /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
-		6C6FA39E16F3AF680065A1F7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/SettingsViewController~ipad.xib"; sourceTree = "<group>"; };
 		6C78401515F68B34008F9D0A /* HighScoreDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoreDocument.h; sourceTree = "<group>"; };
 		6C78401615F68B34008F9D0A /* HighScoreDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoreDocument.m; sourceTree = "<group>"; };
 		6C7B3C3D1306015C0051DBE0 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewController.h; sourceTree = "<group>"; };
@@ -349,15 +329,8 @@
 		6CBDABCF13C0EBA3003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/PlayGameButton@2x.png"; sourceTree = "<group>"; };
 		6CBDABD613C0EBCF003569E2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		6CBDABD813C0EBD4003569E2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		6CBDABDA13C0ECE9003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GameOverViewController.xib; sourceTree = "<group>"; };
-		6CBDABDD13C0ECF2003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenuViewController.xib; sourceTree = "<group>"; };
-		6CBDABE013C0ECF7003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CoreGraphicsDrawingViewController.xib; sourceTree = "<group>"; };
-		6CBDABE313C0ECFC003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SettingsViewController.xib; sourceTree = "<group>"; };
-		6CBDABE613C0ED01003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HighScoreViewController.xib; sourceTree = "<group>"; };
-		6CBDABE913C0ED05003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/HowToPlayViewController.xib; sourceTree = "<group>"; };
 		6CBDABF913C10425003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/HowToPlay.png; sourceTree = "<group>"; };
 		6CBDABFC13C1042A003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/HowToPlay@2x.png"; sourceTree = "<group>"; };
-		6CBDAC0213C107CC003569E2 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		6CC7EAB9192B0B0800B9307D /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		6CC7EABB192B0B3600B9307D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		6CC8412E16AC89990028D177 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/GameOver~ipad.png"; sourceTree = "<group>"; };
@@ -371,8 +344,6 @@
 		6CE865C81810C90F0019CAE0 /* MainMenuButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MainMenuButton~ipad.png"; sourceTree = "<group>"; };
 		6CED55A018635EDF00BC7ED2 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
 		6CED55A118635EDF00BC7ED2 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
-		6CEFB2F512FDEA4C00417135 /* CoreGraphicsDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreGraphicsDrawingView.h; path = ../CoreGraphicsDrawingView.h; sourceTree = "<group>"; };
-		6CEFB2F612FDEA4C00417135 /* CoreGraphicsDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreGraphicsDrawingView.m; path = ../CoreGraphicsDrawingView.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* RetroPaddleBall-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RetroPaddleBall-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -414,8 +385,6 @@
 				6CBDAB4313C0E686003569E2 /* HowToPlayViewController.m */,
 				1D3623240D0F684500981E51 /* CoreGraphicsDrawingAppDelegate.h */,
 				1D3623250D0F684500981E51 /* CoreGraphicsDrawingAppDelegate.m */,
-				6CEFB2F512FDEA4C00417135 /* CoreGraphicsDrawingView.h */,
-				6CEFB2F612FDEA4C00417135 /* CoreGraphicsDrawingView.m */,
 				28D7ACF60DDB3853001CB0EB /* CoreGraphicsDrawingViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* CoreGraphicsDrawingViewController.m */,
 				6C05AF6A15796509005DAF3E /* RPBRandomRect.h */,
@@ -578,13 +547,6 @@
 				6C3D3E1B182C97790058DF91 /* RestorePurchases@2x.png */,
 				6C7B3C54130603440051DBE0 /* RetroPaddleBallMainDisplay@2x.png */,
 				6C7B3C52130603360051DBE0 /* RetroPaddleBallMainDisplay.png */,
-				6CBDABDB13C0ECE9003569E2 /* GameOverViewController.xib */,
-				6CBDABDE13C0ECF2003569E2 /* MainMenuViewController.xib */,
-				6CBDABE113C0ECF7003569E2 /* CoreGraphicsDrawingViewController.xib */,
-				6CBDABE413C0ECFC003569E2 /* SettingsViewController.xib */,
-				6CBDABE713C0ED01003569E2 /* HighScoreViewController.xib */,
-				6CBDABEA13C0ED05003569E2 /* HowToPlayViewController.xib */,
-				6CBDAC0213C107CC003569E2 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* RetroPaddleBall-Info.plist */,
 			);
 			name = Resources;
@@ -632,12 +594,6 @@
 				6C3C3DF3169CBE3500F6B1FB /* Icon~ipad.png */,
 				6C3D3E1C182C97790058DF91 /* RestorePurchases@2x~ipad.png */,
 				6C3D3E1D182C97790058DF91 /* RestorePurchases~ipad.png */,
-				6C2CEB54168111620025E29A /* GameOverViewController~ipad.xib */,
-				6C2CEB56168111620025E29A /* HighScoreViewController~ipad.xib */,
-				6C2CEB58168111620025E29A /* HowToPlayViewController~ipad.xib */,
-				6C2CEB51168111260025E29A /* MainMenuViewController~ipad.xib */,
-				6C2CEB461680E0D00025E29A /* CoreGraphicsDrawingViewController~ipad.xib */,
-				6C6FA39D16F3AF680065A1F7 /* SettingsViewController~ipad.xib */,
 				6C2CEB441680DECE0025E29A /* MainWindow-iPad.xib */,
 			);
 			name = iPad;
@@ -708,12 +664,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C0396DD193EAA1700E809FA /* BallSplit~iPad.png in Resources */,
-				6CBDAC0113C107CC003569E2 /* MainWindow.xib in Resources */,
-				6CBDABDF13C0ECF7003569E2 /* CoreGraphicsDrawingViewController.xib in Resources */,
-				6CBDABDC13C0ECF2003569E2 /* MainMenuViewController.xib in Resources */,
 				6C7B3C53130603360051DBE0 /* RetroPaddleBallMainDisplay.png in Resources */,
 				6C7B3C55130603440051DBE0 /* RetroPaddleBallMainDisplay@2x.png in Resources */,
-				6CBDABD913C0ECE9003569E2 /* GameOverViewController.xib in Resources */,
 				6CBDABCB13C0EBA0003569E2 /* PlayGameButton.png in Resources */,
 				6CBDABCE13C0EBA3003569E2 /* PlayGameButton@2x.png in Resources */,
 				6CBDABC513C0EB9A003569E2 /* GameOver.png in Resources */,
@@ -723,7 +675,6 @@
 				6CBDABB913C0EB8D003569E2 /* MainMenuButton.png in Resources */,
 				6CBDABBC13C0EB90003569E2 /* MainMenuButton@2x.png in Resources */,
 				6C3D3E1F182C97790058DF91 /* RestorePurchases@2x.png in Resources */,
-				6CBDABE213C0ECFC003569E2 /* SettingsViewController.xib in Resources */,
 				6CBDABB313C0EB87003569E2 /* SettingsButton.png in Resources */,
 				6C0396DC193EAA1700E809FA /* BallSplit@2x~iPad.png in Resources */,
 				6C1DB12C1861478200EAD601 /* SlowDown.png in Resources */,
@@ -753,7 +704,6 @@
 				6CBDABB013C0EB7A003569E2 /* ResumeGameButton@2x.png in Resources */,
 				6CBB68571363689C00E56946 /* PauseButton.png in Resources */,
 				6CBB68581363689C00E56946 /* PauseButton@2x.png in Resources */,
-				6CBDABE513C0ED01003569E2 /* HighScoreViewController.xib in Resources */,
 				6CBDAB9B13C0EB61003569E2 /* HighScoreButton.png in Resources */,
 				6CBDAB9E13C0EB65003569E2 /* HighScoreButton@2x.png in Resources */,
 				6C3D3E21182C97790058DF91 /* RestorePurchases~ipad.png in Resources */,
@@ -792,7 +742,6 @@
 				6C5149C517B31E4300DCC45F /* Images.xcassets in Resources */,
 				6CBDAB5F13C0EB02003569E2 /* TouchButtonDisabled.png in Resources */,
 				6CBDAB6213C0EB0C003569E2 /* TouchButtonDisabled@2x.png in Resources */,
-				6CBDABE813C0ED05003569E2 /* HowToPlayViewController.xib in Resources */,
 				6CBDABF813C10425003569E2 /* HowToPlay.png in Resources */,
 				6CBDABFB13C1042A003569E2 /* HowToPlay@2x.png in Resources */,
 				6C7FDF8E13CF964100F37CD2 /* Localizable.strings in Resources */,
@@ -832,22 +781,16 @@
 				6C051BA914F94919004FD096 /* BallHit.m4a in Resources */,
 				6C86CEF5161D155200C7139C /* Default-568h@2x.png in Resources */,
 				6C2CEB451680DECE0025E29A /* MainWindow-iPad.xib in Resources */,
-				6C2CEB481680E0D00025E29A /* CoreGraphicsDrawingViewController~ipad.xib in Resources */,
 				6C2CEB4E1681107D0025E29A /* RetroPaddleBallMainDisplay~ipad.png in Resources */,
 				6C1DB125186146F200EAD601 /* LightningBolt@2x.png in Resources */,
 				6C3D3E20182C97790058DF91 /* RestorePurchases@2x~ipad.png in Resources */,
 				6C2CEB50168110870025E29A /* RetroPaddleBallMainDisplay@2x~ipad.png in Resources */,
-				6C2CEB53168111260025E29A /* MainMenuViewController~ipad.xib in Resources */,
-				6C2CEB5A168111620025E29A /* GameOverViewController~ipad.xib in Resources */,
-				6C2CEB5B168111620025E29A /* HighScoreViewController~ipad.xib in Resources */,
-				6C2CEB5C168111620025E29A /* HowToPlayViewController~ipad.xib in Resources */,
 				6C3C3DF4169CBE3500F6B1FB /* Icon@2x~ipad.png in Resources */,
 				6C3C3DF5169CBE3500F6B1FB /* Icon~ipad.png in Resources */,
 				6C3C3DF8169CD35B00F6B1FB /* PauseButton~ipad.png in Resources */,
 				6C3C3DF9169CD35B00F6B1FB /* PauseButton@2x~ipad.png in Resources */,
 				6CC8413116AC89990028D177 /* GameOver~ipad.png in Resources */,
 				6CC8413216AC89990028D177 /* GameOver@2x~ipad.png in Resources */,
-				6C6FA39F16F3AF680065A1F7 /* SettingsViewController~ipad.xib in Resources */,
 				6C14AD221799CEE400E2ADE8 /* HowToPlay@2x~ipad.png in Resources */,
 				6C14AD231799CEE400E2ADE8 /* HowToPlay~ipad.png in Resources */,
 				6C14AD2A1799D1C600E2ADE8 /* HighScoreButton@2x~ipad.png in Resources */,
@@ -870,7 +813,6 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* CoreGraphicsDrawingAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* CoreGraphicsDrawingViewController.m in Sources */,
-				6CEFB2F712FDEA4C00417135 /* CoreGraphicsDrawingView.m in Sources */,
 				6C7B3C401306015C0051DBE0 /* MainMenuViewController.m in Sources */,
 				6C7B4251130C77660051DBE0 /* GameOverViewController.m in Sources */,
 				6C5494D21334018500FF4C20 /* SettingsViewController.m in Sources */,
@@ -916,54 +858,6 @@
 				6C0CA03B13DB0A5400DA71B8 /* en */,
 			);
 			name = "On@2x.png";
-			sourceTree = "<group>";
-		};
-		6C2CEB461680E0D00025E29A /* CoreGraphicsDrawingViewController~ipad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6C2CEB471680E0D00025E29A /* en */,
-			);
-			name = "CoreGraphicsDrawingViewController~ipad.xib";
-			sourceTree = "<group>";
-		};
-		6C2CEB51168111260025E29A /* MainMenuViewController~ipad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6C2CEB52168111260025E29A /* en */,
-			);
-			name = "MainMenuViewController~ipad.xib";
-			sourceTree = "<group>";
-		};
-		6C2CEB54168111620025E29A /* GameOverViewController~ipad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6C2CEB55168111620025E29A /* en */,
-			);
-			name = "GameOverViewController~ipad.xib";
-			sourceTree = "<group>";
-		};
-		6C2CEB56168111620025E29A /* HighScoreViewController~ipad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6C2CEB57168111620025E29A /* en */,
-			);
-			name = "HighScoreViewController~ipad.xib";
-			sourceTree = "<group>";
-		};
-		6C2CEB58168111620025E29A /* HowToPlayViewController~ipad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6C2CEB59168111620025E29A /* en */,
-			);
-			name = "HowToPlayViewController~ipad.xib";
-			sourceTree = "<group>";
-		};
-		6C6FA39D16F3AF680065A1F7 /* SettingsViewController~ipad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6C6FA39E16F3AF680065A1F7 /* en */,
-			);
-			name = "SettingsViewController~ipad.xib";
 			sourceTree = "<group>";
 		};
 		6C7FDF9013CF964100F37CD2 /* Localizable.strings */ = {
@@ -1309,58 +1203,6 @@
 				6CBDABCF13C0EBA3003569E2 /* en */,
 			);
 			name = "PlayGameButton@2x.png";
-			sourceTree = "<group>";
-		};
-		6CBDABDB13C0ECE9003569E2 /* GameOverViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6CBDABDA13C0ECE9003569E2 /* en */,
-			);
-			name = GameOverViewController.xib;
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		6CBDABDE13C0ECF2003569E2 /* MainMenuViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6CBDABDD13C0ECF2003569E2 /* en */,
-			);
-			name = MainMenuViewController.xib;
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		6CBDABE113C0ECF7003569E2 /* CoreGraphicsDrawingViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6CBDABE013C0ECF7003569E2 /* en */,
-			);
-			name = CoreGraphicsDrawingViewController.xib;
-			sourceTree = "<group>";
-		};
-		6CBDABE413C0ECFC003569E2 /* SettingsViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6CBDABE313C0ECFC003569E2 /* en */,
-			);
-			name = SettingsViewController.xib;
-			sourceTree = "<group>";
-		};
-		6CBDABE713C0ED01003569E2 /* HighScoreViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6CBDABE613C0ED01003569E2 /* en */,
-			);
-			name = HighScoreViewController.xib;
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		6CBDABEA13C0ED05003569E2 /* HowToPlayViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6CBDABE913C0ED05003569E2 /* en */,
-			);
-			name = HowToPlayViewController.xib;
-			path = Classes;
 			sourceTree = "<group>";
 		};
 		6CBDABFA13C10425003569E2 /* HowToPlay.png */ = {

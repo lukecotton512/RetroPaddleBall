@@ -76,7 +76,7 @@ const GLubyte powerUpIndicies[] = {
     1,3,2
 };
 @implementation CoreGraphicsDrawingViewController
-@synthesize ballTimer, mainView, topOfScreen, rightOfScreen, leftOfScreen, bottomOfScreen, didStart, speedBounce, speedTimer, scoreField, score, oldBallRect, oldPaddleRect, pauseView, didInvalidate, isPaused, powerUpRect, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, powerUpImage, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, timerToRelease, scoreMultiplier, fireTimeInterval, powerUpImage2, whichPowerUp, difficultyMultiplier, ballImage, ballRect, paddlelocation, paddleImage, paddleLocked, cheatCheckTimer, doAddOnToScore, noScoreZone,noScoreZone2,noScoreZone3,noScoreZone4, accelerometerDelegate, lastTimeUpdate, velocityX, velocityY, xAccel, yAccel, xAccelCali, yAccelCali, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer,bottomOfScreenBall,topOfScreenBall,rightOfScreenBall,leftOfScreenBall, isPlaying, soundIsOn, leftTopRect, rightTopRect, leftBottomRect, rightBottomRect, upperLeftRect, lowerLeftRect, upperRightRect, lowerRightRect, areYouSureView, pauseButton, ballViewArray, powerUpImage3, audioFile1, audioFile2, audioFile3, playcount, ball3, ball2, audioFile4, speedMultiplier, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, powerUpImage4, highScoreField, didStartLoseWall, loseWallChangeTimer, dontmoveUp, dontmoveDown, randomBrickHitCounter, randomRect1, randomRect2, randomRect3, velocityLockEnabled,velocitySignX, velocitySignY, paddleSize, context, paddleEffect;
+@synthesize ballTimer, mainView, topOfScreen, rightOfScreen, leftOfScreen, bottomOfScreen, didStart, speedBounce, speedTimer, scoreField, score, oldBallRect, oldPaddleRect, pauseView, didInvalidate, isPaused, powerUpRect, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, timerToRelease, scoreMultiplier, fireTimeInterval, whichPowerUp, difficultyMultiplier, ballRect, paddlelocation, paddleLocked, cheatCheckTimer, doAddOnToScore, noScoreZone,noScoreZone2,noScoreZone3,noScoreZone4, accelerometerDelegate, lastTimeUpdate, velocityX, velocityY, xAccel, yAccel, xAccelCali, yAccelCali, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer,bottomOfScreenBall,topOfScreenBall,rightOfScreenBall,leftOfScreenBall, isPlaying, soundIsOn, leftTopRect, rightTopRect, leftBottomRect, rightBottomRect, upperLeftRect, lowerLeftRect, upperRightRect, lowerRightRect, areYouSureView, pauseButton, ballViewArray, audioFile1, audioFile2, audioFile3, playcount, audioFile4, speedMultiplier, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, highScoreField, didStartLoseWall, loseWallChangeTimer, dontmoveUp, dontmoveDown, randomBrickHitCounter, randomRect1, randomRect2, randomRect3, velocityLockEnabled,velocitySignX, velocitySignY, paddleSize, context, paddleEffect;
 
 
 
@@ -315,7 +315,6 @@ const GLubyte powerUpIndicies[] = {
             randomRect=[self randomRectangle2:j count:k+1];
         }
         if (CGRectIntersectsRect(CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize), randomRect)) {
-            //CGRect intersectRect = CGRectIntersection(paddleImage.frame, CGRectMake(randomNumberx, randomNumbery, 80, 30));
             randomRect=[self randomRectangle2:j count:k+1];
         }
         if (CGRectIntersectsRect(powerUpRect, randomRect)&&powerUpEnabled==1) {
@@ -774,9 +773,7 @@ const GLubyte powerUpIndicies[] = {
             RPBBall *currentBall = ballViewArray[i];
             RPBBall *newBall=[[RPBBall alloc] init];
             newBall.ballRect=CGRectMake(tempRect.origin.x-(tempRect.size.width+1), tempRect.origin.y, tempRect.size.width, tempRect.size.height);
-            newBall.ballView.frame=CGRectMake(tempRect.origin.x-(tempRect.size.width+1), tempRect.origin.y, tempRect.size.width, tempRect.size.height);
             //UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(ballRect.origin.x-1, ballRect.origin.y, 10, 10)];
-            newBall.ballView.backgroundColor=[UIColor colorWithRed:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorBall"] green:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorBall"] blue:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorBall"] alpha:100.0f];;
             /*float tempNum = currentBall.xbounce;
              tempNum = -tempNum;*/
             newBall.bounce=currentBall.bounce;
@@ -820,7 +817,6 @@ const GLubyte powerUpIndicies[] = {
                         [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
                         return;
                     } else {
-                        [ballPointer.ballView removeFromSuperview];
                         [ballViewArray removeObjectAtIndex:i];
                         return;
                     }
@@ -856,7 +852,6 @@ const GLubyte powerUpIndicies[] = {
                         [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
                         return;
                     } else {
-                        [ballPointer.ballView removeFromSuperview];
                         [ballViewArray removeObjectAtIndex:i];
                         return;
                     }
@@ -892,7 +887,6 @@ const GLubyte powerUpIndicies[] = {
                         [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
                         return;
                     } else {
-                        [ballPointer.ballView removeFromSuperview];
                         [ballViewArray removeObjectAtIndex:i];
                         return;
                     }
@@ -1253,7 +1247,6 @@ const GLubyte powerUpIndicies[] = {
         
         //[NSThread detachNewThreadSelector:@selector(calculateBallPosition) toTarget:self withObject:nil];
         scoreField.text=[NSString localizedStringWithFormat:NSLocalizedString(@"SCORE:", nil), score];
-        ballPointer.ballView.center=CGPointMake(CGRectGetMidX(tempRect),CGRectGetMidY(tempRect));
         ballViewArray[i] = ballPointer;
     }
 }
@@ -1347,19 +1340,16 @@ const GLubyte powerUpIndicies[] = {
     RPBBall *ballPointer = ballAndSideToFix[0];
     if (ballSide==1) {
         ballPointer.ballRect=CGRectMake(ballPointer.ballRect.origin.x+30, ballPointer.ballRect.origin.y, 10, 10);
-        ballPointer.ballView.frame=ballPointer.ballRect;
         if (ballPointer.xBounce<0) {
             ballPointer.xBounce=-(ballPointer.oldxBounce);
         }
     } else if (ballSide==2) {
         ballPointer.ballRect=CGRectMake(ballPointer.ballRect.origin.x, ballPointer.ballRect.origin.y+30, 10, 10);
-        ballPointer.ballView.frame=ballPointer.ballRect;
         if (ballPointer.bounce<0) {
             ballPointer.bounce=-(ballPointer.oldbounce);
         }
     } else if (ballSide==3) {
         ballPointer.ballRect=CGRectMake(ballPointer.ballRect.origin.x-30, ballPointer.ballRect.origin.y, 10, 10);
-        ballPointer.ballView.frame=ballPointer.ballRect;
         if (ballPointer.xBounce>0) {
             ballPointer.xBounce=-(ballPointer.oldxBounce);
         }
@@ -2156,11 +2146,7 @@ SKIP4:
 		[powerUpStartedTimer invalidate];
 	}
 	for (RPBBall *aBall in ballViewArray) {
-        [aBall.ballView removeFromSuperview];
         aBall.ballEffect = nil;
-    }
-    for (RPBRandomRect *aRandomRect in randomBrickArray) {
-        [aRandomRect.rectView removeFromSuperview];
     }
     powerUpEnabled=0;
     [randomBrickTimer invalidate];
@@ -2188,8 +2174,6 @@ SKIP4:
     //mainView.wallToLose=wallToLose;
     ballViewArray = [[NSMutableArray alloc] init];
     randomBrickArray=[[NSMutableArray alloc] init];
-    [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] setGameController:self];
-    ballImage = [[UIView alloc] init];
     CGRect screenSize = [[UIScreen mainScreen] bounds];
 	CGRect pauseViewRect = pauseView.frame;
 	CGRect newPauseViewRect = CGRectMake((screenSize.size.width/2)-138, (screenSize.size.height/2)-121, pauseViewRect.size.width, pauseViewRect.size.height);
@@ -2462,7 +2446,6 @@ SKIP4:
     CGRect paddleImageRect = CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
     paddleImageRect.size.width = paddleSize;
     paddleImageRect.size.height = paddleSize;
-    //paddleImage.frame=paddleImageRect;
     paddleCenter=CGPointMake((screenSize.size.width/2),(screenSize.size.height/2));
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         wallSize = WALLSIZEIPAD;
@@ -2495,9 +2478,7 @@ SKIP4:
     lowerLeftRect = CGRectMake(tempRect.origin.x-4, tempRect.origin.y+(paddleSize/2), 4, (paddleSize/2));
     upperRightRect = CGRectMake(tempRect.origin.x+paddleSize, tempRect.origin.y, 4, (paddleSize/2));
     lowerRightRect = CGRectMake(tempRect.origin.x+paddleSize, tempRect.origin.y+(paddleSize/2), 4, (paddleSize/2));
-    ballImage.frame = ballRect;
     RPBBall *ball1 = [[RPBBall alloc] init];
-    ball1.ballView = ballImage;
     ball1.ballRect=ballRect;
     ball1.xBounce=0.0f;
     ball1.bounce=2.0f;
@@ -2511,8 +2492,6 @@ SKIP4:
     }
     
     //[mainView addSubview:ball1.ballView];
-    //[mainView addSubview:paddleImage];
-    //[mainView sendSubviewToBack:paddleImage];
     //[mainView sendSubviewToBack:ball1.ballView];
     [ballViewArray addObject:ball1];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBAccelerometerEnabled"] == YES) {
@@ -2584,13 +2563,7 @@ SKIP4:
     self.wallScoreBoostTimer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(wallScoreBoostEnableOrDisable:) userInfo:nil repeats:YES];
     /*self.loseWallChangeTimer = [NSTimer scheduledTimerWithTimeInterval:60.00 target:self selector:@selector(loseTimeChangeWall:) userInfo:nil repeats:YES];
     [loseWallChangeTimer fire];*/
-    paddleImage.backgroundColor = [UIColor colorWithRed:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorPaddle"] green:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorPaddle"] blue:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorPaddle"] alpha:100.0f];
     RPBBall *ballPointer = ballViewArray[0];
-    UIView *ballView = ballPointer.ballView;
-    ballView.backgroundColor = [UIColor colorWithRed:0.0f green:255.0f blue:0.0f alpha:100.0f];
-    ball3.backgroundColor=[UIColor colorWithRed:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorBall"] green:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorBall"] blue:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorBall"] alpha:100.0f];
-    ball2.backgroundColor=[UIColor colorWithRed:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorBall"] green:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorBall"] blue:[[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorBall"] alpha:100.0f];
-    ballPointer.ballView=ballView;
     ballViewArray[0] = ballPointer;
 	[ballTimer fire];
 	[speedTimer fire];

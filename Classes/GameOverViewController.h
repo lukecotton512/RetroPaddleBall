@@ -18,13 +18,10 @@
 	//int i;
 }
 @property (nonatomic, strong) IBOutlet UILabel *scoreTextView;
-@property (nonatomic, strong) IBOutlet UITextField *highScoreAlertField;
+@property (nonatomic, strong) UITextField *highScoreAlertField;
 @property (nonatomic, assign) int score;
 @property (nonatomic, strong) IBOutlet ADBannerView *bannerView;
 //@property (nonatomic, assign) int i;
 @property (nonatomic, strong) NSMutableArray *highScores;
--(IBAction)playAgain:(id)sender;
--(IBAction)showMainMenu:(id)sender;
 -(void)updateScore;
--(IBAction)showHighScores:(id)sender;
 @end

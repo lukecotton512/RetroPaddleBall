@@ -11,7 +11,6 @@
 
 @interface RPBRandomRect : NSObject {
     CGRect rectOfView;
-    UIView *rectView;
     CGRect rightRect;
     CGRect leftRect;
     CGRect topRect;
@@ -28,7 +27,6 @@
     GLKBaseEffect *brickBaseEffect;
 }
 @property (nonatomic, assign) CGRect rectOfView;
-@property (nonatomic, strong) UIView *rectView;
 @property (nonatomic, readonly, assign) CGRect rightRect;
 @property (nonatomic, readonly, assign) CGRect leftRect;
 @property (nonatomic, readonly, assign) CGRect topRect;

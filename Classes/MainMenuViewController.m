@@ -45,22 +45,6 @@
 -(IBAction)goToBeginning:(UIStoryboardSegue *)unwindSegue {
     
 }
--(IBAction)playGame:(id)sender
-{
-	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] playGame:sender];
-}
--(IBAction)showSettings:(id)sender
-{
-	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] showSettings];
-}
--(IBAction)showHighScores:(id)sender
-{
-	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] showHighScores];
-}
--(IBAction)showHowToPlay:(id)sender
-{
-    [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] showHowToPlay];
-}
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"showTutorial"] == YES) {

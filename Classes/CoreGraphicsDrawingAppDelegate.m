@@ -17,7 +17,7 @@
 @implementation CoreGraphicsDrawingAppDelegate
 
 @synthesize window;
-@synthesize viewController, gameController, gameOverController, currentViewController, settingsController, userDefaults, defaults, score, highScoreController, highScores, difficultyMultiplier, appSupportTimer, highScoresEnabled, howToPlayController, soundIsOn, ubiq, icloudEnabled, query, highScoreDoc, isDone, isOniPad, databaseCreated, alreadyChecked, upgradeEligible, productsRequest,removeAdsFreeProduct, removeAdsProduct, upgradePurchased, currentTutorialController;
+@synthesize userDefaults, defaults, score, highScores, difficultyMultiplier, appSupportTimer, highScoresEnabled, soundIsOn, ubiq, icloudEnabled, query, highScoreDoc, isDone, isOniPad, databaseCreated, alreadyChecked, upgradeEligible, productsRequest,removeAdsFreeProduct, removeAdsProduct, upgradePurchased, currentTutorialController;
 
 
 #pragma mark -
@@ -74,8 +74,6 @@
     [self.window makeKeyAndVisible];
 	userDefaults = [NSUserDefaults standardUserDefaults];
     defaults = @{@"RPBRedColorPaddle": @0.0f, @"RPBGreenColorPaddle": @255.0f, @"RPBBlueColorPaddle": @0.0f, @"RPBRedColorBall": @255.0f, @"RPBGreenColorBall": @0.0f, @"RPBBlueColorBall": @0.0f, @"RPBDifficultyMultiplier": @0.0, @"RPBAccelerometerEnabled": @NO, @"RPBSound": @YES, @"RPBAlreadyChecked": @NO, @"RPBDatabaseCreated": @NO, @"RPBUpgradeEligible": @NO, @"RPBUpgradeBought": @NO, @"RPBFreeUpgradeNotice": @NO};
-    NSUbiquitousKeyValueStore *cloudDefaults = [NSUbiquitousKeyValueStore defaultStore];
-    [cloudDefaults synchronize];
     sleep(2);
     [userDefaults registerDefaults:defaults];
     [userDefaults synchronize];
@@ -90,37 +88,6 @@
     productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
     productsRequest.delegate = self;
     [productsRequest start];
-    if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
-        [viewController hideAds];
-        [settingsController.purchaseLabel setHidden:YES];
-        [settingsController.purchaseButton setHidden:YES];
-    }
-    //RPBLOG(@"%i",[highScores retainCount]);
-    //Anti-Piracy Code
-    char char1=0x53, char2=0x69, char3=0x67, char4=0x6e, char5=0x65, char6=0x72, char7=0x49, char8=0x64, char9=0x65, char10=0x6e, char11=0x69, char12=0x74, char13=0x79, char14=0x00;
-    char charA[15]={char1, char2, char3, char4, char5, char6, char7, char8, char9, char10, char12,char11, char12, char13, char14};
-    NSString *charS = [[NSString alloc] initWithCString:charA encoding:NSASCIIStringEncoding];
-    //RPBLOG(@"%@",charS);
-    char char15=0x49, char16=0x6e, char17=0x66, char18=0x6f, char19=0x70, char20=0x6c, char21=0x69, char22=0x73, char23=0x74;
-    char charA2[5]={char15, char16, char17, char18, char14};
-    char charA3[6]={char19, char20, char21, char22, char23, char14};
-    //NSString *charS2 = [[NSString alloc] initWithCString:charA2 encoding:NSASCIIStringEncoding];
-    //NSString *charS3 = [[NSString alloc] initWithCString:charA3 encoding:NSASCIIStringEncoding];
-    //NSDictionary *dict = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:charS2 withExtension:charS3]];
-    //NSBundle *imageAccess=[NSBundle mainBundle];
-    char charA4[15]={0x69,0x6e,0x66,0x6f,0x44,0x69,0x63,0x74,0x69,0x6f,0x6e,0x61,0x72,0x79,char14};
-    char charA5[11]={0x6d,0x61,0x69,0x6e,0x42,0x75,0x6e,0x64,0x6c,0x65,char14};
-    NSString *charS4 = [[NSString alloc] initWithCString:charA4 encoding:NSASCIIStringEncoding];
-    NSString *charS5 = [[NSString alloc] initWithCString:charA5 encoding:NSASCIIStringEncoding];
-    Class class=[NSBundle class];
-    NSDictionary *dict = objc_msgSend(objc_msgSend(class,NSSelectorFromString(charS5)),NSSelectorFromString(charS4));
-    self.currentTutorialController = 0;
-    if(dict[charS] != nil)
-    {
-        appSupportTimer = [NSTimer scheduledTimerWithTimeInterval:300.00 target:self selector:@selector(appSupportTimerCall:) userInfo:nil repeats:YES];
-        [appSupportTimer fire];
-    }
-    [cloudDefaults synchronize];
     return YES;
 }
 -(void)checkEligibility {
@@ -183,11 +150,6 @@
                 self.upgradePurchased=YES;
                 [[NSUserDefaults standardUserDefaults] setBool:self.upgradePurchased forKey:@"RPBUpgradeBought"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
-                [viewController hideAds];
-                if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
-                    [settingsController.purchaseLabel setHidden:YES];
-                    [settingsController.purchaseButton setHidden:YES];
-                }
                 [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
                 break;
             }
@@ -196,11 +158,6 @@
                 self.upgradePurchased=YES;
                 [[NSUserDefaults standardUserDefaults] setBool:self.upgradePurchased forKey:@"RPBUpgradeBought"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
-                if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
-                    [settingsController.purchaseLabel setHidden:YES];
-                    [settingsController.purchaseButton setHidden:YES];
-                }
-                [viewController hideAds];
                 [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
             }
             case SKPaymentTransactionStateFailed: {
@@ -273,17 +230,11 @@
                 RPBLOG(@"iCloud Access To Document");
                 self.highScores=self.highScoreDoc.arrayContents;
                 }];
-                if (self.upgradeEligible==NO) {
-                    [[NSUbiquitousKeyValueStore defaultStore] setString:@"NO" forKey:@"RPBUpgradeEligible"];
-                } else {
-                    [[NSUbiquitousKeyValueStore defaultStore] setString:@"YES" forKey:@"RPBUpgradeEligible"];
-                }
             }
         }];
         isDone=YES;
     }
     isDone=YES;
-    [[NSUbiquitousKeyValueStore defaultStore] synchronize];
 }
 - (NSString *)getPathToSave
 {
@@ -301,80 +252,6 @@
         NSData *arrayData=[NSKeyedArchiver archivedDataWithRootObject:highScores];
         [arrayData writeToFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]] atomically:YES];
     }
-}
--(void)playGame:(id)sender
-{
-    CoreGraphicsDrawingViewController *aGameController;
-    aGameController = [[CoreGraphicsDrawingViewController alloc] initWithNibName:@"CoreGraphicsDrawingViewController" bundle:[NSBundle mainBundle]];
-	self.gameController = aGameController;
-	[currentViewController presentViewController:gameController animated:YES completion:NULL];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.0];
-	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
-	[currentViewController.view removeFromSuperview];
-	[self.window addSubview:[gameController view]];	
-	[UIView commitAnimations];
-    //[currentViewController release];
-	currentViewController = gameController;
-}
--(void)showMainMenu
-{
-	MainMenuViewController *aMainMenu = [[MainMenuViewController alloc] initWithNibName:@"MainMenuViewController" bundle:[NSBundle mainBundle]];
-	self.viewController = aMainMenu;
-	[currentViewController presentViewController:viewController animated:YES completion:NULL];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.0];
-	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
-	[currentViewController.view removeFromSuperview];
-	[self.window addSubview:[viewController view]];
-	[UIView commitAnimations];
-    //[currentViewController release];
-	currentViewController = viewController;
-}
--(void)showSettings
-{
-	
-	SettingsViewController *aSettings = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:[NSBundle mainBundle]];
-	self.settingsController = aSettings;
-	[currentViewController presentViewController:settingsController animated:YES completion:NULL];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.0];
-	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
-	[currentViewController.view removeFromSuperview];
-	[self.window addSubview:[settingsController view]];
-	[UIView commitAnimations];
-    //[currentViewController release];
-	currentViewController = settingsController;
-}
--(void)showHighScores
-{
-	
-	HighScoreViewController *aHighScores = [[HighScoreViewController alloc] initWithNibName:@"HighScoreViewController" bundle:[NSBundle mainBundle]];
-	self.highScoreController = aHighScores;
-	[currentViewController presentViewController:highScoreController animated:YES completion:NULL];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.0];
-	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
-	[currentViewController.view removeFromSuperview];
-	[self.window addSubview:[highScoreController view]];
-	[UIView commitAnimations];
-    //[currentViewController release];
-	currentViewController = highScoreController;
-    
-}
--(void)showHowToPlay
-{
-    HowToPlayViewController *aHowToPlay = [[HowToPlayViewController alloc] initWithNibName:@"HowToPlayViewController" bundle:[NSBundle mainBundle]];
-	self.howToPlayController = aHowToPlay;
-	[currentViewController presentViewController:howToPlayController animated:YES completion:NULL];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.0];
-	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
-	[currentViewController.view removeFromSuperview];
-	[self.window addSubview:[howToPlayController view]];
-	[UIView commitAnimations];
-    //[currentViewController release];
-	currentViewController = howToPlayController;
 }
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     if ((currentTutorialController+1)>6) {
@@ -458,10 +335,6 @@
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
-	if (gameController.isPaused == 1) {
-		return;
-	}
-	[gameController pauseGame:nil];
 }
 
 
@@ -502,24 +375,6 @@
     /*
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
      */
-    if (highScoreController != currentViewController) {
-        highScoreController = nil;
-    }
-    if (viewController != currentViewController) {
-        viewController = nil;
-    }
-    if (gameController != currentViewController) {
-        gameController = nil;
-    }
-    if (gameOverController != currentViewController) {
-        gameOverController = nil;
-    }
-    if (settingsController != currentViewController) {
-        settingsController = nil;
-    }
-    if (howToPlayController != currentViewController) {
-        howToPlayController = nil;
-    }
 }
 -(void)appSupportTimerCall:(NSTimer *)theTimer
 {

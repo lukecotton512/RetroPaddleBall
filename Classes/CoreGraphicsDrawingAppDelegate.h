@@ -32,15 +32,6 @@
     BOOL databaseCreated;
     BOOL upgradePurchased;
     int currentTutorialController;
-	//NSTimer *powerUpTimer;
-	//NSTimer *powerUpStartedTimer;
-	//UIImageView *powerUpImage;
-    MainMenuViewController *viewController;
-	CoreGraphicsDrawingViewController *__weak gameController;
-	GameOverViewController *gameOverController;
-	SettingsViewController *settingsController;
-	HighScoreViewController *highScoreController;
-    HowToPlayViewController *howToPlayController;
 	int score;
     BOOL highScoresEnabled;
     BOOL alreadyChecked;
@@ -50,12 +41,7 @@
     BOOL isDone;
     BOOL isOniPad;
 }
--(void)playGame:(id)sender;
 -(void)endGame;
--(void)showMainMenu;
--(void)showSettings;
--(void)showHighScores;
--(void)showHowToPlay;
 +(id)sharedAppDelegate;
 -(NSString *)getPathToSave;
 -(void)appSupportTimerCall:(NSTimer *)theTimer;
@@ -69,7 +55,6 @@
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) NSTimer *appSupportTimer;
 @property (nonatomic, strong) HighScoreDocument *highScoreDoc;
-@property (nonatomic, weak) UIViewController *currentViewController;
 @property (nonatomic, assign) int score;
 @property (nonatomic, assign) int currentTutorialController;
 @property (nonatomic, assign) BOOL soundIsOn;
@@ -79,12 +64,6 @@
 @property (nonatomic, assign) BOOL upgradeEligible;
 @property (nonatomic, assign) BOOL upgradePurchased;
 @property (nonatomic, assign) double difficultyMultiplier;
-@property (nonatomic, strong) MainMenuViewController *viewController;
-@property (nonatomic, weak) CoreGraphicsDrawingViewController *gameController;
-@property (nonatomic, strong) GameOverViewController *gameOverController;
-@property (nonatomic, strong) SettingsViewController *settingsController;
-@property (nonatomic, strong) HighScoreViewController *highScoreController;
-@property (nonatomic, strong) HowToPlayViewController *howToPlayController;
 @property (nonatomic, strong) NSUserDefaults *userDefaults;
 @property (nonatomic, strong) NSDictionary *defaults;
 @property (nonatomic, strong) NSMutableArray *highScores;

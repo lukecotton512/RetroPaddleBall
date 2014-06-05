@@ -21,17 +21,9 @@
 	IBOutlet UILabel *scoreField;
     IBOutlet UILabel *highScoreField;
 	IBOutlet UIView *pauseView;
-	IBOutlet UIImageView *powerUpImage;
-	IBOutlet UIImageView *powerUpImage2;
-    UIView *powerUpImage4;
-    UIView *ballImage;
     CGPoint paddleCenter;
-    IBOutlet UIView *paddleImage;
     IBOutlet UIView *areYouSureView;
     IBOutlet UIButton *pauseButton;
-    IBOutlet UIView *powerUpImage3;
-    IBOutlet UIView *ball3;
-    IBOutlet UIView *ball2;
     CGRect powerUpRect;
     CGRect powerUpRect2;
     CGRect powerUpRect3;
@@ -48,7 +40,6 @@
     BOOL velocityLockEnabled;
     BOOL velocitySignX;
     BOOL velocitySignY;
-    //NSMutableArray *ballRectArray;
 	int score;
     int playcount;
     BOOL dontmove;
@@ -62,18 +53,14 @@
     NSTimer *wallScoreBoostTimer;
     NSTimer *loseWallChangeTimer;
     NSTimer *randomBrickTimer;
-    //NSAutoreleasePool *autoPool;
     CMMotionManager *accelerometerDelegate;
     UIAccelerationValue xAccel;
     UIAccelerationValue yAccel;
     UIAccelerationValue xAccelCali;
     UIAccelerationValue yAccelCali;
     NSTimeInterval lastTimeUpdate;
-    //AVAudioPlayer *audioPlayer;
 	double difficultyMultiplier;
     double speedMultiplier;
-	//float bounce;
-	//float xbounce;
 	float angleToBounce;
     BOOL doAddOnToScore;
     BOOL wallEnabled;
@@ -152,20 +139,11 @@
     GLuint _randomBrickIndexBuffer;
     GLuint _randomBrickRedVertexBuffer;
     GLuint _powerUpTextureVertexBuffer;
-    //BOOL resumedFromPause;
-    //CoreGraphicsDrawingAppDelegate *delegateLinkback;
-    /*AVAudioPlayer *audioPlayer;
-    AVAudioPlayer *audioPlayer2;
-    AVAudioPlayer *audioPlayer3;*/
     NSData *audioFile1;
     NSData *audioFile2;
     NSData *audioFile3;
     NSData *audioFile4;
-    /*SystemSoundID soundID;
-    SystemSoundID soundID2;
-    SystemSoundID soundID3;*/
 }
-//-(void)calculateBallPosition:(NSArray *)ballPointerArray
 -(void)ballEmergencyRescue:(NSArray *)ballAndSideToFix;
 -(void)lockPaddle;
 -(void)unlockPaddle;
@@ -181,7 +159,6 @@
 -(void)randomBrickTimerFire:(NSTimer *)theTimer;
 -(void)loseTimeChangeWall:(NSTimer *)theTimer;
 - (void)accelerometerDidAccelerate:(UIAccelerationValue)theX y:(UIAccelerationValue)theY;
-//-(void)cheatCheck:(NSTimer *)theTimer;
 -(double)randomTimerTime;
 -(CGRect)randomRectangle;
 -(CGRect)randomRectangle2:(int)j count:(int)k;
@@ -208,21 +185,12 @@
 @property (nonatomic) CMMotionManager *accelerometerDelegate;
 @property (nonatomic, assign) int randomBrickHitCounter;
 @property (nonatomic, retain) EAGLContext *context;
-//@property (nonatomic, assign) CoreGraphicsDrawingAppDelegate *delegateLinkback;
 @property (nonatomic, strong) IBOutlet GLKView *mainView;
 @property (nonatomic, strong) IBOutlet UILabel *scoreField;
 @property (nonatomic, strong) IBOutlet UILabel *highScoreField;
 @property (nonatomic, strong) IBOutlet UIView *pauseView;
-@property (nonatomic, strong) IBOutlet UIImageView *powerUpImage;
-@property (nonatomic, strong) IBOutlet UIImageView *powerUpImage2;
-@property (nonatomic, strong) UIView *ballImage;
-@property (nonatomic, strong) IBOutlet UIView *paddleImage;
 @property (nonatomic, strong) IBOutlet UIView *areYouSureView;
 @property (nonatomic, strong) IBOutlet UIButton *pauseButton;
-@property (nonatomic, strong) IBOutlet UIView *powerUpImage3;
-@property (nonatomic, strong) UIView *powerUpImage4;
-@property (nonatomic, strong) IBOutlet UIView *ball3;
-@property (nonatomic, strong) IBOutlet UIView *ball2;
 @property (nonatomic, strong) NSMutableArray *ballViewArray;
 @property (nonatomic, strong) NSMutableArray *randomBrickArray;
 @property (nonatomic, strong) RPBRandomRect *randomRect1;
@@ -243,11 +211,6 @@
 @property (nonatomic, strong) GLKTextureInfo *powerUpTexture3;
 @property (nonatomic, strong) GLKTextureInfo *powerUpTexture4;
 @property (nonatomic, assign) int wallToLose;
-//@property (nonatomic, retain) NSAutoreleasePool *autoPool;
-/*@property (nonatomic, retain) AVAudioPlayer *audioPlayer;
-@property (nonatomic, retain) AVAudioPlayer *audioPlayer2;
-@property (nonatomic, retain) AVAudioPlayer *audioPlayer3;*/
-//@property (nonatomic, retain) NSMutableArray *ballRectArray;
 @property (nonatomic, strong) NSData *audioFile1;
 @property (nonatomic, strong) NSData *audioFile2;
 @property (nonatomic, strong) NSData *audioFile3;
@@ -260,9 +223,6 @@
 @property (nonatomic, assign) BOOL velocityLockEnabled;
 @property (nonatomic, assign) BOOL velocitySignX;
 @property (nonatomic, assign) BOOL velocitySignY;
-/*@property (nonatomic, assign) SystemSoundID soundID;
-@property (nonatomic, assign) SystemSoundID soundID2;
-@property (nonatomic, assign) SystemSoundID soundID3;*/
 @property (nonatomic, assign) int didInvalidate;
 @property (nonatomic, assign) int isPaused;
 @property (nonatomic, assign) int powerUpEnabled;
@@ -270,14 +230,12 @@
 @property (nonatomic, assign) int didStartStartPowerUp;
 @property (nonatomic, assign) double fireTimeInterval;
 @property (nonatomic, assign) double speedMultiplier;
-//@property (nonatomic, assign) float bounce;
 @property (nonatomic, assign) BOOL doAddOnToScore;
 @property (nonatomic, assign) BOOL wallEnabled;
 @property (nonatomic, assign) BOOL isPlaying;
 @property (nonatomic, assign) BOOL soundIsOn;
 @property (nonatomic, assign) BOOL doSlowDown;
 @property (nonatomic, assign) BOOL didStartLoseWall;
-//@property (nonatomic, assign) float xbounce;
 @property (nonatomic, assign) int didStart;
 @property (nonatomic, assign) int didStartPowerUp;
 @property (nonatomic, assign) int whichPowerUp;

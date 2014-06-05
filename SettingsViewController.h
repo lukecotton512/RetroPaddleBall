@@ -70,7 +70,6 @@
 @property (nonatomic, assign) BOOL ballPopUpIsEnabled;
 -(IBAction)changeBallColor:(id)sender;
 -(IBAction)changePaddleColor:(id)sender;
--(IBAction)returnToMainMenu:(id)sender;
 -(IBAction)changeDifficulty:(id)sender;
 -(IBAction)changeControlMethod:(id)sender;
 -(IBAction)changeSoundState:(id)sender;

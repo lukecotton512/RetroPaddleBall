@@ -26,10 +26,6 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
--(IBAction)showMainMenu:(id)sender
-{
-    [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] showMainMenu];
-}
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad

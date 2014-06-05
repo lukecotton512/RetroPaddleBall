@@ -85,6 +85,9 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="4Ph-yj-tR5"/>
+                    <connections>
+                        <outlet property="bannerAd" destination="Z3W-Bt-3wO" id="Hpu-c0-7Dd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fsG-xq-YA8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1384,40 +1387,14 @@
                     <navigationItem key="navigationItem" id="ywr-Y7-Q7h"/>
                     <connections>
                         <outlet property="areYouSureView" destination="IfA-16-nYp" id="zkY-YM-IQW"/>
-                        <outlet property="ball2" destination="e65-Af-MTc" id="cmn-9X-uLa"/>
-                        <outlet property="ball3" destination="hrn-E9-IqC" id="Va0-i2-H8V"/>
                         <outlet property="highScoreField" destination="sac-fR-V0d" id="0Hq-Og-6Tf"/>
                         <outlet property="mainView" destination="VPl-xk-a4C" id="DHn-18-P9k"/>
-                        <outlet property="paddleImage" destination="L6q-II-QCK" id="0hz-Zx-ycq"/>
                         <outlet property="pauseButton" destination="ywo-cS-fLA" id="Hgl-tm-DHd"/>
                         <outlet property="pauseView" destination="Wu6-x7-VTr" id="5Tb-cb-6Gp"/>
-                        <outlet property="powerUpImage3" destination="Iin-uW-4lh" id="4Um-pG-JM1"/>
                         <outlet property="scoreField" destination="MQf-7w-zP9" id="vBP-Oo-CKa"/>
                         <outlet property="view" destination="VPl-xk-a4C" id="26C-9v-VWj"/>
                     </connections>
                 </viewController>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="L6q-II-QCK" userLabel="Paddle">
-                    <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                </view>
-                <view opaque="NO" contentMode="scaleToFill" id="Iin-uW-4lh">
-                    <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" id="e65-Af-MTc">
-                            <rect key="frame" x="10" y="10" width="10" height="10"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" id="hrn-E9-IqC">
-                            <rect key="frame" x="0.0" y="0.0" width="10" height="10"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
                 <view contentMode="scaleToFill" id="IfA-16-nYp">
                     <rect key="frame" x="0.0" y="0.0" width="242" height="208"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

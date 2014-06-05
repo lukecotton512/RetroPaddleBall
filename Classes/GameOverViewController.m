@@ -41,6 +41,7 @@
 			//[highScoreAlertField setBackgroundColor:[UIColor whiteColor]];
             highScoreAlert.alertViewStyle=UIAlertViewStylePlainTextInput;
             highScoreAlertField=[highScoreAlert textFieldAtIndex:0];
+            highScoreAlertField.placeholder = @"Enter High Score";
 			//[highScoreAlert addSubview:highScoreAlertField];
 			[highScoreAlert show];
 			break;
@@ -82,21 +83,9 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
--(void)updateScore;
+-(void)updateScore
 {
 	scoreTextView.text=[NSString stringWithFormat:@"Score: %d", self.score];
-}
--(IBAction)playAgain:(id)sender
-{
-	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] playGame:sender];
-}
--(IBAction)showMainMenu:(id)sender
-{
-	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] showMainMenu];
-}
--(IBAction)showHighScores:(id)sender
-{
-	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] showHighScores];
 }
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

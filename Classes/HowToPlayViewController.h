@@ -33,7 +33,6 @@
     NSTimer *view3Timer;
     int viewCounter;
 }
--(IBAction)showMainMenu:(id)sender;
 -(IBAction)nextView:(id)sender;
 -(IBAction)previousView:(id)sender;
 -(void)animateView2:(NSTimer *)theTimer;

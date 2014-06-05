@@ -82,6 +82,9 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="dAw-fO-csK"/>
+                    <connections>
+                        <outlet property="bannerAd" destination="n12-sT-C8V" id="6C5-3p-VZR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d6G-Dt-4Wn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1375,16 +1378,10 @@
                     <navigationItem key="navigationItem" id="e02-8O-Jm8"/>
                     <connections>
                         <outlet property="areYouSureView" destination="AS1-OQ-4qa" id="XYN-7f-gNc"/>
-                        <outlet property="ball2" destination="f84-Ak-fjt" id="cek-42-xcc"/>
-                        <outlet property="ball3" destination="fxz-Au-elR" id="ivs-Ei-QNe"/>
                         <outlet property="highScoreField" destination="DnL-F5-MiN" id="pKc-BR-7sc"/>
                         <outlet property="mainView" destination="qrH-fo-NGd" id="M8w-Sp-zrE"/>
-                        <outlet property="paddleImage" destination="cJx-C1-DfA" id="Zzo-6e-Be9"/>
                         <outlet property="pauseButton" destination="c8U-pA-fj6" id="ybK-YZ-X5W"/>
                         <outlet property="pauseView" destination="IuZ-FV-91X" id="GbO-o6-7LR"/>
-                        <outlet property="powerUpImage" destination="mO2-o0-4VK" id="oFx-el-BvC"/>
-                        <outlet property="powerUpImage2" destination="J5G-hK-kcX" id="pYi-1I-MwZ"/>
-                        <outlet property="powerUpImage3" destination="j6z-x8-Mn5" id="Kyy-RJ-CHK"/>
                         <outlet property="scoreField" destination="hEo-F6-Jm7" id="M6Y-hW-uRt"/>
                     </connections>
                 </viewController>
@@ -1427,36 +1424,6 @@
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
-                </view>
-                <view opaque="NO" contentMode="scaleToFill" id="j6z-x8-Mn5">
-                    <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f84-Ak-fjt">
-                            <rect key="frame" x="20" y="20" width="20" height="20"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </view>
-                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fxz-Au-elR">
-                            <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="LightningBolt.png" id="mO2-o0-4VK">
-                    <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="SlowDown.png" id="J5G-hK-kcX">
-                    <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
-                </imageView>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="cJx-C1-DfA" userLabel="Paddle">
-                    <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="IuZ-FV-91X">
                     <rect key="frame" x="0.0" y="0.0" width="276" height="262"/>

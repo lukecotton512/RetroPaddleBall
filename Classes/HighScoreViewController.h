@@ -11,7 +11,6 @@
 @interface HighScoreViewController : UIViewController <UIAlertViewDelegate> {
 	NSMutableArray *highScores;
 }
--(IBAction)showMainMenu:(id)sender;
 -(IBAction)resetHighScores:(id)sender;
 -(void)loadHighScores;
 @property (nonatomic, strong) IBOutletCollection(UILabel) NSArray *nameFields;
