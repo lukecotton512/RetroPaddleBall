@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#define WALLSIZE 4
-#define WALLSIZEIPAD (WALLSIZE*2)
-#define WALLBORDER 15
-#define WALLBORDERIPAD (WALLBORDER*2)
+#import <GLKit/GLKit.h>
 
-@interface CoreGraphicsDrawingView : UIView {
+
+@interface CoreGraphicsDrawingView : GLKView {
 	CGPoint initalPoint;
 	CGPoint secondPoint;
 	CGPoint thirdPoint;

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <GLKit/GLKit.h>
 @interface RPBBall : NSObject
 {
     UIView *ballView;
@@ -23,8 +23,9 @@
     int ballHitCounterLeft;
     int ballHitCounterRight;
     int ballHitCounterScore;
+    GLKBaseEffect *ballEffect;
 }
-@property (nonatomic, retain) UIView *ballView;
+@property (nonatomic, strong) UIView *ballView;
 @property (nonatomic, assign) CGRect ballRect;
 @property (nonatomic, assign) float xBounce;
 @property (nonatomic, assign) float bounce;
@@ -37,6 +38,7 @@
 @property (nonatomic, assign) int ballHitCounterScore;
 @property (nonatomic, assign) float speedMultiplier;
 @property (nonatomic, assign) float oldSpeedMultiplier;
+@property (nonatomic, strong) GLKBaseEffect *ballEffect;
 -(void)speedUpBall;
 -(void)slowDownBall;
 -(void)undoSpeedUp;

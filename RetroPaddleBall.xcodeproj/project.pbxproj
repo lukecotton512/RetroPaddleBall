@@ -13,10 +13,15 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28D7ACF80DDB3853001CB0EB /* CoreGraphicsDrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* CoreGraphicsDrawingViewController.m */; };
+		6C0396DA193EAA1700E809FA /* BallSplit.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0396D6193EAA1700E809FA /* BallSplit.png */; };
+		6C0396DB193EAA1700E809FA /* BallSplit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0396D7193EAA1700E809FA /* BallSplit@2x.png */; };
+		6C0396DC193EAA1700E809FA /* BallSplit@2x~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0396D8193EAA1700E809FA /* BallSplit@2x~iPad.png */; };
+		6C0396DD193EAA1700E809FA /* BallSplit~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0396D9193EAA1700E809FA /* BallSplit~iPad.png */; };
 		6C051BA914F94919004FD096 /* BallHit.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6C051BA814F94919004FD096 /* BallHit.m4a */; };
 		6C05AF6C15796509005DAF3E /* RPBRandomRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C05AF6B15796509005DAF3E /* RPBRandomRect.m */; };
 		6C06153B17D24E140019F93C /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C06153A17D24E140019F93C /* CoreMotion.framework */; };
 		6C0B8FDC1378A11F00E2C9D1 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6C0B8FDB1378A11F00E2C9D1 /* Entitlements.plist */; };
+		6C0C075118629E6D0020F77A /* MainStoryboardiPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C0C075018629E6D0020F77A /* MainStoryboardiPhone.storyboard */; };
 		6C0CA03113DB0A4900DA71B8 /* Off.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0CA03313DB0A4900DA71B8 /* Off.png */; };
 		6C0CA03413DB0A4D00DA71B8 /* Off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0CA03613DB0A4D00DA71B8 /* Off@2x.png */; };
 		6C0CA03713DB0A5000DA71B8 /* On.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0CA03913DB0A5000DA71B8 /* On.png */; };
@@ -51,16 +56,16 @@
 		6C2AC84C134A5DBB00F05242 /* YellowBallButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2AC844134A5DBB00F05242 /* YellowBallButton@2x.png */; };
 		6C2CEB451680DECE0025E29A /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB441680DECE0025E29A /* MainWindow-iPad.xib */; };
 		6C2CEB481680E0D00025E29A /* CoreGraphicsDrawingViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB461680E0D00025E29A /* CoreGraphicsDrawingViewController~ipad.xib */; };
-		6C2CEB4E1681107D0025E29A /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB4D1681107D0025E29A /* Default-Portrait~ipad.png */; };
-		6C2CEB50168110870025E29A /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB4F168110870025E29A /* Default-Portrait@2x~ipad.png */; };
+		6C2CEB4E1681107D0025E29A /* RetroPaddleBallMainDisplay~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB4D1681107D0025E29A /* RetroPaddleBallMainDisplay~ipad.png */; };
+		6C2CEB50168110870025E29A /* RetroPaddleBallMainDisplay@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB4F168110870025E29A /* RetroPaddleBallMainDisplay@2x~ipad.png */; };
 		6C2CEB53168111260025E29A /* MainMenuViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB51168111260025E29A /* MainMenuViewController~ipad.xib */; };
 		6C2CEB5A168111620025E29A /* GameOverViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB54168111620025E29A /* GameOverViewController~ipad.xib */; };
 		6C2CEB5B168111620025E29A /* HighScoreViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB56168111620025E29A /* HighScoreViewController~ipad.xib */; };
 		6C2CEB5C168111620025E29A /* HowToPlayViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2CEB58168111620025E29A /* HowToPlayViewController~ipad.xib */; };
 		6C3C3DF4169CBE3500F6B1FB /* Icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3DF2169CBE3500F6B1FB /* Icon@2x~ipad.png */; };
 		6C3C3DF5169CBE3500F6B1FB /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3DF3169CBE3500F6B1FB /* Icon~ipad.png */; };
-		6C3C3DF8169CD35B00F6B1FB /* PauseButton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3DF6169CD35B00F6B1FB /* PauseButton@2x~ipad.png */; };
-		6C3C3DF9169CD35B00F6B1FB /* PauseButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3DF7169CD35B00F6B1FB /* PauseButton~ipad.png */; };
+		6C3C3DF8169CD35B00F6B1FB /* PauseButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3DF6169CD35B00F6B1FB /* PauseButton~ipad.png */; };
+		6C3C3DF9169CD35B00F6B1FB /* PauseButton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3C3DF7169CD35B00F6B1FB /* PauseButton@2x~ipad.png */; };
 		6C3D3E1E182C97790058DF91 /* RestorePurchases.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3D3E1A182C97790058DF91 /* RestorePurchases.png */; };
 		6C3D3E1F182C97790058DF91 /* RestorePurchases@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3D3E1B182C97790058DF91 /* RestorePurchases@2x.png */; };
 		6C3D3E20182C97790058DF91 /* RestorePurchases@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C3D3E1C182C97790058DF91 /* RestorePurchases@2x~ipad.png */; };
@@ -99,6 +104,7 @@
 		6C9D1C4A146F75FD00CFCD60 /* ForwardButtonDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9D1C48146F75FD00CFCD60 /* ForwardButtonDisabled.png */; };
 		6C9D1C4B146F75FD00CFCD60 /* ForwardButtonDisabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9D1C49146F75FD00CFCD60 /* ForwardButtonDisabled@2x.png */; };
 		6CA7A65214E0856E004A0BC2 /* RetroPaddleBall Ball Splitter.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6CA7A65114E0856D004A0BC2 /* RetroPaddleBall Ball Splitter.m4a */; };
+		6CB735351863DC2B00A2B330 /* MainStoryboardiPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6CB735341863DC2B00A2B330 /* MainStoryboardiPad.storyboard */; };
 		6CBB6733136211E500E56946 /* BlueBallButtonHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBB672B136211E500E56946 /* BlueBallButtonHighlighted.png */; };
 		6CBB6734136211E500E56946 /* BlueBallButtonHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBB672C136211E500E56946 /* BlueBallButtonHighlighted@2x.png */; };
 		6CBB6735136211E500E56946 /* GreenBallButtonHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBB672D136211E500E56946 /* GreenBallButtonHighlighted.png */; };
@@ -162,6 +168,8 @@
 		6CBDABF813C10425003569E2 /* HowToPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABFA13C10425003569E2 /* HowToPlay.png */; };
 		6CBDABFB13C1042A003569E2 /* HowToPlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDABFD13C1042A003569E2 /* HowToPlay@2x.png */; };
 		6CBDAC0113C107CC003569E2 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CBDAC0213C107CC003569E2 /* MainWindow.xib */; };
+		6CC7EABA192B0B0800B9307D /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CC7EAB9192B0B0800B9307D /* GLKit.framework */; };
+		6CC7EABC192B0B3600B9307D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CC7EABB192B0B3600B9307D /* OpenGLES.framework */; };
 		6CC8413116AC89990028D177 /* GameOver~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CC8412D16AC89990028D177 /* GameOver~ipad.png */; };
 		6CC8413216AC89990028D177 /* GameOver@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CC8412F16AC89990028D177 /* GameOver@2x~ipad.png */; };
 		6CCE8F1017D27A6800E45065 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CCE8F0F17D27A6800E45065 /* StoreKit.framework */; };
@@ -170,6 +178,7 @@
 		6CE865C61810C9030019CAE0 /* PlayAgainButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE865C41810C9030019CAE0 /* PlayAgainButton~ipad.png */; };
 		6CE865C91810C90F0019CAE0 /* MainMenuButton@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE865C71810C90F0019CAE0 /* MainMenuButton@2x~ipad.png */; };
 		6CE865CA1810C90F0019CAE0 /* MainMenuButton~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE865C81810C90F0019CAE0 /* MainMenuButton~ipad.png */; };
+		6CED55A218635EDF00BC7ED2 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CED55A118635EDF00BC7ED2 /* TutorialViewController.m */; };
 		6CEFB2F712FDEA4C00417135 /* CoreGraphicsDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CEFB2F612FDEA4C00417135 /* CoreGraphicsDrawingView.m */; };
 /* End PBXBuildFile section */
 
@@ -184,11 +193,16 @@
 		28D7ACF70DDB3853001CB0EB /* CoreGraphicsDrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreGraphicsDrawingViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* CoreGraphicsDrawing_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreGraphicsDrawing_Prefix.pch; sourceTree = "<group>"; };
+		6C0396D6193EAA1700E809FA /* BallSplit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BallSplit.png; sourceTree = "<group>"; };
+		6C0396D7193EAA1700E809FA /* BallSplit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BallSplit@2x.png"; sourceTree = "<group>"; };
+		6C0396D8193EAA1700E809FA /* BallSplit@2x~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BallSplit@2x~iPad.png"; sourceTree = "<group>"; };
+		6C0396D9193EAA1700E809FA /* BallSplit~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BallSplit~iPad.png"; sourceTree = "<group>"; };
 		6C051BA814F94919004FD096 /* BallHit.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = BallHit.m4a; sourceTree = "<group>"; };
 		6C05AF6A15796509005DAF3E /* RPBRandomRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPBRandomRect.h; sourceTree = "<group>"; };
 		6C05AF6B15796509005DAF3E /* RPBRandomRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPBRandomRect.m; sourceTree = "<group>"; };
 		6C06153A17D24E140019F93C /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		6C0B8FDB1378A11F00E2C9D1 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = Classes/Entitlements.plist; sourceTree = "<group>"; };
+		6C0C075018629E6D0020F77A /* MainStoryboardiPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MainStoryboardiPhone.storyboard; path = Classes/MainStoryboardiPhone.storyboard; sourceTree = "<group>"; };
 		6C0CA03213DB0A4900DA71B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/Off.png; sourceTree = "<group>"; };
 		6C0CA03513DB0A4D00DA71B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/Off@2x.png"; sourceTree = "<group>"; };
 		6C0CA03813DB0A5000DA71B8 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/On.png; sourceTree = "<group>"; };
@@ -223,16 +237,16 @@
 		6C2AC844134A5DBB00F05242 /* YellowBallButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "YellowBallButton@2x.png"; sourceTree = "<group>"; };
 		6C2CEB441680DECE0025E29A /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		6C2CEB471680E0D00025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/CoreGraphicsDrawingViewController~ipad.xib"; sourceTree = "<group>"; };
-		6C2CEB4D1681107D0025E29A /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		6C2CEB4F168110870025E29A /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		6C2CEB4D1681107D0025E29A /* RetroPaddleBallMainDisplay~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RetroPaddleBallMainDisplay~ipad.png"; sourceTree = "<group>"; };
+		6C2CEB4F168110870025E29A /* RetroPaddleBallMainDisplay@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RetroPaddleBallMainDisplay@2x~ipad.png"; sourceTree = "<group>"; };
 		6C2CEB52168111260025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Classes/en.lproj/MainMenuViewController~ipad.xib"; sourceTree = "<group>"; };
 		6C2CEB55168111620025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Classes/en.lproj/GameOverViewController~ipad.xib"; sourceTree = "<group>"; };
 		6C2CEB57168111620025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Classes/en.lproj/HighScoreViewController~ipad.xib"; sourceTree = "<group>"; };
 		6C2CEB59168111620025E29A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "Classes/en.lproj/HowToPlayViewController~ipad.xib"; sourceTree = "<group>"; };
 		6C3C3DF2169CBE3500F6B1FB /* Icon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x~ipad.png"; sourceTree = "<group>"; };
 		6C3C3DF3169CBE3500F6B1FB /* Icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon~ipad.png"; sourceTree = "<group>"; };
-		6C3C3DF6169CD35B00F6B1FB /* PauseButton@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PauseButton@2x~ipad.png"; path = "../OldProgramming/RetroPaddleBall/PauseButton@2x~ipad.png"; sourceTree = "<group>"; };
-		6C3C3DF7169CD35B00F6B1FB /* PauseButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PauseButton~ipad.png"; path = "../OldProgramming/RetroPaddleBall/PauseButton~ipad.png"; sourceTree = "<group>"; };
+		6C3C3DF6169CD35B00F6B1FB /* PauseButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PauseButton~ipad.png"; sourceTree = "<group>"; };
+		6C3C3DF7169CD35B00F6B1FB /* PauseButton@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PauseButton@2x~ipad.png"; sourceTree = "<group>"; };
 		6C3D3E1A182C97790058DF91 /* RestorePurchases.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RestorePurchases.png; sourceTree = "<group>"; };
 		6C3D3E1B182C97790058DF91 /* RestorePurchases@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RestorePurchases@2x.png"; sourceTree = "<group>"; };
 		6C3D3E1C182C97790058DF91 /* RestorePurchases@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RestorePurchases@2x~ipad.png"; sourceTree = "<group>"; };
@@ -275,7 +289,8 @@
 		6C9D1C41146F73B900CFCD60 /* BackButtonDisabled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BackButtonDisabled@2x.png"; sourceTree = "<group>"; };
 		6C9D1C48146F75FD00CFCD60 /* ForwardButtonDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ForwardButtonDisabled.png; sourceTree = "<group>"; };
 		6C9D1C49146F75FD00CFCD60 /* ForwardButtonDisabled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ForwardButtonDisabled@2x.png"; sourceTree = "<group>"; };
-		6CA7A65114E0856D004A0BC2 /* RetroPaddleBall Ball Splitter.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RetroPaddleBall Ball Splitter.m4a"; path = "../../Music/GarageBand/RetroPaddleBall Ball Splitter.m4a"; sourceTree = "<group>"; };
+		6CA7A65114E0856D004A0BC2 /* RetroPaddleBall Ball Splitter.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RetroPaddleBall Ball Splitter.m4a"; sourceTree = "<group>"; };
+		6CB735341863DC2B00A2B330 /* MainStoryboardiPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboardiPad.storyboard; sourceTree = "<group>"; };
 		6CBB672B136211E500E56946 /* BlueBallButtonHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueBallButtonHighlighted.png; sourceTree = "<group>"; };
 		6CBB672C136211E500E56946 /* BlueBallButtonHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueBallButtonHighlighted@2x.png"; sourceTree = "<group>"; };
 		6CBB672D136211E500E56946 /* GreenBallButtonHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GreenBallButtonHighlighted.png; sourceTree = "<group>"; };
@@ -343,6 +358,8 @@
 		6CBDABF913C10425003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/HowToPlay.png; sourceTree = "<group>"; };
 		6CBDABFC13C1042A003569E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/HowToPlay@2x.png"; sourceTree = "<group>"; };
 		6CBDAC0213C107CC003569E2 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		6CC7EAB9192B0B0800B9307D /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		6CC7EABB192B0B3600B9307D /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		6CC8412E16AC89990028D177 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/GameOver~ipad.png"; sourceTree = "<group>"; };
 		6CC8413016AC89990028D177 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = "en.lproj/GameOver@2x~ipad.png"; sourceTree = "<group>"; };
 		6CCE8F0F17D27A6800E45065 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -352,6 +369,8 @@
 		6CE865C41810C9030019CAE0 /* PlayAgainButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PlayAgainButton~ipad.png"; sourceTree = "<group>"; };
 		6CE865C71810C90F0019CAE0 /* MainMenuButton@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MainMenuButton@2x~ipad.png"; sourceTree = "<group>"; };
 		6CE865C81810C90F0019CAE0 /* MainMenuButton~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MainMenuButton~ipad.png"; sourceTree = "<group>"; };
+		6CED55A018635EDF00BC7ED2 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
+		6CED55A118635EDF00BC7ED2 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		6CEFB2F512FDEA4C00417135 /* CoreGraphicsDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreGraphicsDrawingView.h; path = ../CoreGraphicsDrawingView.h; sourceTree = "<group>"; };
 		6CEFB2F612FDEA4C00417135 /* CoreGraphicsDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreGraphicsDrawingView.m; path = ../CoreGraphicsDrawingView.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* RetroPaddleBall-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RetroPaddleBall-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -362,6 +381,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CC7EABC192B0B3600B9307D /* OpenGLES.framework in Frameworks */,
+				6CC7EABA192B0B0800B9307D /* GLKit.framework in Frameworks */,
 				6C06153B17D24E140019F93C /* CoreMotion.framework in Frameworks */,
 				6C5D3BD517D1AB4D00558B2D /* iAd.framework in Frameworks */,
 				6C430AF014D5D23800127C6A /* QuartzCore.framework in Frameworks */,
@@ -385,6 +406,8 @@
 				6C5494D01334018500FF4C20 /* SettingsViewController.m */,
 				6C7B424E130C77660051DBE0 /* GameOverViewController.h */,
 				6C7B424F130C77660051DBE0 /* GameOverViewController.m */,
+				6CED55A018635EDF00BC7ED2 /* TutorialViewController.h */,
+				6CED55A118635EDF00BC7ED2 /* TutorialViewController.m */,
 				6C7B3C3D1306015C0051DBE0 /* MainMenuViewController.h */,
 				6C7B3C3E1306015C0051DBE0 /* MainMenuViewController.m */,
 				6CBDAB4213C0E686003569E2 /* HowToPlayViewController.h */,
@@ -440,6 +463,12 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6C0396D6193EAA1700E809FA /* BallSplit.png */,
+				6C0396D7193EAA1700E809FA /* BallSplit@2x.png */,
+				6C0396D8193EAA1700E809FA /* BallSplit@2x~iPad.png */,
+				6C0396D9193EAA1700E809FA /* BallSplit~iPad.png */,
+				6C0C075018629E6D0020F77A /* MainStoryboardiPhone.storyboard */,
+				6CB735341863DC2B00A2B330 /* MainStoryboardiPad.storyboard */,
 				6C1DB1281861478200EAD601 /* SlowDown.png */,
 				6C1DB1291861478200EAD601 /* SlowDown@2x.png */,
 				6C1DB12A1861478200EAD601 /* SlowDown@2x~ipad.png */,
@@ -564,6 +593,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6CC7EABB192B0B3600B9307D /* OpenGLES.framework */,
+				6CC7EAB9192B0B0800B9307D /* GLKit.framework */,
 				6CCE8F0F17D27A6800E45065 /* StoreKit.framework */,
 				6C06153A17D24E140019F93C /* CoreMotion.framework */,
 				6C5D3BD417D1AB4D00558B2D /* iAd.framework */,
@@ -579,8 +610,8 @@
 		6C2CEB431680DECD0025E29A /* iPad */ = {
 			isa = PBXGroup;
 			children = (
-				6C2CEB4F168110870025E29A /* Default-Portrait@2x~ipad.png */,
-				6C2CEB4D1681107D0025E29A /* Default-Portrait~ipad.png */,
+				6C2CEB4F168110870025E29A /* RetroPaddleBallMainDisplay@2x~ipad.png */,
+				6C2CEB4D1681107D0025E29A /* RetroPaddleBallMainDisplay~ipad.png */,
 				6CE865C71810C90F0019CAE0 /* MainMenuButton@2x~ipad.png */,
 				6CE865C81810C90F0019CAE0 /* MainMenuButton~ipad.png */,
 				6CE865C31810C9030019CAE0 /* PlayAgainButton@2x~ipad.png */,
@@ -595,8 +626,8 @@
 				6C14AD211799CEE400E2ADE8 /* HowToPlay~ipad.png */,
 				6CC8412D16AC89990028D177 /* GameOver~ipad.png */,
 				6CC8412F16AC89990028D177 /* GameOver@2x~ipad.png */,
-				6C3C3DF6169CD35B00F6B1FB /* PauseButton@2x~ipad.png */,
-				6C3C3DF7169CD35B00F6B1FB /* PauseButton~ipad.png */,
+				6C3C3DF6169CD35B00F6B1FB /* PauseButton~ipad.png */,
+				6C3C3DF7169CD35B00F6B1FB /* PauseButton@2x~ipad.png */,
 				6C3C3DF2169CBE3500F6B1FB /* Icon@2x~ipad.png */,
 				6C3C3DF3169CBE3500F6B1FB /* Icon~ipad.png */,
 				6C3D3E1C182C97790058DF91 /* RestorePurchases@2x~ipad.png */,
@@ -676,6 +707,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C0396DD193EAA1700E809FA /* BallSplit~iPad.png in Resources */,
 				6CBDAC0113C107CC003569E2 /* MainWindow.xib in Resources */,
 				6CBDABDF13C0ECF7003569E2 /* CoreGraphicsDrawingViewController.xib in Resources */,
 				6CBDABDC13C0ECF2003569E2 /* MainMenuViewController.xib in Resources */,
@@ -693,6 +725,7 @@
 				6C3D3E1F182C97790058DF91 /* RestorePurchases@2x.png in Resources */,
 				6CBDABE213C0ECFC003569E2 /* SettingsViewController.xib in Resources */,
 				6CBDABB313C0EB87003569E2 /* SettingsButton.png in Resources */,
+				6C0396DC193EAA1700E809FA /* BallSplit@2x~iPad.png in Resources */,
 				6C1DB12C1861478200EAD601 /* SlowDown.png in Resources */,
 				6CBDABB613C0EB8B003569E2 /* SettingsButton@2x.png in Resources */,
 				6C2AC845134A5DBB00F05242 /* BlueBallButton.png in Resources */,
@@ -726,6 +759,7 @@
 				6C3D3E21182C97790058DF91 /* RestorePurchases~ipad.png in Resources */,
 				6CBDAB8F13C0EB4D003569E2 /* HighScoreScreen.png in Resources */,
 				6CBDAB9213C0EB51003569E2 /* HighScoreScreen@2x.png in Resources */,
+				6CB735351863DC2B00A2B330 /* MainStoryboardiPad.storyboard in Resources */,
 				6CBDAB9513C0EB55003569E2 /* ResetScoresButton.png in Resources */,
 				6C1DB12D1861478200EAD601 /* SlowDown@2x.png in Resources */,
 				6CBDAB9813C0EB58003569E2 /* ResetScoresButton@2x.png in Resources */,
@@ -735,6 +769,7 @@
 				6C1DB127186146F200EAD601 /* LightningBolt~ipad.png in Resources */,
 				6CBDAB8613C0EB44003569E2 /* HardButton@2x.png in Resources */,
 				6CBDAB8913C0EB47003569E2 /* MiddleButton.png in Resources */,
+				6C0396DA193EAA1700E809FA /* BallSplit.png in Resources */,
 				6CBDAB8C13C0EB4A003569E2 /* MiddleButton@2x.png in Resources */,
 				6CBDAB6B13C0EB1C003569E2 /* EasyButtonHighlighted.png in Resources */,
 				6CBDAB6E13C0EB1F003569E2 /* EasyButtonHighlighted@2x.png in Resources */,
@@ -766,8 +801,10 @@
 				6C0CA03713DB0A5000DA71B8 /* On.png in Resources */,
 				6C0CA03A13DB0A5400DA71B8 /* On@2x.png in Resources */,
 				6C0CA04113DB0B8100DA71B8 /* Off-Disabled.png in Resources */,
+				6C0396DB193EAA1700E809FA /* BallSplit@2x.png in Resources */,
 				6C0CA04213DB0B8100DA71B8 /* Off-Disabled@2x.png in Resources */,
 				6C0CA04313DB0B8100DA71B8 /* On-Disabled.png in Resources */,
+				6C0C075118629E6D0020F77A /* MainStoryboardiPhone.storyboard in Resources */,
 				6C0CA04413DB0B8100DA71B8 /* On-Disabled@2x.png in Resources */,
 				6C3F65CA13DD094C007FF673 /* RetroPaddleBall FX Lightning.m4a in Resources */,
 				6C3F65CC13DDCFC4007FF673 /* RetroPaddleBall Slow Down.m4a in Resources */,
@@ -796,18 +833,18 @@
 				6C86CEF5161D155200C7139C /* Default-568h@2x.png in Resources */,
 				6C2CEB451680DECE0025E29A /* MainWindow-iPad.xib in Resources */,
 				6C2CEB481680E0D00025E29A /* CoreGraphicsDrawingViewController~ipad.xib in Resources */,
-				6C2CEB4E1681107D0025E29A /* Default-Portrait~ipad.png in Resources */,
+				6C2CEB4E1681107D0025E29A /* RetroPaddleBallMainDisplay~ipad.png in Resources */,
 				6C1DB125186146F200EAD601 /* LightningBolt@2x.png in Resources */,
 				6C3D3E20182C97790058DF91 /* RestorePurchases@2x~ipad.png in Resources */,
-				6C2CEB50168110870025E29A /* Default-Portrait@2x~ipad.png in Resources */,
+				6C2CEB50168110870025E29A /* RetroPaddleBallMainDisplay@2x~ipad.png in Resources */,
 				6C2CEB53168111260025E29A /* MainMenuViewController~ipad.xib in Resources */,
 				6C2CEB5A168111620025E29A /* GameOverViewController~ipad.xib in Resources */,
 				6C2CEB5B168111620025E29A /* HighScoreViewController~ipad.xib in Resources */,
 				6C2CEB5C168111620025E29A /* HowToPlayViewController~ipad.xib in Resources */,
 				6C3C3DF4169CBE3500F6B1FB /* Icon@2x~ipad.png in Resources */,
 				6C3C3DF5169CBE3500F6B1FB /* Icon~ipad.png in Resources */,
-				6C3C3DF8169CD35B00F6B1FB /* PauseButton@2x~ipad.png in Resources */,
-				6C3C3DF9169CD35B00F6B1FB /* PauseButton~ipad.png in Resources */,
+				6C3C3DF8169CD35B00F6B1FB /* PauseButton~ipad.png in Resources */,
+				6C3C3DF9169CD35B00F6B1FB /* PauseButton@2x~ipad.png in Resources */,
 				6CC8413116AC89990028D177 /* GameOver~ipad.png in Resources */,
 				6CC8413216AC89990028D177 /* GameOver@2x~ipad.png in Resources */,
 				6C6FA39F16F3AF680065A1F7 /* SettingsViewController~ipad.xib in Resources */,
@@ -840,6 +877,7 @@
 				6CBB686513638C4A00E56946 /* HighScoreViewController.m in Sources */,
 				6CBDAB4513C0E686003569E2 /* HowToPlayViewController.m in Sources */,
 				6C430AF314D9EB1C00127C6A /* RPBBall.m in Sources */,
+				6CED55A218635EDF00BC7ED2 /* TutorialViewController.m in Sources */,
 				6C05AF6C15796509005DAF3E /* RPBRandomRect.m in Sources */,
 				6C78401715F68B34008F9D0A /* HighScoreDocument.m in Sources */,
 			);
@@ -1366,6 +1404,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = RetroPaddleBall.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1384,6 +1423,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				INFOPLIST_FILE = "RetroPaddleBall-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = RetroPaddleBall;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1400,6 +1440,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = RetroPaddleBall.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1446,6 +1487,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = RetroPaddleBall.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1493,9 +1535,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = RetroPaddleBall.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (

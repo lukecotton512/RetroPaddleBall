@@ -8,6 +8,7 @@
 #import <dlfcn.h>
 #import <sys/types.h>
 #import <UIKit/UIKit.h>
+#import "CoreGraphicsDrawingAppDelegate.h"
 #ifndef PT_DENY_ATTACH
     #define PT_DENY_ATTACH 31
 #endif
@@ -27,13 +28,11 @@ static inline void initapp() {
     dlclose(handle);
 }
 int main(int argc, char *argv[]) {
-    if(debugIsEnabled==NO) {
-        initapp();
+    @autoreleasepool {
+        if(debugIsEnabled==NO) {
+            initapp();
+        }
+        srandom(time(NULL));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([CoreGraphicsDrawingAppDelegate class]));
     }
-    srandom(time(NULL));
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    [[NSUbiquitousKeyValueStore defaultStore] synchronize];
-    int retVal = UIApplicationMain(argc, argv, nil, nil);
-    [pool release];
-    return retVal;
 }

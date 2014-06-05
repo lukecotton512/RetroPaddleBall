@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HighScoreDocument : UIDocument
-@property (nonatomic, retain) NSMutableArray *arrayContents;
+@property (nonatomic, strong) NSMutableArray *arrayContents;
 @end

@@ -26,20 +26,23 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	highScores = [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] highScores];
-	int i;
+    highScores = [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] highScores];
+    self.score = [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] score];
     if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
         [bannerView removeFromSuperview];
     }
+}
+-(void)viewDidAppear:(BOOL)animated {
+    int i;
+    self.scoreTextView.text=[NSString stringWithFormat:@"Score: %i",self.score];
 	for (i=0; i<[highScores count]; i++) {
-		if (score>[[[highScores objectAtIndex:i] objectForKey:@"RPBScore"] intValue]) {
+		if (score>[highScores[i][@"RPBScore"] intValue]) {
 			UIAlertView *highScoreAlert= [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NEWHIGHSCORE", nil) message:NSLocalizedString(@"ENTERYOURNAME", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CANCEL", nil) otherButtonTitles:NSLocalizedString(@"OK",nil),nil];
 			//[highScoreAlertField setBackgroundColor:[UIColor whiteColor]];
             highScoreAlert.alertViewStyle=UIAlertViewStylePlainTextInput;
             highScoreAlertField=[highScoreAlert textFieldAtIndex:0];
 			//[highScoreAlert addSubview:highScoreAlertField];
 			[highScoreAlert show];
-			[highScoreAlert release];
 			break;
 		}
 	}
@@ -52,10 +55,10 @@
     {
         return;
     }
-	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:score], @"RPBScore", [highScoreAlertField text], @"RPBName", nil];
+	NSDictionary *dictionary = @{@"RPBScore": @(score), @"RPBName": [highScoreAlertField text]};
 	int i;
 	for (i=0; i<[highScores count]; i++) {
-		if (score>[[[highScores objectAtIndex:i] objectForKey:@"RPBScore"] intValue]) {
+		if (score>[highScores[i][@"RPBScore"] intValue]) {
 			[highScores insertObject:dictionary atIndex:i];
 			if ([highScores count] == 11) {
 				[highScores removeLastObject];
@@ -109,12 +112,6 @@
 }
 
 
-- (void)dealloc {
-    [highScoreAlertField release];
-    [scoreTextView release];
-    [highScores release];
-    [super dealloc];
-}
 
 
 @end

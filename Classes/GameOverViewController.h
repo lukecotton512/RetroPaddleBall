@@ -17,12 +17,12 @@
 	int score;
 	//int i;
 }
-@property (nonatomic, retain) IBOutlet UILabel *scoreTextView;
-@property (nonatomic, retain) IBOutlet UITextField *highScoreAlertField;
+@property (nonatomic, strong) IBOutlet UILabel *scoreTextView;
+@property (nonatomic, strong) IBOutlet UITextField *highScoreAlertField;
 @property (nonatomic, assign) int score;
-@property (nonatomic, retain) IBOutlet ADBannerView *bannerView;
+@property (nonatomic, strong) IBOutlet ADBannerView *bannerView;
 //@property (nonatomic, assign) int i;
-@property (nonatomic, retain) NSMutableArray *highScores;
+@property (nonatomic, strong) NSMutableArray *highScores;
 -(IBAction)playAgain:(id)sender;
 -(IBAction)showMainMenu:(id)sender;
 -(void)updateScore;

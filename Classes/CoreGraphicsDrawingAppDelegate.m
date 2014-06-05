@@ -13,17 +13,42 @@
 #import "HighScoreViewController.h"
 #import "HowToPlayViewController.h"
 #import "HighScoreDocument.h"
+#import "TutorialViewController.h"
 @implementation CoreGraphicsDrawingAppDelegate
 
 @synthesize window;
-@synthesize viewController, gameController, gameOverController, currentViewController, settingsController, userDefaults, defaults, score, highScoreController, highScores, difficultyMultiplier, appSupportTimer, highScoresEnabled, howToPlayController, soundIsOn, ubiq, icloudEnabled, query, highScoreDoc, isDone, isOniPad, databaseCreated, alreadyChecked, upgradeEligible, productsRequest,removeAdsFreeProduct, removeAdsProduct, upgradePurchased;
+@synthesize viewController, gameController, gameOverController, currentViewController, settingsController, userDefaults, defaults, score, highScoreController, highScores, difficultyMultiplier, appSupportTimer, highScoresEnabled, howToPlayController, soundIsOn, ubiq, icloudEnabled, query, highScoreDoc, isDone, isOniPad, databaseCreated, alreadyChecked, upgradeEligible, productsRequest,removeAdsFreeProduct, removeAdsProduct, upgradePurchased, currentTutorialController;
 
 
 #pragma mark -
 #pragma mark Application lifecycle
 -(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSUbiquitousKeyValueStore *cloudDefaults = [NSUbiquitousKeyValueStore defaultStore];
-    [cloudDefaults synchronize];
+    ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
+    //load high scores and iCloud
+    if (ubiq) {
+        icloudEnabled=YES;
+        query = [[NSMetadataQuery alloc] init];
+        [query setSearchScopes:@[NSMetadataQueryUbiquitousDocumentsScope]];
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey, @"highscoredatabase.db"];
+        [query setPredicate:pred];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryDidFinishGathering:) name:NSMetadataQueryDidFinishGatheringNotification object:query];
+        [query startQuery];
+    } else {
+        self.highScores = [NSMutableArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]];
+        if(highScores==nil) {
+            self.highScores = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]]]];
+            if (highScores==nil||[highScores count]==0) {
+                highScores = [NSMutableArray array];
+                int i;
+                for (i=0; i<10; i++) {
+                    NSDictionary *dictionary = @{@"RPBScore": @0, @"RPBName": @" "};
+                    [highScores addObject:dictionary];
+                }
+                //self.databaseCreated=YES;
+                [self saveHighScores];
+            }
+        }
+    }
     return YES;
 }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
@@ -31,7 +56,7 @@
     // Override point for customization after application launch.
     self.databaseCreated=NO;
     highScoresEnabled=NO;
-    if (([[[UIDevice currentDevice] model] rangeOfString:@"iPad"].location!=NSNotFound)) {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         isOniPad=YES;
     } else {
         isOniPad=NO;
@@ -41,52 +66,20 @@
 	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
     [[AVAudioSession sharedInstance] setActive: YES error:nil];
-    self.window.rootViewController=viewController;
+    //self.window.rootViewController=viewController;
     //[self.window addSubview:viewController.view];
-	currentViewController = viewController;
+	//currentViewController = viewController;
     self.alreadyChecked=NO;
     self.upgradePurchased = NO;
     [self.window makeKeyAndVisible];
 	userDefaults = [NSUserDefaults standardUserDefaults];
-	defaults = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.0f], @"RPBRedColorPaddle", [NSNumber numberWithFloat:255.0f], @"RPBGreenColorPaddle", [NSNumber numberWithFloat:0.0f], @"RPBBlueColorPaddle", [NSNumber numberWithFloat:255.0f], @"RPBRedColorBall", [NSNumber numberWithFloat:0.0f], @"RPBGreenColorBall", [NSNumber numberWithFloat:0.0f], @"RPBBlueColorBall",[NSNumber numberWithDouble:1.0], @"RPBDifficultyMultiplier",[NSNumber numberWithBool:NO], @"RPBAccelerometerEnabled",[NSNumber numberWithBool:YES], @"RPBSound", [NSNumber numberWithBool:NO], @"RPBAlreadyChecked", [NSNumber numberWithBool:NO], @"RPBDatabaseCreated", [NSNumber numberWithBool:NO], @"RPBUpgradeEligible",[NSNumber numberWithBool:NO], @"RPBUpgradeBought", [NSNumber numberWithBool:NO], @"RPBFreeUpgradeNotice",nil];
+    defaults = @{@"RPBRedColorPaddle": @0.0f, @"RPBGreenColorPaddle": @255.0f, @"RPBBlueColorPaddle": @0.0f, @"RPBRedColorBall": @255.0f, @"RPBGreenColorBall": @0.0f, @"RPBBlueColorBall": @0.0f, @"RPBDifficultyMultiplier": @0.0, @"RPBAccelerometerEnabled": @NO, @"RPBSound": @YES, @"RPBAlreadyChecked": @NO, @"RPBDatabaseCreated": @NO, @"RPBUpgradeEligible": @NO, @"RPBUpgradeBought": @NO, @"RPBFreeUpgradeNotice": @NO};
     NSUbiquitousKeyValueStore *cloudDefaults = [NSUbiquitousKeyValueStore defaultStore];
     [cloudDefaults synchronize];
     sleep(2);
     [userDefaults registerDefaults:defaults];
     [userDefaults synchronize];
     [self checkEligibility];
-    //[[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]] error:nil];
-    //testing for database created
-    //databaseCreated=[[NSUserDefaults standardUserDefaults] boolForKey:@"RPBDatabaseCreated"];
-    ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-    //load high scores and iCloud
-    if (ubiq) {
-        icloudEnabled=YES;
-        query = [[NSMetadataQuery alloc] init];
-        [query setSearchScopes:[NSArray arrayWithObject:NSMetadataQueryUbiquitousDocumentsScope]];
-        NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey, @"highscoredatabase.db"];
-        [query setPredicate:pred];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryDidFinishGathering:) name:NSMetadataQueryDidFinishGatheringNotification object:query];
-        [query startQuery];
-    } else {
-        //self.highScores = [NSKeyedUnarchiver unarchiveObjectWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]]];
-        self.highScores = [NSMutableArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]];
-        if(highScores==nil) {
-            self.highScores = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]]]];
-            if (highScores==nil||[highScores count]==0) {
-                highScores = [NSMutableArray array];
-                int i;
-                for (i=0; i<10; i++) {
-                    NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:0], @"RPBScore", @" ", @"RPBName", nil];
-                    [highScores addObject:dictionary];
-                    [dictionary release];
-                }
-                //self.databaseCreated=YES;
-                [self saveHighScores];
-                [highScores retain];
-            }
-        }
-    }
     NSSet *productIdentifiers;
     if (self.upgradeEligible) {
         RPBLOG(@"Upgrade Eligible = YES");
@@ -111,8 +104,8 @@
     char char15=0x49, char16=0x6e, char17=0x66, char18=0x6f, char19=0x70, char20=0x6c, char21=0x69, char22=0x73, char23=0x74;
     char charA2[5]={char15, char16, char17, char18, char14};
     char charA3[6]={char19, char20, char21, char22, char23, char14};
-    NSString *charS2 = [[NSString alloc] initWithCString:charA2 encoding:NSASCIIStringEncoding];
-    NSString *charS3 = [[NSString alloc] initWithCString:charA3 encoding:NSASCIIStringEncoding];
+    //NSString *charS2 = [[NSString alloc] initWithCString:charA2 encoding:NSASCIIStringEncoding];
+    //NSString *charS3 = [[NSString alloc] initWithCString:charA3 encoding:NSASCIIStringEncoding];
     //NSDictionary *dict = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:charS2 withExtension:charS3]];
     //NSBundle *imageAccess=[NSBundle mainBundle];
     char charA4[15]={0x69,0x6e,0x66,0x6f,0x44,0x69,0x63,0x74,0x69,0x6f,0x6e,0x61,0x72,0x79,char14};
@@ -121,17 +114,12 @@
     NSString *charS5 = [[NSString alloc] initWithCString:charA5 encoding:NSASCIIStringEncoding];
     Class class=[NSBundle class];
     NSDictionary *dict = objc_msgSend(objc_msgSend(class,NSSelectorFromString(charS5)),NSSelectorFromString(charS4));
-    if([dict objectForKey:charS] != nil)
+    self.currentTutorialController = 0;
+    if(dict[charS] != nil)
     {
         appSupportTimer = [NSTimer scheduledTimerWithTimeInterval:300.00 target:self selector:@selector(appSupportTimerCall:) userInfo:nil repeats:YES];
         [appSupportTimer fire];
-        [appSupportTimer retain];
     }
-    [charS release];
-    [charS2 release];
-    [charS3 release];
-    [charS4 release];
-    [charS5 release];
     [cloudDefaults synchronize];
     return YES;
 }
@@ -176,22 +164,19 @@
     int i=0;
     for (SKProduct *indProduct in products) {
         if([indProduct.productIdentifier isEqualToString:@"com.lukecotton.retropaddleball.disableadsfree"]) {
-            removeAdsFreeProduct = [products objectAtIndex:i];
-            [removeAdsFreeProduct retain];
+            removeAdsFreeProduct = products[i];
             NSLog(@"%@", removeAdsFreeProduct.productIdentifier);
         } else if ([indProduct.productIdentifier isEqualToString:@"com.lukecotton.retropaddleball.disableads"]){
-            removeAdsProduct = [products objectAtIndex:i];
-            [removeAdsProduct retain];
+            removeAdsProduct = products[i];
             NSLog(@"%@", removeAdsProduct.productIdentifier);
         }
         i++;
     }
-    [productsRequest release];
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
 }
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions {
     for (int i=0; i<[transactions count]; i++) {
-        SKPaymentTransaction *paymentTransaction = [transactions objectAtIndex:i];
+        SKPaymentTransaction *paymentTransaction = transactions[i];
         switch (paymentTransaction.transactionState) {
             case SKPaymentTransactionStatePurchased: {
                 [[NSUserDefaults standardUserDefaults] setValue:paymentTransaction.transactionReceipt forKey:@"RPBUpgradedProduct"];
@@ -245,18 +230,15 @@
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
 }
 -(void)loadData:(NSMetadataQuery *)query2 {
-    [[NSUbiquitousKeyValueStore defaultStore] synchronize];
     if ([query2 resultCount]==1) {
-        NSURL *url = [[[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"highscoredatabase.db"];
+        NSMetadataItem *item = [query2 resultAtIndex:0];
+        NSURL *url = [item valueForAttribute:NSMetadataItemURLKey];
         HighScoreDocument *doc = [[HighScoreDocument alloc] initWithFileURL:url];
         self.highScoreDoc = doc;
         [self.highScoreDoc openWithCompletionHandler:^(BOOL success){
             if (success) {
                 self.highScores=self.highScoreDoc.arrayContents;
                 RPBLOG(@"iCloud Access To Document");
-                /*if ([self.highScores count]<11) {
-                    [self.highScores addObject:[NSNumber numberWithBool:YES]];
-                }*/
                 [self saveHighScores];
                 isDone=YES;
             } else {
@@ -272,14 +254,10 @@
                 highScores = [NSMutableArray array];
                 int i;
                 for (i=0; i<10; i++) {
-                    //self.databaseCreated=YES;
-                    NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:0], @"RPBScore", @" ", @"RPBName", nil];
+                    NSDictionary *dictionary = @{@"RPBScore": @0, @"RPBName": @" "};
                     [highScores addObject:dictionary];
-                    [dictionary release];
                 }
-                //[[NSUbiquitousKeyValueStore defaultStore] setString:@"NO" forKey:@"RPBUpgradeEligible"];
                 [self saveHighScores];
-                [highScores retain];
             } else {
             }
         } else {
@@ -310,36 +288,26 @@
 - (NSString *)getPathToSave
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    //RPBLOG(@"No iCloud access");
+    NSString *documentsDirectory = paths[0];
     return documentsDirectory;
 }
 -(void)saveHighScores
 {
     if (icloudEnabled==YES) {
-        //NSURL *ubiqPackage = [[[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"highscoredatabase.db"];
         self.highScoreDoc.arrayContents=self.highScores;
-        //self.highScoreDoc = [[HighScoreDocument alloc] initWithFileURL:ubiqPackage];
         [self.highScoreDoc saveToURL:[self.highScoreDoc fileURL] forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
         }];
     } else {
         NSData *arrayData=[NSKeyedArchiver archivedDataWithRootObject:highScores];
         [arrayData writeToFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]] atomically:YES];
     }
-	//[highScores writeToFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]] atomically:YES];
-    //NSError *error;
-    //[[NSFileManager defaultManager] setUbiquitous:NO itemAtURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]] destinationURL:[[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"highscoredatabase.db"] error:&error];
-    //BOOL worked = [[NSFileManager defaultManager] setUbiquitous:YES itemAtURL:[NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]] destinationURL:[[ubiq URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"highscoredatabase.db"] error:&error];
-    //RPBLOG(@"iCloud worked: %d %@", worked, error);
 }
 -(void)playGame:(id)sender
 {
-    //NSString *deviceName = [[UIDevice currentDevice] model];
     CoreGraphicsDrawingViewController *aGameController;
     aGameController = [[CoreGraphicsDrawingViewController alloc] initWithNibName:@"CoreGraphicsDrawingViewController" bundle:[NSBundle mainBundle]];
 	self.gameController = aGameController;
 	[currentViewController presentViewController:gameController animated:YES completion:NULL];
-	[aGameController release];
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.0];
 	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
@@ -354,7 +322,6 @@
 	MainMenuViewController *aMainMenu = [[MainMenuViewController alloc] initWithNibName:@"MainMenuViewController" bundle:[NSBundle mainBundle]];
 	self.viewController = aMainMenu;
 	[currentViewController presentViewController:viewController animated:YES completion:NULL];
-	[aMainMenu release];
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.0];
 	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
@@ -370,7 +337,6 @@
 	SettingsViewController *aSettings = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:[NSBundle mainBundle]];
 	self.settingsController = aSettings;
 	[currentViewController presentViewController:settingsController animated:YES completion:NULL];
-	[aSettings release];
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.0];
 	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
@@ -386,7 +352,6 @@
 	HighScoreViewController *aHighScores = [[HighScoreViewController alloc] initWithNibName:@"HighScoreViewController" bundle:[NSBundle mainBundle]];
 	self.highScoreController = aHighScores;
 	[currentViewController presentViewController:highScoreController animated:YES completion:NULL];
-	[aHighScores release];
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.0];
 	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
@@ -402,7 +367,6 @@
     HowToPlayViewController *aHowToPlay = [[HowToPlayViewController alloc] initWithNibName:@"HowToPlayViewController" bundle:[NSBundle mainBundle]];
 	self.howToPlayController = aHowToPlay;
 	[currentViewController presentViewController:howToPlayController animated:YES completion:NULL];
-	[aHowToPlay release];
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.0];
 	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:currentViewController.view cache:YES];
@@ -412,23 +376,50 @@
     //[currentViewController release];
 	currentViewController = howToPlayController;
 }
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
+    if ((currentTutorialController+1)>6) {
+        return nil;
+    }
+    NSString *viewIdentifier = [NSString stringWithFormat:@"tutorial%i", (currentTutorialController+1), nil];
+    UIStoryboard *storyboard;
+    if (self.isOniPad) {
+        storyboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPad" bundle:nil];
+    } else {
+        storyboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPhone" bundle:nil];
+    }
+    return [storyboard instantiateViewControllerWithIdentifier:viewIdentifier];
+    
+}
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+    if ((currentTutorialController-1)<0) {
+        return nil;
+    }
+    NSString *viewIdentifier = [NSString stringWithFormat:@"tutorial%i", (currentTutorialController-1), nil];
+    UIStoryboard *storyboard;
+    if (self.isOniPad) {
+        storyboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPad" bundle:nil];
+    } else {
+        storyboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPhone" bundle:nil];
+    }
+    return [storyboard instantiateViewControllerWithIdentifier:viewIdentifier];
+}
+- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
+    return 7;
+}
+- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
+    return currentTutorialController;
+}
+-(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
+    if (completed==YES&&pageViewController.viewControllers[0]!=nil) {
+        if([[(TutorialViewController *)pageViewController.viewControllers[0] view] tag]>[[(TutorialViewController *)previousViewControllers[0] view] tag]) {
+            currentTutorialController++;
+        } else if  ([[(TutorialViewController *)pageViewController.viewControllers[0] view] tag]<[[(TutorialViewController *)previousViewControllers[0] view] tag]) {
+            currentTutorialController--;
+        }
+    }
+}
 -(void)endGame
 {
-	[gameController lostGame];
-	GameOverViewController *aGameOver = [[GameOverViewController alloc] initWithNibName:@"GameOverViewController" bundle:[NSBundle mainBundle]];
-	self.gameOverController = aGameOver;
-	gameOverController.score = self.score;
-	[gameController presentViewController:gameOverController animated:YES completion:NULL];
-	[aGameOver release];
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDuration:0.0];
-	[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:gameController.view cache:YES];
-	[gameController.view removeFromSuperview];
-	[self.window addSubview:[gameOverController view]];
-	[UIView commitAnimations];
-	[gameOverController updateScore];
-    //[currentViewController release];
-	currentViewController = gameOverController;
 	
 }
 /*- (void)acceleratedInX:(float)xx Y:(float)yy Z:(float)zz
@@ -511,13 +502,6 @@
     /*
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
      */
-    [currentViewController retain];
-    [viewController release];
-    [gameController release];
-    [gameOverController release];
-    [howToPlayController release];
-    [settingsController release];
-    [highScoreController release];
     if (highScoreController != currentViewController) {
         highScoreController = nil;
     }
@@ -544,7 +528,6 @@
         return;
     }
     [theTimer invalidate];
-    [theTimer release];
     char char1=0x50, char2=0x69, char3=0x72, char4=0x61, char5=0x63, char6=0x79, char7=0x20, char8=0x44, char9=0x65, char10=0x74, char11=0x65, char12=0x63, char13=0x74, char14=0x65, char15=0x64, char16=0x21, char17=0x00;
     char charA[17]={char1, char2, char3, char4, char5, char6, char7, char8, char9, char10, char11, char12, char13, char14, char15, char16, char17};
     char charA2[166]={0x54, 0x68, 0x69, 0x73, 0x20, 0x41, 0x70, 0x70, 0x20, 0x68, 0x61, 0x73, 0x20, 0x62, 0x65, 0x65, 0x6e,0x20,0x64,0x65,0x74,0x65,0x63,0x74,0x65,0x64,0x20,0x74,0x6f,0x20,0x68,0x61,0x76,0x65,0x20,0x62,0x65,0x65,0x6e,0x20,0x70,0x69,0x72,0x61,0x74,0x65,0x64,0x2c,0x20,0x62,0x65,0x63,0x61,0x75,0x73,0x65,0x20,0x69,0x74,0x20,0x68,0x61,0x73,0x20,0x62,0x65,0x65,0x6e,0x2c,0x20,0x69,0x74,0x20,0x77,0x69,0x6c,0x6c,0x20,0x6e,0x6f,0x77,0x20,0x73,0x68,0x75,0x74,0x20,0x64,0x6f,0x77,0x6e,0x2e,0x20,0x49,0x66,0x20,0x79,0x6f,0x75,0x20,0x6c,0x69,0x6b,0x65,0x20,0x74,0x68,0x65,0x20,0x61,0x70,0x70,0x2c,0x20,0x70,0x6c,0x65,0x61,0x73,0x65,0x20,0x70,0x75,0x72,0x63,0x68,0x61,0x73,0x65,0x20,0x74,0x68,0x65,0x20,0x61,0x70,0x70,0x20,0x6f,0x6e,0x20,0x74,0x68,0x65,0x20,0x41,0x70,0x70,0x20,0x53,0x74,0x6f,0x72,0x65,0x2e,0x20,0x54,0x68,0x61,0x6e,0x6b,0x20,0x79,0x6f,0x75,char17};
@@ -554,10 +537,6 @@
     NSString *charS3= [[NSString alloc] initWithCString:charA3 encoding:NSASCIIStringEncoding];
     UIAlertView *appSupport= [[UIAlertView alloc] initWithTitle:charS message:charS2 delegate:self cancelButtonTitle:charS3 otherButtonTitles:nil];
     [appSupport show];
-    [appSupport release];
-    [charS2 release];
-    [charS3 release];
-    [charS release];
 }
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
@@ -569,24 +548,13 @@
     char char1 = 0x00;
     char charA[18]={0x73,0x68,0x61,0x72,0x65,0x64,0x41,0x70,0x70,0x6c,0x69,0x63,0x61,0x74,0x69,0x6f,0x6e,char1};
     char charA2[10]={0x74,0x65,0x72,0x6d,0x69,0x6e,0x61,0x74,0x65,char1};
-    NSString *charS=[[[NSString alloc] initWithCString:charA encoding:NSASCIIStringEncoding] autorelease];
-    NSString *charS2=[[[NSString alloc] initWithCString:charA2 encoding:NSASCIIStringEncoding]autorelease];
+    NSString *charS=[[NSString alloc] initWithCString:charA encoding:NSASCIIStringEncoding];
+    NSString *charS2=[[NSString alloc] initWithCString:charA2 encoding:NSASCIIStringEncoding];
     objc_msgSend(objc_msgSend(class, NSSelectorFromString(charS)), NSSelectorFromString(charS2));
     /*NSString *charS = [[NSString alloc] initWithString:@""];
     [charS release];
     [charS release];
     [charS dealloc];*/
-}
-- (void)dealloc {
-    [viewController release];
-	[gameController release];
-	[gameOverController release];
-	[settingsController release];
-    [howToPlayController release];
-    [highScoreController release];
-	[highScores release];
-    [window release];
-    [super dealloc];
 }
 
 

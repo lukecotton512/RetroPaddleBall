@@ -19,7 +19,8 @@
 -(IBAction)showSettings:(id)sender;
 -(IBAction)showHighScores:(id)sender;
 -(IBAction)showHowToPlay:(id)sender;
+-(IBAction)goToBeginning:(UIStoryboardSegue *)unwindSegue;
 -(void)hideAds;
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet ADBannerView *bannerAd;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet ADBannerView *bannerAd;
 @end

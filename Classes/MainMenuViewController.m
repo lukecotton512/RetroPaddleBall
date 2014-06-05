@@ -42,6 +42,9 @@
 -(void)hideAds {
     [bannerAd removeFromSuperview];
 }
+-(IBAction)goToBeginning:(UIStoryboardSegue *)unwindSegue {
+    
+}
 -(IBAction)playGame:(id)sender
 {
 	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] playGame:sender];
@@ -58,6 +61,22 @@
 {
     [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] showHowToPlay];
 }
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showTutorial"] == YES) {
+        UIStoryboard *storyboard;
+        if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
+            storyboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPad" bundle:nil];
+        } else {
+            storyboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPhone" bundle:nil];
+        }
+        UIPageViewController *pageViewController = [segue destinationViewController];
+        [pageViewController setViewControllers:@[[storyboard instantiateViewControllerWithIdentifier:@"tutorial0"]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:NULL];
+        [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] setCurrentTutorialController:0];
+        pageViewController.dataSource = [CoreGraphicsDrawingAppDelegate sharedAppDelegate];
+        pageViewController.delegate = [CoreGraphicsDrawingAppDelegate sharedAppDelegate];
+    }
+}
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -72,10 +91,6 @@
 }
 
 
-- (void)dealloc {
-    //[window release];
-    [super dealloc];
-}
 
 
 @end

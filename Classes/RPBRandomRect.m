@@ -9,7 +9,7 @@
 #import "RPBRandomRect.h"
 
 @implementation RPBRandomRect
-@synthesize rectView, leftRect, rightRect, topRect, bottomRect, powerUpAbsorbed, leftRectBall, rightRectBall, topRectBall, bottomRectBall, topRectIntersection, bottomRectIntersection, leftRectIntersection, rightRectIntersection;
+@synthesize rectView, leftRect, rightRect, topRect, bottomRect, powerUpAbsorbed, leftRectBall, rightRectBall, topRectBall, bottomRectBall, topRectIntersection, bottomRectIntersection, leftRectIntersection, rightRectIntersection, brickBaseEffect;
 -(id)init
 {
     self=[super init];
@@ -35,10 +35,5 @@
 -(CGRect)rectOfView
 {
     return rectOfView;
-}
--(void)dealloc
-{
-    [rectView release];
-    [super dealloc];
 }
 @end

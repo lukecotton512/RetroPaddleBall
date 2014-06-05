@@ -6,7 +6,8 @@
 //  Copyright (c) 2012 Striped Cat Development. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <GLKit/GLKit.h>
 
 @interface RPBRandomRect : NSObject {
     CGRect rectOfView;
@@ -24,9 +25,10 @@
     CGRect topRectBall;
     CGRect bottomRectBall;
     int powerUpAbsorbed;
+    GLKBaseEffect *brickBaseEffect;
 }
 @property (nonatomic, assign) CGRect rectOfView;
-@property (nonatomic, retain) UIView *rectView;
+@property (nonatomic, strong) UIView *rectView;
 @property (nonatomic, readonly, assign) CGRect rightRect;
 @property (nonatomic, readonly, assign) CGRect leftRect;
 @property (nonatomic, readonly, assign) CGRect topRect;
@@ -40,4 +42,5 @@
 @property (nonatomic, readonly, assign) CGRect topRectBall;
 @property (nonatomic, readonly, assign) CGRect bottomRectBall;
 @property (nonatomic, assign) int powerUpAbsorbed;
+@property (nonatomic, strong) GLKBaseEffect *brickBaseEffect;
 @end

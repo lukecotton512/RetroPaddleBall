@@ -75,13 +75,11 @@
         //view2Timer=nil;
         self.view2Timer = [NSTimer scheduledTimerWithTimeInterval:.025 target:self selector:@selector(animateView2:) userInfo:nil repeats:YES];
         [view2Timer fire];
-        [view2Timer retain];
         [view2 bringSubviewToFront:ballView2];
         previousButton.enabled=YES;
     }
     if(viewCounter==3) {
         [view2Timer invalidate];
-        [view2Timer release];
         //self.view2Timer = nil;
         [currentView removeFromSuperview];
         [self.view addSubview:view3];
@@ -90,12 +88,10 @@
         //view3Timer=nil;
         self.view3Timer = [NSTimer scheduledTimerWithTimeInterval:.025 target:self selector:@selector(animateView3:) userInfo:nil repeats:YES];
         [view3Timer fire];
-        [view3Timer retain];
         [view3 bringSubviewToFront:ballView3];
     }
     if(viewCounter==4) {
         [view3Timer invalidate];
-        [view3Timer release];
         //self.view3Timer=nil;
         [currentView removeFromSuperview];
         [self.view addSubview:view4];
@@ -126,7 +122,6 @@
     viewCounter = viewCounter -1;
     if(viewCounter==1) {
         [view2Timer invalidate];
-        [view2Timer release];
         //self.view2Timer=nil;
         [currentView removeFromSuperview];
         [self.view addSubview:view1];
@@ -135,14 +130,12 @@
     }
     if(viewCounter==2) {
         [view3Timer invalidate];
-        [view3Timer release];
         //self.view3Timer=nil;
         [currentView removeFromSuperview];
         [self.view addSubview:view2];
         currentView = view2;
         self.view2Timer = [NSTimer scheduledTimerWithTimeInterval:.025 target:self selector:@selector(animateView2:) userInfo:nil repeats:YES];
         [view2Timer fire];
-        [view2Timer retain];
     }
     if(viewCounter==3) {
         /*[view2Timer invalidate];
@@ -153,7 +146,6 @@
         currentView = view3;
         self.view3Timer = [NSTimer scheduledTimerWithTimeInterval:.025 target:self selector:@selector(animateView3:) userInfo:nil repeats:YES];
         [view3Timer fire];
-        [view3Timer retain];
     }
     if(viewCounter==4) {
         [currentView removeFromSuperview];
@@ -234,21 +226,7 @@
 {
     //[howToPlayView release];
     //[coverView release];
-    [intersectView2 release];
-    [intersectView3 release];
-    [previousButton release];
-    [nextButton release];
-    [view1 release];
-    [view2 release];
-    [view3 release];
-    [view4 release];
-    [view5 release];
-    [view6 release];
-    [animationControl release];
     [view2Timer invalidate];
-    [view2Timer release];
     [view3Timer invalidate];
-    [view3Timer release];
-    [super dealloc];
 }
 @end

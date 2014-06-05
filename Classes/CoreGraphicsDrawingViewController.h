@@ -9,16 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import <GLKit/GLKit.h>
 #import <CoreMotion/CoreMotion.h>
-#import "CoreGraphicsDrawingView.h"
-//#import "CoreGraphicsDrawingAppDelegate.h"
 #import "RPBBall.h"
 #import "RPBRandomRect.h"
 #define FILTERINGFACTOR 0.15
 #define RANDOMBRICKAREA CGRectMake(0,0,320,200)
 #define BRICKDEBUG 1
-@interface CoreGraphicsDrawingViewController : UIViewController <UIAccelerometerDelegate, AVAudioPlayerDelegate> {
-	IBOutlet CoreGraphicsDrawingView *mainView;
+@interface CoreGraphicsDrawingViewController : GLKViewController <UIAccelerometerDelegate, AVAudioPlayerDelegate> {
+	IBOutlet GLKView *mainView;
 	IBOutlet UILabel *scoreField;
     IBOutlet UILabel *highScoreField;
 	IBOutlet UIView *pauseView;
@@ -26,12 +25,19 @@
 	IBOutlet UIImageView *powerUpImage2;
     UIView *powerUpImage4;
     UIView *ballImage;
+    CGPoint paddleCenter;
     IBOutlet UIView *paddleImage;
     IBOutlet UIView *areYouSureView;
     IBOutlet UIButton *pauseButton;
     IBOutlet UIView *powerUpImage3;
     IBOutlet UIView *ball3;
     IBOutlet UIView *ball2;
+    CGRect powerUpRect;
+    CGRect powerUpRect2;
+    CGRect powerUpRect3;
+    CGRect powerUpRect4;
+    EAGLContext *context;
+    GLKBaseEffect *paddleEffect;
     NSMutableArray *ballViewArray;
     NSMutableArray *bounceArray;
     NSMutableArray *xBounceArray;
@@ -51,7 +57,7 @@
 	NSTimer *speedTimer;
 	NSTimer *powerUpTimer;
 	NSTimer *powerUpStartedTimer;
-	NSTimer *timerToRelease;
+	NSTimer *__weak timerToRelease;
     NSTimer *cheatCheckTimer;
     NSTimer *wallScoreBoostTimer;
     NSTimer *loseWallChangeTimer;
@@ -110,7 +116,6 @@
 	CGRect bottomOfScreenBall;
 	CGRect oldBallRect;
 	CGRect oldPaddleRect;
-	CGRect powerUpRect;
     CGRect ballRect;
     CGPoint paddlelocation;
     CGRect noScoreZone;
@@ -128,6 +133,25 @@
     int wallSize;
     int wallBorderSize;
     int noscorezone;
+    GLuint _paddleVertexBuffer;
+    GLuint _paddleIndexBuffer;
+    GLuint _wallVertexBuffer;
+    GLuint _wallIndexBuffer;
+    GLuint _powerUpVertexBuffer;
+    GLuint _powerUpIndexBuffer;
+    GLuint _rightWallIndexBuffer;
+    GLuint _bottomWallIndexBuffer;
+    GLuint _topWallIndexBuffer;
+    GLuint _leftWallIndexPaddleBuffer;
+    GLuint _rightWallIndexPaddleBuffer;
+    GLuint _bottomWallIndexPaddleBuffer;
+    GLuint _topWallIndexPaddleBuffer;
+    GLuint _ballIndexBuffer;
+    GLuint _ballVertexBuffer;
+    GLuint _randomBrickVertexBuffer;
+    GLuint _randomBrickIndexBuffer;
+    GLuint _randomBrickRedVertexBuffer;
+    GLuint _powerUpTextureVertexBuffer;
     //BOOL resumedFromPause;
     //CoreGraphicsDrawingAppDelegate *delegateLinkback;
     /*AVAudioPlayer *audioPlayer;
@@ -170,47 +194,64 @@
 -(void)playSound2;
 -(void)playSound3;
 -(void)playSound4;
-@property (nonatomic, retain) NSTimer *ballTimer;
-@property (nonatomic, retain) NSTimer *speedTimer;
-@property (nonatomic, retain) NSTimer *powerUpTimer;
-@property (nonatomic, retain) NSTimer *powerUpStartedTimer;
-@property (nonatomic, retain) NSTimer *cheatCheckTimer;
-@property (nonatomic, assign) NSTimer *timerToRelease;
-@property (nonatomic, retain) NSTimer *wallScoreBoostTimer;
-@property (nonatomic, retain) NSTimer *randomBrickTimer;
-@property (nonatomic, retain) NSTimer *loseWallChangeTimer;
-@property (nonatomic, assign) CMMotionManager *accelerometerDelegate;
+-(IBAction)createNewGame:(UIStoryboardSegue *)sender;
+-(void)setupGL;
+@property (nonatomic, strong) NSTimer *ballTimer;
+@property (nonatomic, strong) NSTimer *speedTimer;
+@property (nonatomic, strong) NSTimer *powerUpTimer;
+@property (nonatomic, strong) NSTimer *powerUpStartedTimer;
+@property (nonatomic, strong) NSTimer *cheatCheckTimer;
+@property (nonatomic, weak) NSTimer *timerToRelease;
+@property (nonatomic, strong) NSTimer *wallScoreBoostTimer;
+@property (nonatomic, strong) NSTimer *randomBrickTimer;
+@property (nonatomic, strong) NSTimer *loseWallChangeTimer;
+@property (nonatomic) CMMotionManager *accelerometerDelegate;
 @property (nonatomic, assign) int randomBrickHitCounter;
+@property (nonatomic, retain) EAGLContext *context;
 //@property (nonatomic, assign) CoreGraphicsDrawingAppDelegate *delegateLinkback;
-@property (nonatomic, retain) IBOutlet CoreGraphicsDrawingView *mainView;
-@property (nonatomic, retain) IBOutlet UILabel *scoreField;
-@property (nonatomic, retain) IBOutlet UILabel *highScoreField;
-@property (nonatomic, retain) IBOutlet UIView *pauseView;
-@property (nonatomic, retain) IBOutlet UIImageView *powerUpImage;
-@property (nonatomic, retain) IBOutlet UIImageView *powerUpImage2;
-@property (nonatomic, retain) UIView *ballImage;
-@property (nonatomic, retain) IBOutlet UIView *paddleImage;
-@property (nonatomic, retain) IBOutlet UIView *areYouSureView;
-@property (nonatomic, retain) IBOutlet UIButton *pauseButton;
-@property (nonatomic, retain) IBOutlet UIView *powerUpImage3;
-@property (nonatomic, retain) UIView *powerUpImage4;
-@property (nonatomic, retain) IBOutlet UIView *ball3;
-@property (nonatomic, retain) IBOutlet UIView *ball2;
-@property (nonatomic, retain) NSMutableArray *ballViewArray;
-@property (nonatomic, retain) NSMutableArray *randomBrickArray;
-@property (nonatomic, retain) RPBRandomRect *randomRect1;
-@property (nonatomic, retain) RPBRandomRect *randomRect2;
-@property (nonatomic, retain) RPBRandomRect *randomRect3;
+@property (nonatomic, strong) IBOutlet GLKView *mainView;
+@property (nonatomic, strong) IBOutlet UILabel *scoreField;
+@property (nonatomic, strong) IBOutlet UILabel *highScoreField;
+@property (nonatomic, strong) IBOutlet UIView *pauseView;
+@property (nonatomic, strong) IBOutlet UIImageView *powerUpImage;
+@property (nonatomic, strong) IBOutlet UIImageView *powerUpImage2;
+@property (nonatomic, strong) UIView *ballImage;
+@property (nonatomic, strong) IBOutlet UIView *paddleImage;
+@property (nonatomic, strong) IBOutlet UIView *areYouSureView;
+@property (nonatomic, strong) IBOutlet UIButton *pauseButton;
+@property (nonatomic, strong) IBOutlet UIView *powerUpImage3;
+@property (nonatomic, strong) UIView *powerUpImage4;
+@property (nonatomic, strong) IBOutlet UIView *ball3;
+@property (nonatomic, strong) IBOutlet UIView *ball2;
+@property (nonatomic, strong) NSMutableArray *ballViewArray;
+@property (nonatomic, strong) NSMutableArray *randomBrickArray;
+@property (nonatomic, strong) RPBRandomRect *randomRect1;
+@property (nonatomic, strong) RPBRandomRect *randomRect2;
+@property (nonatomic, strong) RPBRandomRect *randomRect3;
+@property (nonatomic, strong) GLKBaseEffect *paddleEffect;
+@property (nonatomic, strong) GLKBaseEffect *leftWallEffect;
+@property (nonatomic, strong) GLKBaseEffect *rightWallEffect;
+@property (nonatomic, strong) GLKBaseEffect *bottomWallEffect;
+@property (nonatomic, strong) GLKBaseEffect *topWallEffect;
+@property (nonatomic, strong) GLKBaseEffect *leftWallPaddleEffect;
+@property (nonatomic, strong) GLKBaseEffect *rightWallPaddleEffect;
+@property (nonatomic, strong) GLKBaseEffect *bottomWallPaddleEffect;
+@property (nonatomic, strong) GLKBaseEffect *topWallPaddleEffect;
+@property (nonatomic, strong) GLKBaseEffect *powerUpEffect;
+@property (nonatomic, strong) GLKTextureInfo *powerUpTexture1;
+@property (nonatomic, strong) GLKTextureInfo *powerUpTexture2;
+@property (nonatomic, strong) GLKTextureInfo *powerUpTexture3;
+@property (nonatomic, strong) GLKTextureInfo *powerUpTexture4;
 @property (nonatomic, assign) int wallToLose;
 //@property (nonatomic, retain) NSAutoreleasePool *autoPool;
 /*@property (nonatomic, retain) AVAudioPlayer *audioPlayer;
 @property (nonatomic, retain) AVAudioPlayer *audioPlayer2;
 @property (nonatomic, retain) AVAudioPlayer *audioPlayer3;*/
 //@property (nonatomic, retain) NSMutableArray *ballRectArray;
-@property (nonatomic, retain) NSData *audioFile1;
-@property (nonatomic, retain) NSData *audioFile2;
-@property (nonatomic, retain) NSData *audioFile3;
-@property (nonatomic, retain) NSData *audioFile4;
+@property (nonatomic, strong) NSData *audioFile1;
+@property (nonatomic, strong) NSData *audioFile2;
+@property (nonatomic, strong) NSData *audioFile3;
+@property (nonatomic, strong) NSData *audioFile4;
 @property (nonatomic, assign) CGPoint paddlelocation;
 @property (nonatomic, assign) CGRect ballRect;
 @property (nonatomic, assign) int score;
