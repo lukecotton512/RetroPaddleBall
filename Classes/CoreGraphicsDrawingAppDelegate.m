@@ -11,7 +11,6 @@
 #import "GameOverViewController.h"
 #import "SettingsViewController.h"
 #import "HighScoreViewController.h"
-#import "HowToPlayViewController.h"
 #import "HighScoreDocument.h"
 #import "TutorialViewController.h"
 @implementation CoreGraphicsDrawingAppDelegate

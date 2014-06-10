@@ -10,7 +10,7 @@
             <objects>
                 <viewController id="wYg-iN-uAk" customClass="MainMenuViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1YE-l0-KxN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="RetroPaddleBallMainDisplay.png" id="tIp-jK-5k0">
@@ -78,7 +78,7 @@
                                 </connections>
                             </button>
                             <adBannerView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Z3W-Bt-3wO">
-                                <rect key="frame" x="0.0" y="518" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="430" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </adBannerView>
                         </subviews>
@@ -108,12 +108,12 @@
             <objects>
                 <viewController storyboardIdentifier="tutorial0" title="How To Play Scene 1" id="Tlq-xA-9f2" customClass="TutorialViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3lJ-Wg-Xx3" userLabel="View 1">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="Jpy-7L-3Up">
-                                <rect key="frame" x="120" y="245" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="120" y="164" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="Lqf-Vt-8TW">
@@ -122,8 +122,8 @@
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This is the paddle" lineBreakMode="tailTruncation" minimumFontSize="10" id="C0m-J4-Di5">
-                                <rect key="frame" x="92" y="368" width="136" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="92" y="257" width="136" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -161,20 +161,27 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="T6Z-mk-ulX">
-                                <rect key="frame" x="19" y="549" width="282" height="15"/>
+                                <rect key="frame" x="19" y="461" width="282" height="15"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="WLV-aQ-MfR">
-                                <rect key="frame" x="0.0" y="564" width="320" height="4"/>
+                                <rect key="frame" x="0.0" y="476" width="320" height="4"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="tHv-D2-Cl8">
-                                <rect key="frame" x="4" y="-84" width="15" height="648"/>
+                                <rect key="frame" x="4" y="-84" width="15" height="560"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Slide left and right to move through this tutorial" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jBh-fG-y0V">
+                                <rect key="frame" x="58" y="297" width="205" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <gestureRecognizers/>
@@ -191,7 +198,7 @@
             <objects>
                 <viewController id="lU1-Xr-PKS" customClass="SettingsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eBL-Ry-Rfo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Paddle Color:" lineBreakMode="tailTruncation" minimumFontSize="10" id="DUw-pJ-8ps">
@@ -494,43 +501,21 @@
             <objects>
                 <viewController storyboardIdentifier="tutorial1" title="How To Play Scene 2" id="hvz-Q1-plo" customClass="TutorialViewController" sceneMemberID="viewController">
                     <view key="view" tag="1" contentMode="scaleToFill" id="PGh-H5-DGb" userLabel="View 2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="WLq-AC-Sa4">
-                                <rect key="frame" x="120" y="219" width="80" height="80"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="z1J-Ab-2gg">
-                                <rect key="frame" x="155" y="57" width="10" height="10"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" id="3yv-5l-zzQ">
+                                <rect key="frame" x="0.0" y="476" width="320" height="4"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="You have to try to hit the ball with the paddle" lineBreakMode="wordWrap" numberOfLines="2" minimumFontSize="10" adjustsFontSizeToFit="NO" id="jbl-Yh-0JP">
-                                <rect key="frame" x="67" y="302" width="187" height="52"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" id="D28-MS-Sv6">
-                                <rect key="frame" x="0.0" y="0.0" width="4" height="564"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <view alpha="0.5" contentMode="scaleToFill" id="jeQ-om-S3d">
+                                <rect key="frame" x="19" y="461" width="282" height="15"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" id="Fp9-DP-OHb">
-                                <rect key="frame" x="316" y="0.0" width="4" height="564"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="IT7-mL-cLS">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="4"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view alpha="0.5" contentMode="scaleToFill" id="Hw2-XC-KYu">
-                                <rect key="frame" x="4" y="4" width="15" height="564"/>
+                            <view alpha="0.5" contentMode="scaleToFill" id="pPc-2E-VqX">
+                                <rect key="frame" x="19" y="4" width="282" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -539,19 +524,41 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <view alpha="0.5" contentMode="scaleToFill" id="pPc-2E-VqX">
-                                <rect key="frame" x="19" y="4" width="282" height="15"/>
+                            <view alpha="0.5" contentMode="scaleToFill" id="Hw2-XC-KYu">
+                                <rect key="frame" x="4" y="4" width="15" height="564"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <view alpha="0.5" contentMode="scaleToFill" id="jeQ-om-S3d">
-                                <rect key="frame" x="19" y="549" width="282" height="15"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <view contentMode="scaleToFill" id="IT7-mL-cLS">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="4"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <view contentMode="scaleToFill" id="3yv-5l-zzQ">
-                                <rect key="frame" x="0.0" y="564" width="320" height="4"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <view contentMode="scaleToFill" id="Fp9-DP-OHb">
+                                <rect key="frame" x="316" y="0.0" width="4" height="564"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="D28-MS-Sv6">
+                                <rect key="frame" x="0.0" y="0.0" width="4" height="564"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="You have to try to hit the ball with the paddle" lineBreakMode="wordWrap" numberOfLines="2" minimumFontSize="10" adjustsFontSizeToFit="NO" id="jbl-Yh-0JP">
+                                <rect key="frame" x="67" y="302" width="187" height="52"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" id="WLq-AC-Sa4">
+                                <rect key="frame" x="120" y="219" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="z1J-Ab-2gg">
+                                <rect key="frame" x="155" y="107" width="10" height="10"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
@@ -560,6 +567,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="DK0-s0-E0L"/>
                     <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="ballView2" destination="z1J-Ab-2gg" id="hYP-JN-te9"/>
+                        <outlet property="paddleView2" destination="WLq-AC-Sa4" id="HdO-2B-oaf"/>
+                        <outlet property="topOfScreen" destination="IT7-mL-cLS" id="Kjn-NY-mhZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mab-25-eHJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -570,11 +582,65 @@
             <objects>
                 <viewController storyboardIdentifier="tutorial2" title="How To Play Scene 3" id="Cdu-bX-8Hs" customClass="TutorialViewController" sceneMemberID="viewController">
                     <view key="view" tag="2" contentMode="scaleToFill" id="dSw-IE-G24" userLabel="View 3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Don't hit the red wall, or you will lose the game!" lineBreakMode="wordWrap" numberOfLines="3" minimumFontSize="10" adjustsFontSizeToFit="NO" id="sW7-GR-dWZ">
+                                <rect key="frame" x="74" y="319" width="173" height="74"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" id="rYL-Mq-DrD">
+                                <rect key="frame" x="0.0" y="476" width="320" height="4"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view alpha="0.5" contentMode="scaleToFill" id="oKT-0c-ROr">
+                                <rect key="frame" x="19" y="461" width="282" height="15"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view alpha="0.5" contentMode="scaleToFill" id="TIa-3c-oUj">
+                                <rect key="frame" x="19" y="4" width="282" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view alpha="0.5" contentMode="scaleToFill" id="7gL-em-fHS">
+                                <rect key="frame" x="301" y="4" width="15" height="476"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view alpha="0.5" contentMode="scaleToFill" id="azX-6U-w71">
+                                <rect key="frame" x="4" y="4" width="15" height="476"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="7BO-RE-qah">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="4"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="rUT-KS-Qsd">
+                                <rect key="frame" x="316" y="0.0" width="4" height="564"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="HyV-49-90C">
+                                <rect key="frame" x="0.0" y="0.0" width="4" height="564"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Hit the green wall for 250 points each time you hit it" lineBreakMode="wordWrap" numberOfLines="3" minimumFontSize="10" adjustsFontSizeToFit="NO" id="RMs-oU-mF4">
+                                <rect key="frame" x="83" y="237" width="154" height="74"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" id="qVT-k6-0HZ">
-                                <rect key="frame" x="120" y="178" width="80" height="80"/>
+                                <rect key="frame" x="120" y="149" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -583,66 +649,17 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Hit the green wall for 250 points each time you hit it" lineBreakMode="wordWrap" numberOfLines="3" minimumFontSize="10" adjustsFontSizeToFit="NO" id="RMs-oU-mF4">
-                                <rect key="frame" x="83" y="266" width="154" height="74"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Don't hit the red wall, or you will lose the game!" lineBreakMode="wordWrap" numberOfLines="3" minimumFontSize="10" adjustsFontSizeToFit="NO" id="sW7-GR-dWZ">
-                                <rect key="frame" x="74" y="379" width="173" height="74"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" id="HyV-49-90C">
-                                <rect key="frame" x="0.0" y="0.0" width="4" height="564"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="rUT-KS-Qsd">
-                                <rect key="frame" x="316" y="0.0" width="4" height="564"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="7BO-RE-qah">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="4"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view alpha="0.5" contentMode="scaleToFill" id="azX-6U-w71">
-                                <rect key="frame" x="4" y="4" width="15" height="564"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view alpha="0.5" contentMode="scaleToFill" id="7gL-em-fHS">
-                                <rect key="frame" x="301" y="4" width="15" height="564"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view alpha="0.5" contentMode="scaleToFill" id="TIa-3c-oUj">
-                                <rect key="frame" x="19" y="4" width="282" height="15"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view alpha="0.5" contentMode="scaleToFill" id="oKT-0c-ROr">
-                                <rect key="frame" x="19" y="549" width="282" height="15"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <view contentMode="scaleToFill" id="rYL-Mq-DrD">
-                                <rect key="frame" x="0.0" y="564" width="320" height="4"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <gestureRecognizers/>
                     </view>
                     <navigationItem key="navigationItem" id="oZ2-gT-YoW"/>
                     <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="ballView2" destination="ITa-8y-cRW" id="10b-SZ-TYz"/>
+                        <outlet property="paddleView2" destination="qVT-k6-0HZ" id="RWi-zg-qEx"/>
+                        <outlet property="topOfScreen" destination="7BO-RE-qah" id="wxh-Q9-whK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gmV-6R-Wtc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -653,16 +670,16 @@
             <objects>
                 <viewController storyboardIdentifier="tutorial5" id="4Ft-by-jGS" userLabel="How To Play Scene 6" customClass="TutorialViewController" sceneMemberID="viewController">
                     <view key="view" tag="5" contentMode="scaleToFill" id="q6E-U8-ebG" userLabel="View 6">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view alpha="0.5" contentMode="scaleToFill" id="qcN-9G-DF6">
-                                <rect key="frame" x="4" y="4" width="15" height="564"/>
+                                <rect key="frame" x="4" y="4" width="15" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="Tal-2V-Zxr">
-                                <rect key="frame" x="0.0" y="0.0" width="4" height="564"/>
+                                <rect key="frame" x="0.0" y="0.0" width="4" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -672,17 +689,17 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="Mt6-bd-LHR">
-                                <rect key="frame" x="316" y="0.0" width="4" height="564"/>
+                                <rect key="frame" x="316" y="0.0" width="4" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="NFr-2e-30d">
-                                <rect key="frame" x="0.0" y="564" width="320" height="4"/>
+                                <rect key="frame" x="0.0" y="476" width="320" height="4"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="7vF-NQ-HrP">
-                                <rect key="frame" x="301" y="4" width="15" height="559"/>
+                                <rect key="frame" x="301" y="4" width="15" height="471"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -692,7 +709,7 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="Idx-wN-B7s">
-                                <rect key="frame" x="20" y="548" width="282" height="15"/>
+                                <rect key="frame" x="20" y="460" width="282" height="15"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -747,16 +764,16 @@
             <objects>
                 <viewController storyboardIdentifier="tutorial4" id="hUo-ze-jBe" userLabel="How To Play Scene 5" customClass="TutorialViewController" sceneMemberID="viewController">
                     <view key="view" tag="4" contentMode="scaleToFill" id="cYX-0E-Tm6">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view alpha="0.5" contentMode="scaleToFill" id="N4S-mM-7SS">
-                                <rect key="frame" x="301" y="4" width="15" height="564"/>
+                                <rect key="frame" x="301" y="4" width="15" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="hKk-be-9bK">
-                                <rect key="frame" x="0.0" y="564" width="320" height="4"/>
+                                <rect key="frame" x="0.0" y="476" width="320" height="4"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -766,12 +783,12 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="oiO-U6-sff">
-                                <rect key="frame" x="316" y="0.0" width="4" height="564"/>
+                                <rect key="frame" x="316" y="0.0" width="4" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="Oee-Un-ta8">
-                                <rect key="frame" x="0.0" y="4" width="4" height="564"/>
+                                <rect key="frame" x="0.0" y="4" width="4" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -781,12 +798,12 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="htG-IK-eBH">
-                                <rect key="frame" x="4" y="4" width="15" height="564"/>
+                                <rect key="frame" x="4" y="4" width="15" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="eDl-JB-kmf">
-                                <rect key="frame" x="19" y="549" width="282" height="15"/>
+                                <rect key="frame" x="19" y="461" width="282" height="15"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -815,40 +832,40 @@
             <objects>
                 <viewController storyboardIdentifier="tutorial6" id="0n7-FU-gvP" userLabel="How To Play Scene 7" customClass="TutorialViewController" sceneMemberID="viewController">
                     <view key="view" tag="6" contentMode="scaleToFill" id="KJx-Zi-g5a" userLabel="View 7">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="You are finished, you are now ready to play." lineBreakMode="tailTruncation" numberOfLines="5" minimumFontSize="10" id="5Ac-X2-Z5S">
-                                <rect key="frame" x="46" y="82" width="229" height="58"/>
+                                <rect key="frame" x="46" y="61" width="229" height="58"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text=" Good Luck!" lineBreakMode="tailTruncation" minimumFontSize="10" id="umv-O0-IqW">
-                                <rect key="frame" x="113" y="148" width="94" height="21"/>
+                                <rect key="frame" x="113" y="127" width="94" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" id="yCk-sk-rqG">
-                                <rect key="frame" x="120" y="260" width="80" height="80"/>
+                                <rect key="frame" x="120" y="239" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="jtT-nP-xS9">
-                                <rect key="frame" x="155" y="206" width="10" height="10"/>
+                                <rect key="frame" x="155" y="185" width="10" height="10"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="hR9-nQ-lWn">
-                                <rect key="frame" x="0.0" y="0.0" width="4" height="564"/>
+                                <rect key="frame" x="0.0" y="0.0" width="4" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="4Ip-O3-SLA">
-                                <rect key="frame" x="316" y="0.0" width="4" height="564"/>
+                                <rect key="frame" x="316" y="0.0" width="4" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -858,12 +875,12 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="ro5-5T-6WK">
-                                <rect key="frame" x="4" y="4" width="15" height="564"/>
+                                <rect key="frame" x="4" y="4" width="15" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="3hz-0V-mId">
-                                <rect key="frame" x="301" y="4" width="15" height="564"/>
+                                <rect key="frame" x="301" y="4" width="15" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -873,17 +890,17 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="TAo-Mr-r5L">
-                                <rect key="frame" x="19" y="549" width="282" height="15"/>
+                                <rect key="frame" x="19" y="461" width="282" height="15"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="HsD-jp-gvi">
-                                <rect key="frame" x="0.0" y="564" width="320" height="4"/>
+                                <rect key="frame" x="0.0" y="476" width="320" height="4"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="arg-dj-YFd">
-                                <rect key="frame" x="60" y="393" width="200" height="40"/>
+                                <rect key="frame" x="60" y="359" width="200" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="MainMenuButton.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -911,52 +928,9 @@
             <objects>
                 <viewController storyboardIdentifier="tutorial3" title="How To Play Scene 4" id="Kt6-7K-JIm" customClass="TutorialViewController" sceneMemberID="viewController">
                     <view key="view" tag="3" contentMode="scaleToFill" id="dc9-T4-vQg" userLabel="View 4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="These are power-ups" lineBreakMode="tailTruncation" minimumFontSize="10" id="BMw-CK-8mW">
-                                <rect key="frame" x="79" y="78" width="162" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This speeds the ball up" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="RBc-GG-fhh">
-                                <rect key="frame" x="27" y="107" width="99" height="53"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="It has a score multiplier of 3x" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" id="Hn6-Mf-g9M">
-                                <rect key="frame" x="27" y="178" width="105" height="77"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="LightningBolt.png" id="7KP-IT-rRG">
-                                <rect key="frame" x="57" y="168" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="SlowDown.png" id="Ija-5m-TL1">
-                                <rect key="frame" x="234" y="168" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This slows the ball down" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="4Z1-rb-6Ix">
-                                <rect key="frame" x="189" y="107" width="104" height="53"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="It has a score multiplier of 2x" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" id="jGb-x0-zRU">
-                                <rect key="frame" x="189" y="178" width="104" height="77"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" id="gK3-BF-fQb">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -968,37 +942,80 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="C52-5m-AcV">
-                                <rect key="frame" x="0.0" y="4" width="4" height="564"/>
+                                <rect key="frame" x="0.0" y="4" width="4" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="xRM-DB-Xkm">
-                                <rect key="frame" x="316" y="0.0" width="4" height="564"/>
+                                <rect key="frame" x="316" y="0.0" width="4" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="QAR-mE-0uO">
-                                <rect key="frame" x="4" y="4" width="15" height="564"/>
+                                <rect key="frame" x="4" y="4" width="15" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="o1w-lS-6IH">
-                                <rect key="frame" x="301" y="4" width="15" height="564"/>
+                                <rect key="frame" x="301" y="4" width="15" height="476"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view alpha="0.5" contentMode="scaleToFill" id="9oQ-ot-l14">
-                                <rect key="frame" x="19" y="549" width="282" height="15"/>
+                                <rect key="frame" x="19" y="461" width="282" height="15"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="L9Y-rF-Lpc">
-                                <rect key="frame" x="0.0" y="564" width="320" height="4"/>
+                                <rect key="frame" x="0.0" y="476" width="320" height="4"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="These are power-ups" lineBreakMode="tailTruncation" minimumFontSize="10" id="BMw-CK-8mW">
+                                <rect key="frame" x="79" y="47" width="162" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This speeds the ball up" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="RBc-GG-fhh">
+                                <rect key="frame" x="27" y="76" width="99" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="It has a score multiplier of 3x" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" id="Hn6-Mf-g9M">
+                                <rect key="frame" x="27" y="147" width="105" height="77"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="LightningBolt.png" id="7KP-IT-rRG">
+                                <rect key="frame" x="57" y="137" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="SlowDown.png" id="Ija-5m-TL1">
+                                <rect key="frame" x="234" y="137" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This slows the ball down" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="4Z1-rb-6Ix">
+                                <rect key="frame" x="189" y="76" width="104" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="It has a score multiplier of 2x" lineBreakMode="tailTruncation" numberOfLines="3" minimumFontSize="10" id="jGb-x0-zRU">
+                                <rect key="frame" x="189" y="147" width="104" height="77"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view opaque="NO" contentMode="scaleToFill" id="7xZ-vz-iaM">
-                                <rect key="frame" x="69" y="385" width="20" height="20"/>
+                                <rect key="frame" x="69" y="354" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="8Bq-iD-qPe">
@@ -1015,26 +1032,26 @@
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This powerup splits the ball that hits it into two balls" lineBreakMode="tailTruncation" numberOfLines="4" minimumFontSize="10" id="gVP-LK-VRT">
-                                <rect key="frame" x="27" y="263" width="118" height="114"/>
+                                <rect key="frame" x="27" y="232" width="118" height="114"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This power-up changes a random wall to the red wall" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="10" id="8ks-aS-eqS">
-                                <rect key="frame" x="183" y="263" width="117" height="88"/>
+                                <rect key="frame" x="183" y="232" width="117" height="88"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" id="xLx-Kd-JMz">
-                                <rect key="frame" x="231" y="357" width="20" height="20"/>
+                                <rect key="frame" x="231" y="326" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Its score multiplier is 4x" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Qz1-Uj-fmF">
-                                <rect key="frame" x="183" y="379" width="117" height="46"/>
+                                <rect key="frame" x="183" y="348" width="117" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -1055,7 +1072,7 @@
             <objects>
                 <viewController id="Gcu-tJ-JV3" customClass="HighScoreViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f7p-qB-0Gz">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Name" lineBreakMode="tailTruncation" minimumFontSize="10" id="m8P-06-Oek">
@@ -1283,7 +1300,7 @@
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pZC-aq-RPw">
-                                <rect key="frame" x="21" y="502" width="129" height="30"/>
+                                <rect key="frame" x="21" y="414" width="129" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                                 <state key="normal" backgroundImage="MainMenuButton.png">
@@ -1294,7 +1311,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zSs-QS-YtY">
-                                <rect key="frame" x="171" y="502" width="130" height="30"/>
+                                <rect key="frame" x="171" y="414" width="130" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                                 <state key="normal" image="ResetScoresButton.png">
@@ -1349,7 +1366,7 @@
             <objects>
                 <viewController id="9wj-dN-hAr" customClass="CoreGraphicsDrawingViewController" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="VPl-xk-a4C" customClass="GLKView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Score: 0" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="MQf-7w-zP9">
@@ -1488,7 +1505,7 @@
             <objects>
                 <viewController storyboardIdentifier="GameOverScene" id="5fj-q3-F1k" customClass="GameOverViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LLU-6e-Ail">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="GameOver.png" id="Z6j-ZA-VPx">
@@ -1548,7 +1565,7 @@
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
                             <adBannerView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="8Tn-wH-Tk7">
-                                <rect key="frame" x="0.0" y="518" width="320" height="50"/>
+                                <rect key="frame" x="0.0" y="430" width="320" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </adBannerView>
                         </subviews>
@@ -1622,7 +1639,7 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="6zi-ou-SzO"/>
