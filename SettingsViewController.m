@@ -168,7 +168,7 @@
 }
 -(void)openDevelSettings
 {
-    RPBLOG(@"Swipe Detected");
+    RPBLog(@"Swipe Detected");
     develView.hidden=NO;
 }
 

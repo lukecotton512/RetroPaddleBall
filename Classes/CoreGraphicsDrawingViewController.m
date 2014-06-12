@@ -102,7 +102,7 @@ const GLubyte powerUpIndicies[] = {
     [super viewDidLoad];
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     if (self.context == nil) {
-        NSLog(@"Failed to create context");
+        RPBLog(@"Failed to create context");
     }
     mainView.context = self.context;
     [EAGLContext setCurrentContext:self.context];
@@ -308,7 +308,7 @@ const GLubyte powerUpIndicies[] = {
         }
         randomRect=CGRectMake(randomNumberx, randomNumbery, 80, 30);
     }
-	NSLog(@"randomRectangle2: x: %f y: %f j: %i count:%i", randomNumberx, randomNumbery, j, k);
+	RPBLog(@"randomRectangle2: x: %f y: %f j: %i count:%i", randomNumberx, randomNumbery, j, k);
     int i;
     for (i=0;i<[randomBrickArray count];i++) {
         if (CGRectIntersectsRect([randomBrickArray[i] rectOfView], randomRect)) {
@@ -1512,7 +1512,7 @@ const GLubyte powerUpIndicies[] = {
                 //paddleImagePointTemp.x=paddleImagePointTemp.x;
                 if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
                     //return;
-                    NSLog(@"Condition Met");
+                    RPBLog(@"Condition Met");
                 }
                 velocityLockEnabled=YES;
                 velocitySignY=NO;
@@ -1523,7 +1523,7 @@ const GLubyte powerUpIndicies[] = {
                 //paddleImagePointTemp.x=paddleImagePointTemp.x;
                 if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
                     //return;
-                    NSLog(@"Condition Met");
+                    RPBLog(@"Condition Met");
                 }
                 velocityLockEnabled=YES;
                 velocitySignY=YES;
@@ -1534,7 +1534,7 @@ const GLubyte powerUpIndicies[] = {
                 //paddleImagePointTemp.y=paddleImagePointTemp.y;
                 if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
                     //return;
-                    NSLog(@"Condition Met");
+                    RPBLog(@"Condition Met");
                 }
                 velocityLockEnabled=YES;
                 velocitySignX=YES;
@@ -1545,7 +1545,7 @@ const GLubyte powerUpIndicies[] = {
                 //paddleImagePointTemp.y=paddleImagePointTemp.y;
                 if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
                     //return;
-                    NSLog(@"Condition Met");
+                    RPBLog(@"Condition Met");
                 }
                 velocityLockEnabled=YES;
                 velocitySignX=NO;
@@ -1763,7 +1763,7 @@ SKIP2:
                 //paddleImagePointTemp.x=paddleImagePointTemp.x;
                 if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
                     //return;
-                    NSLog(@"Condition Met");
+                    RPBLog(@"Condition Met");
                 }
                 velocityLockEnabled=YES;
                 velocitySignY=NO;
@@ -1774,7 +1774,7 @@ SKIP2:
                 //paddleImagePointTemp.x=paddleImagePointTemp.x;
                 if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
                     //return;
-                    NSLog(@"Condition Met");
+                    RPBLog(@"Condition Met");
                 }
                 velocityLockEnabled=YES;
                 velocitySignY=YES;
@@ -1785,7 +1785,7 @@ SKIP2:
                 //paddleImagePointTemp.y=paddleImagePointTemp.y;
                 if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
                     //return;
-                    NSLog(@"Condition Met");
+                    RPBLog(@"Condition Met");
                 }
                 velocityLockEnabled=YES;
                 velocitySignX=YES;
@@ -1796,7 +1796,7 @@ SKIP2:
                 //paddleImagePointTemp.y=paddleImagePointTemp.y;
                 if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
                     //return;
-                    NSLog(@"Condition Met");
+                    RPBLog(@"Condition Met");
                 }
                 velocityLockEnabled=YES;
                 velocitySignX=NO;

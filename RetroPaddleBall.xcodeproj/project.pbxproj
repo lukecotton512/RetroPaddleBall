@@ -80,6 +80,7 @@
 		6C7B3C55130603440051DBE0 /* RetroPaddleBallMainDisplay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C7B3C54130603440051DBE0 /* RetroPaddleBallMainDisplay@2x.png */; };
 		6C7B4251130C77660051DBE0 /* GameOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C7B424F130C77660051DBE0 /* GameOverViewController.m */; };
 		6C7FDF8E13CF964100F37CD2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C7FDF9013CF964100F37CD2 /* Localizable.strings */; };
+		6C8165FF1947DF7A00F6DB83 /* RPBUsefulFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8165FE1947DF7A00F6DB83 /* RPBUsefulFunctions.m */; };
 		6C86CEF5161D155200C7139C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C86CEF4161D155200C7139C /* Default-568h@2x.png */; };
 		6C9480F1147DF2CC00CF2F77 /* AreYouSure.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9480EF147DF2CC00CF2F77 /* AreYouSure.png */; };
 		6C9480F2147DF2CC00CF2F77 /* AreYouSure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9480F0147DF2CC00CF2F77 /* AreYouSure@2x.png */; };
@@ -251,6 +252,7 @@
 		6C7B424E130C77660051DBE0 /* GameOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverViewController.h; sourceTree = "<group>"; };
 		6C7B424F130C77660051DBE0 /* GameOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverViewController.m; sourceTree = "<group>"; };
 		6C7FDF8F13CF964100F37CD2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6C8165FE1947DF7A00F6DB83 /* RPBUsefulFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPBUsefulFunctions.m; sourceTree = "<group>"; };
 		6C86CEF4161D155200C7139C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6C9480EF147DF2CC00CF2F77 /* AreYouSure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AreYouSure.png; sourceTree = "<group>"; };
 		6C9480F0147DF2CC00CF2F77 /* AreYouSure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AreYouSure@2x.png"; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 			isa = PBXGroup;
 			children = (
 				32CA4F630368D1EE00C91783 /* CoreGraphicsDrawing_Prefix.pch */,
+				6C8165FE1947DF7A00F6DB83 /* RPBUsefulFunctions.m */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -807,6 +810,7 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* CoreGraphicsDrawingAppDelegate.m in Sources */,
+				6C8165FF1947DF7A00F6DB83 /* RPBUsefulFunctions.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* CoreGraphicsDrawingViewController.m in Sources */,
 				6C7B3C401306015C0051DBE0 /* MainMenuViewController.m in Sources */,
 				6C7B4251130C77660051DBE0 /* GameOverViewController.m in Sources */,

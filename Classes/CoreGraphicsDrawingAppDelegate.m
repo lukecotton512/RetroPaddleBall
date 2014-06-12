@@ -79,9 +79,9 @@
     [self checkEligibility];
     NSSet *productIdentifiers;
     if (self.upgradeEligible) {
-        RPBLOG(@"Upgrade Eligible = YES");
+        RPBLog(@"Upgrade Eligible = YES");
     } else {
-        RPBLOG(@"Upgrade Eligible = NO");
+        RPBLog(@"Upgrade Eligible = NO");
     }
     productIdentifiers = [NSSet setWithObjects:@"com.lukecotton.retropaddleball.disableadsfree",@"com.lukecotton.retropaddleball.disableads", nil];
     productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
@@ -93,13 +93,13 @@
     NSString *bundleRoot = [[NSBundle mainBundle] bundlePath]; // e.g. /var/mobile/Applications/<GUID>/<AppName>.app
     NSFileManager *manager = [NSFileManager defaultManager];
     NSDictionary* attrs = [manager attributesOfItemAtPath:bundleRoot error:nil];
-    NSLog(@"Build or download Date/Time of first  version to be installed: %@", [attrs fileCreationDate]);
+    RPBLog(@"Build or download Date/Time of first  version to be installed: %@", [attrs fileCreationDate]);
     NSDate *modDate = [attrs fileModificationDate];
-    NSLog(@"Date/Time of last install (unless bundle changed by code): %@", modDate);
+    RPBLog(@"Date/Time of last install (unless bundle changed by code): %@", modDate);
     NSString *rootPath = [bundleRoot substringToIndex:[bundleRoot rangeOfString:@"/" options:NSBackwardsSearch].location]; // e.g /var/mobile/Applications/<GUID>
     attrs = [manager attributesOfItemAtPath:rootPath error:nil];
     NSDate *createDate = [attrs fileCreationDate];
-    NSLog(@"Date/Time first installed (or first reinstalled after deletion): %@", createDate);
+    RPBLog(@"Date/Time first installed (or first reinstalled after deletion): %@", createDate);
     NSTimeInterval timeCreate = [createDate timeIntervalSince1970], timeMod = [modDate timeIntervalSince1970];
     NSTimeInterval interval1 = timeCreate-61, interval2 = timeCreate+61;
     if(!(timeMod>interval1&&timeMod<interval2)) {
@@ -131,10 +131,10 @@
     for (SKProduct *indProduct in products) {
         if([indProduct.productIdentifier isEqualToString:@"com.lukecotton.retropaddleball.disableadsfree"]) {
             removeAdsFreeProduct = products[i];
-            NSLog(@"%@", removeAdsFreeProduct.productIdentifier);
+            RPBLog(@"%@", removeAdsFreeProduct.productIdentifier);
         } else if ([indProduct.productIdentifier isEqualToString:@"com.lukecotton.retropaddleball.disableads"]){
             removeAdsProduct = products[i];
-            NSLog(@"%@", removeAdsProduct.productIdentifier);
+            RPBLog(@"%@", removeAdsProduct.productIdentifier);
         }
         i++;
     }
@@ -160,7 +160,7 @@
                 [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
             }
             case SKPaymentTransactionStateFailed: {
-                NSLog(@"Payment Transaction Failed!");
+                RPBLog(@"Payment Transaction Failed!");
                 [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
                 break;
             }
@@ -194,11 +194,11 @@
         [self.highScoreDoc openWithCompletionHandler:^(BOOL success){
             if (success) {
                 self.highScores=self.highScoreDoc.arrayContents;
-                RPBLOG(@"iCloud Access To Document");
+                RPBLog(@"iCloud Access To Document");
                 [self saveHighScores];
                 isDone=YES;
             } else {
-                RPBLOG(@"Failed!");
+                RPBLog(@"Failed!");
                 isDone=YES;
             }
          }];
@@ -226,7 +226,7 @@
         [self.highScoreDoc saveToURL:[self.highScoreDoc fileURL] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
             if (success) {
                 [self.highScoreDoc openWithCompletionHandler:^(BOOL success) {
-                RPBLOG(@"iCloud Access To Document");
+                RPBLog(@"iCloud Access To Document");
                 self.highScores=self.highScoreDoc.arrayContents;
                 }];
             }
@@ -304,7 +304,7 @@
     {
         return;
     }
-    //RPBLOG(@"Accelerometer Event Called!");
+    //RPBLog(@"Accelerometer Event Called!");
     float velocityX = xx;
     float velocityY = -yy;
     CGRect tempRect;
@@ -394,7 +394,7 @@
 }
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    //RPBLOG(@"Showing Message");
+    //RPBLog(@"Showing Message");
     if([alertView.title isEqualToString:@"For Paid Users"]) {
         return;
     }

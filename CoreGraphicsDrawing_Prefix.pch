@@ -7,8 +7,4 @@
     #import <UIKit/UIKit.h>
     #import <objc/message.h>
 #endif
-#ifdef DEBUG
-#define RPBLOG(x) NSLog(x)
-#else
-#define RPBLOG(x) NULL
-#endif
+void RPBLog(NSString *format, ...);
