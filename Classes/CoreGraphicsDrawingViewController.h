@@ -144,7 +144,6 @@
     NSData *audioFile3;
     NSData *audioFile4;
 }
--(void)ballEmergencyRescue:(NSArray *)ballAndSideToFix;
 -(void)lockPaddle;
 -(void)unlockPaddle;
 -(IBAction)pauseGame:(id)sender;

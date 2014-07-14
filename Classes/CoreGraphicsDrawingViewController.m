@@ -1009,82 +1009,12 @@ const GLubyte powerUpIndicies[] = {
                 {
                     CGRect intersectRectSideRect1 = CGRectIntersection(tempRect, upperLeftRect);
                     CGRect intersectRectSideRect2 = CGRectIntersection(tempRect, upperRightRect);
-                    CGRect intersectRectSideRect3 = CGRectIntersection(tempRect, lowerLeftRect);
-                    CGRect intersectRectSideRect4 = CGRectIntersection(tempRect, lowerRightRect);
                     ballHitCounter = ballHitCounter+1;
-                    if (((CGRectIntersectsRect(leftTopRect, tempRect))||((intersectRectSideRect1.size.height<intersectRectSideRect1.size.width)&&(!CGRectIsNull(intersectRectSideRect1)))))
-                    {
-                        if (bounce<FLT_MIN) {
-                            goto END;
-                        }
-                        //xbounce=-ABS(xbounce);
-                    }
-                    else if(((CGRectIntersectsRect(rightTopRect, tempRect))||((intersectRectSideRect2.size.height<intersectRectSideRect2.size.width)&&(!CGRectIsNull(intersectRectSideRect2)))))
-                    {
-                        if (bounce<FLT_MIN) {
-                            goto END;
-                        }
-                        //xbounce = ABS(xbounce);
-                    }
-                    /*if (CGRectIntersectsRect(lowerLeftRect, tempRect)&&CGRectIntersectsRect(upperLeftRect, tempRect)) {
-                        goto SKIP;
-                    }*/
-                   else if (((CGRectIntersectsRect(upperLeftRect, tempRect))||((intersectRectSideRect1.size.height>intersectRectSideRect1.size.width)&&(!CGRectIsNull(intersectRectSideRect1)))))
-                    {
-                        if (xbounce<=-FLT_MIN) {
-                            goto END;
-                        }
-                        //xbounce=-ABS(xbounce);
-                    }
-                    else if (((CGRectIntersectsRect(upperRightRect, tempRect)&&ballHitCounter>=1)||((intersectRectSideRect2.size.height>intersectRectSideRect2.size.width)&&(!CGRectIsNull(intersectRectSideRect2)))))
-                    {
-                        if (xbounce>=FLT_MIN) {
-                            goto END;
-                        }
-                        //xbounce=-ABS(xbounce);
-                    }
-                    else if (((CGRectIntersectsRect(lowerLeftRect, tempRect)&&ballHitCounter>=1)||((intersectRectSideRect3.size.height>intersectRectSideRect3.size.width)&&(!CGRectIsNull(intersectRectSideRect3)))))
-                    {
-                        if (xbounce<=-FLT_MIN) {
-                            goto END;
-                        }
-                        //xbounce=-ABS(xbounce);
-                    }
-                    else if (((CGRectIntersectsRect(lowerRightRect, tempRect)&&ballHitCounter>=1)||((intersectRectSideRect4.size.height>intersectRectSideRect4.size.width)&&(!CGRectIsNull(intersectRectSideRect4)))))
-                    {
-                        if (xbounce>=FLT_MIN) {
-                            goto END;
-                        }
-                        //xbounce=-ABS(xbounce);
-                    }
-                    else if (((CGRectIntersectsRect(leftBottomRect, tempRect)&&ballHitCounter>=1)||((intersectRectSideRect3.size.height<intersectRectSideRect3.size.width)&&(!CGRectIsNull(intersectRectSideRect3)))))
-                    {
-                        if (bounce>=-FLT_MIN) {
-                            goto END;
-                        }
-                        //xbounce=-ABS(xbounce);
-                    }
-                    else if(((CGRectIntersectsRect(rightBottomRect, tempRect)&&ballHitCounter>=1)||((intersectRectSideRect4.size.height<intersectRectSideRect4.size.width)&&(!CGRectIsNull(intersectRectSideRect4)))))
-                    {
-                        if (bounce>=-FLT_MIN) {
-                            goto END;
-                        }
-                        //xbounce = ABS(xbounce);
-                    }
-                SKIP:
-                    //xbounce=ballPointer.xBounce;
-                    //bounce=ballPointer.bounce;
                     [NSThread detachNewThreadSelector:@selector(playSound) toTarget:self withObject:nil];
                     isPlaying = YES;
-                    float whereBallHit = ((tempRect2.origin.x+(tempRect2.size.width/2))-(intersectRect.origin.x+(intersectRect.size.width/2)));
-                    float whereBallHit2 = ((tempRect2.origin.y+(tempRect2.size.height/2))-(intersectRect.origin.y+(intersectRect.size.height/2)));
+                    float whereBallHit = ((intersectRect.origin.x+(intersectRect.size.width/2))-(tempRect2.origin.x+(tempRect2.size.width/2)));
+                    float whereBallHit2 = ((intersectRect.origin.y+(intersectRect.size.height/2))-(tempRect2.origin.y+(tempRect2.size.height/2)));
                     potentialScore += (20*scoreMultiplier);
-                    if (whereBallHit==0.0f) {
-                        whereBallHit=.2f;
-                    }
-                    if (whereBallHit2==0.0f) {
-                        whereBallHit2=0.2f;
-                    }
                     whereBallHit = whereBallHit + .2;
                     whereBallHit2 = whereBallHit2 + .2;
                     ballHitCounterScore = ballHitCounterScore + 1;
@@ -1123,119 +1053,71 @@ const GLubyte powerUpIndicies[] = {
                         xbounce = sinf(bounceAngle);
                         bounce = cosf(bounceAngle);
                     }
-                    if(bounce>0)
+                    if (CGRectIntersectsRect(leftTopRect, tempRect)&&(intersectRect.size.height<intersectRect.size.width))
                     {
-                        bounce=-bounce;
-                    }
-                    if (CGRectIntersectsRect(leftTopRect, tempRect)||((intersectRectSideRect1.size.height<intersectRectSideRect1.size.width)&&!CGRectIsNull(intersectRectSideRect2)))
-                    {
+                        bounce=-ABS(bounce);
                         xbounce=-ABS(xbounce);
                     }
-                    else if(CGRectIntersectsRect(rightTopRect, tempRect)||((intersectRectSideRect2.size.height<intersectRectSideRect2.size.width)&&!CGRectIsNull(intersectRectSideRect2)))
+                    else if(CGRectIntersectsRect(rightTopRect, tempRect)&&(intersectRect.size.height<intersectRect.size.width))
                     {
-                        xbounce = ABS(xbounce);
-                    }
-                    else if(CGRectIntersectsRect(tempRect, upperLeftRect)||((intersectRectSideRect1.size.height>intersectRectSideRect1.size.width)&&!CGRectIsNull(intersectRectSideRect1)))
-                    {
-                        if (CGRectIntersectsRect(leftTopRect, tempRect))
-                        {
-                            xbounce=-xbounce;
-                        }
-                        xbounce=-xbounce;
-                    }
-                    else if (CGRectIntersectsRect(tempRect, lowerLeftRect))
-                    {
-                        xbounce=-xbounce;
-                        bounce=-bounce;
-                    }
-                    else if (CGRectIntersectsRect(tempRect, upperRightRect)||((intersectRectSideRect2.size.height>intersectRectSideRect2.size.width)&&!CGRectIsNull(intersectRectSideRect2)))
-                    {
-                    }
-                    else if (CGRectIntersectsRect(tempRect, lowerRightRect))
-                    {
-                        bounce=-bounce;
-                    }
-                    else if (CGRectIntersectsRect(tempRect, leftBottomRect))
-                    {
-                        bounce=-bounce;
-                        xbounce=-ABS(xbounce);
-                        CGRect temptemptempRect = tempRect;
-                        temptemptempRect.origin.y=tempRect.origin.y+bounce;
-                        temptemptempRect.origin.x=tempRect.origin.x+xbounce;
-                        if (CGRectIntersectsRect(tempRect2, temptemptempRect)) {
-                            bounce=-bounce;
-                            tempRect.origin.y=tempRect.origin.y+bounce;
-                        }
-                    }
-                    else if (CGRectIntersectsRect(tempRect, rightBottomRect))
-                    {
-                        bounce=-bounce;
+                        bounce=-ABS(bounce);
                         xbounce=ABS(xbounce);
-                        CGRect temptemptempRect = tempRect;
-                        temptemptempRect.origin.y=tempRect.origin.y+bounce;
-                        temptemptempRect.origin.x=tempRect.origin.x+xbounce;
-                        if (CGRectIntersectsRect(tempRect2, temptemptempRect)) {
-                            bounce=-bounce;
-                            tempRect.origin.y=tempRect.origin.y+bounce;
-                        }
-                    } 
-                    if((CGRectIntersectsRect(rightBottomRect, tempRect)&&CGRectIntersectsRect(lowerRightRect, tempRect))||(CGRectIntersectsRect(leftBottomRect, tempRect)&&CGRectIntersectsRect(lowerLeftRect, tempRect)))
+                    }
+                    else if(CGRectIntersectsRect(tempRect, upperLeftRect)&&(intersectRect.size.height>intersectRect.size.width))
                     {
-                        bounce=-bounce;
+                        bounce=-ABS(bounce);
+                        xbounce=-ABS(xbounce);
                     }
-                    /*xbounce=xbounce*2;
-                    bounce=bounce*2;*/
-                    //[xBounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:xbounce]];
-                    //[bounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:bounce]];
-                    if (CGRectIntersectsRect(tempRect2, tempRect) && CGRectIntersectsRect(tempRect, topOfScreen)) {
-                        xbounce=-2.0f;
-                        bounce=.1f;
-                        //[xBounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:xbounce]];
-                        //[bounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:bounce]];
-                    } else if (CGRectIntersectsRect(tempRect2, tempRect) && CGRectIntersectsRect(tempRect, leftOfScreen)) {
-                        bounce=-2.0f;
-                        xbounce=-.1f;
-                        //[xBounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:xbounce]];
-                        //[bounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:bounce]];
-                    } else if (CGRectIntersectsRect(tempRect2, tempRect) && CGRectIntersectsRect(tempRect, rightOfScreen)) {
-                        bounce=-2.0f;
-                        xbounce=.1f;
-                        //[xBounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:xbounce]];
-                        //[bounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:bounce]];
+                    else if(CGRectIntersectsRect(tempRect, upperRightRect)&&(intersectRect.size.height>intersectRect.size.width))
+                    {
+                        bounce=-ABS(bounce);
+                        xbounce=ABS(xbounce);
                     }
-                    CGRect temptemptempRect = tempRect;
-                    temptemptempRect.origin.y=tempRect.origin.y+bounce;
-                    temptemptempRect.origin.x=tempRect.origin.x+xbounce;
+                    else if (CGRectIntersectsRect(tempRect, leftBottomRect)&&(intersectRect.size.height<intersectRect.size.width))
+                    {
+                        bounce=ABS(bounce);
+                        xbounce=-ABS(xbounce);
+                    }
+                    else if (CGRectIntersectsRect(tempRect, rightBottomRect)&&(intersectRect.size.height<intersectRect.size.width))
+                    {
+                        bounce=ABS(bounce);
+                        xbounce=ABS(xbounce);
+                    }
+                    else if (CGRectIntersectsRect(tempRect, lowerLeftRect)&&(intersectRect.size.height>intersectRect.size.width))
+                    {
+                        bounce=ABS(bounce);
+                        xbounce=-ABS(xbounce);
+                    }
+                    else if (CGRectIntersectsRect(tempRect, lowerRightRect)&&(intersectRect.size.height>intersectRect.size.width))
+                    {
+                        bounce=ABS(bounce);
+                        xbounce=ABS(xbounce);
+                    }
                     bounce *=ballPointer.speedMultiplier;
                     xbounce *=ballPointer.speedMultiplier;
+                    /*CGRect temptemptempRect = tempRect;
+                    temptemptempRect.origin.y=tempRect.origin.y+bounce;
+                    temptemptempRect.origin.x=tempRect.origin.x+xbounce;
                     if (CGRectIntersectsRect(tempRect2, temptemptempRect)&&(intersectRect.origin.y-tempRect2.origin.y)>=56) {
                         bounce=-bounce;
-                        //[xBounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:xbounce]];
-                        //[bounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:bounce]];
-                    }
+                    }*/
                 }
             } 
             else if (!CGRectIntersectsRect(tempRect2, tempRect)){
                 ballHitCounter=0;
             }
         END:
-        //speedMultiplier=(1+speedBounce);
         if((!(CGRectIntersectsRect(noScoreZone, tempRect2) && CGRectIntersectsRect(noScoreZone, tempRect))&&!(CGRectIntersectsRect(noScoreZone2, tempRect2) && CGRectIntersectsRect(noScoreZone2, tempRect))&&!(CGRectIntersectsRect(noScoreZone3, tempRect2) && CGRectIntersectsRect(noScoreZone3, tempRect))&&!(CGRectIntersectsRect(noScoreZone4, tempRect2) && CGRectIntersectsRect(noScoreZone4, tempRect))))
         {
             score += potentialScore;
         
         }
-        /*if (![ballViewArray containsObject:ballPointer]) {
-            return;
-        }*/
-        //ballPointer.speedMultiplier=speedMultiplier;
         ballPointer.xBounce=xbounce;
         ballPointer.bounce=bounce;
         ballPointer.ballHitCounter=ballHitCounter;
         ballPointer.ballHitCounterTop=ballHitCounterTop;
         ballPointer.ballHitCounterLeft=ballHitCounterLeft;
         ballPointer.ballHitCounterRight=ballHitCounterRight;
-            //ballRect=[[ballViewArray objectAtIndex:i] frame];
         ballViewArray[i] = ballPointer;
         [self unlockPaddle];
         tempRect.origin.y=tempRect.origin.y+ballPointer.bounce;
@@ -1244,8 +1126,6 @@ const GLubyte powerUpIndicies[] = {
         if (!(CGRectIntersectsRect(tempRect3, tempRect)||CGRectIntersectsRect(tempRect, topOfScreen)||CGRectIntersectsRect(tempRect, leftOfScreen)||CGRectIntersectsRect(tempRect, rightOfScreen))) {
             ballHitCounterScore=0;
         }
-        
-        //[NSThread detachNewThreadSelector:@selector(calculateBallPosition) toTarget:self withObject:nil];
         scoreField.text=[NSString localizedStringWithFormat:NSLocalizedString(@"SCORE:", nil), score];
         ballViewArray[i] = ballPointer;
     }
@@ -1333,27 +1213,6 @@ const GLubyte powerUpIndicies[] = {
 }
 -(IBAction)createNewGame:(UIStoryboardSegue *)sender {
     
-}
--(void)ballEmergencyRescue:(NSArray *)ballAndSideToFix
-{
-    int ballSide=[ballAndSideToFix[1] intValue];
-    RPBBall *ballPointer = ballAndSideToFix[0];
-    if (ballSide==1) {
-        ballPointer.ballRect=CGRectMake(ballPointer.ballRect.origin.x+30, ballPointer.ballRect.origin.y, 10, 10);
-        if (ballPointer.xBounce<0) {
-            ballPointer.xBounce=-(ballPointer.oldxBounce);
-        }
-    } else if (ballSide==2) {
-        ballPointer.ballRect=CGRectMake(ballPointer.ballRect.origin.x, ballPointer.ballRect.origin.y+30, 10, 10);
-        if (ballPointer.bounce<0) {
-            ballPointer.bounce=-(ballPointer.oldbounce);
-        }
-    } else if (ballSide==3) {
-        ballPointer.ballRect=CGRectMake(ballPointer.ballRect.origin.x-30, ballPointer.ballRect.origin.y, 10, 10);
-        if (ballPointer.xBounce>0) {
-            ballPointer.xBounce=-(ballPointer.oldxBounce);
-        }
-    }
 }
 -(void)playSound
 {
@@ -1641,8 +1500,8 @@ SKIP2:
     
     leftTopRect = CGRectMake(tempRect.origin.x, tempRect.origin.y-4, (paddleSize/2), 4);
     rightTopRect = CGRectMake(tempRect.origin.x+(paddleSize/2), tempRect.origin.y-4, (paddleSize/2), 4);
-    leftBottomRect = CGRectMake(leftTopRect.origin.x, leftTopRect.origin.y+(paddleSize/2), (paddleSize/2), 4);
-    rightBottomRect = CGRectMake(rightTopRect.origin.x, rightTopRect.origin.y+paddleSize, (paddleSize/2), 4);
+    leftBottomRect = CGRectMake(tempRect.origin.x, tempRect.origin.y+paddleSize+4, (paddleSize/2), 4);
+    rightBottomRect = CGRectMake(tempRect.origin.x+(paddleSize/2), tempRect.origin.y+paddleSize+4, (paddleSize/2), 4);
     upperLeftRect = CGRectMake(tempRect.origin.x-4, tempRect.origin.y, 4, (paddleSize/2));
     lowerLeftRect = CGRectMake(tempRect.origin.x-4, tempRect.origin.y+(paddleSize/2), 4, (paddleSize/2));
     upperRightRect = CGRectMake(tempRect.origin.x+paddleSize, tempRect.origin.y, 4, (paddleSize/2));
