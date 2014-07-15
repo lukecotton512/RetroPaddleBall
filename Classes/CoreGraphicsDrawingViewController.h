@@ -163,13 +163,10 @@
 -(CGRect)randomRectangle2:(int)j count:(int)k;
 -(void)lostGame;
 -(void)newGame;
--(void)playSound;
+-(void)playSound:(NSData *)soundData;
 -(IBAction)yesClicked:(id)sender;
 -(IBAction)noClicked:(id)sender;
 -(void)theEnd;
--(void)playSound2;
--(void)playSound3;
--(void)playSound4;
 -(IBAction)createNewGame:(UIStoryboardSegue *)sender;
 -(void)setupGL;
 @property (nonatomic, strong) NSTimer *ballTimer;

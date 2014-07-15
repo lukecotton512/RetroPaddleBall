@@ -732,7 +732,7 @@ const GLubyte powerUpIndicies[] = {
             speedMultiplier=(1+speedBounce);
             self.powerUpStartedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpEndPowerUp:) userInfo:nil repeats:YES];
             [powerUpStartedTimer fire];
-            [NSThread detachNewThreadSelector:@selector(playSound2) toTarget:self withObject:nil];
+            [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile2];
             return;
         }
         if ((CGRectIntersectsRect(powerUpRect2, tempRect) && powerUpEnabled ==1 && whichPowerUp ==2) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==2)){
@@ -756,7 +756,7 @@ const GLubyte powerUpIndicies[] = {
             speedMultiplier=(1+speedBounce);
             self.powerUpStartedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpEndPowerUp:) userInfo:nil repeats:YES];
             [powerUpStartedTimer fire];
-            [NSThread detachNewThreadSelector:@selector(playSound3) toTarget:self withObject:nil];
+            [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile3];
             return;
         }
         if ((CGRectIntersectsRect(powerUpRect3, tempRect) && powerUpEnabled ==1 && whichPowerUp == 3)||(brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==3)){
@@ -786,7 +786,7 @@ const GLubyte powerUpIndicies[] = {
             [ballViewArray addObject:newBall];
             //[mainView addSubview:newBall.ballView];
             //[mainView sendSubviewToBack:newBall.ballView];
-            [NSThread detachNewThreadSelector:@selector(playSound4) toTarget:self withObject:nil];
+            [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile4];
         }
         if ((CGRectIntersectsRect(powerUpRect4, tempRect) && powerUpEnabled ==1 && whichPowerUp == 4)||(brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==4)){
             brickIntersectionEnablePowerUp=NO;
@@ -823,7 +823,7 @@ const GLubyte powerUpIndicies[] = {
                 } else {
                     if (ballHitCounterRight<=1)
                     {
-                        [NSThread detachNewThreadSelector:@selector(playSound) toTarget:self withObject:nil];
+                        [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
                         xbounce = -xbounce;
                         xbounce = xbounce+0.01f;
                         if (wallToEnable == 1) {
@@ -860,7 +860,7 @@ const GLubyte powerUpIndicies[] = {
                     {
                         xbounce = -xbounce;
                         xbounce = xbounce+0.01f;
-                        [NSThread detachNewThreadSelector:@selector(playSound) toTarget:self withObject:nil];
+                        [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
                         if (wallToEnable == 3) {
                             potentialScore += (250*scoreMultiplier);
                         } else {
@@ -893,7 +893,7 @@ const GLubyte powerUpIndicies[] = {
                 } else {
                     bounce = -bounce;
                     bounce = bounce +0.01f;
-                    [NSThread detachNewThreadSelector:@selector(playSound) toTarget:self withObject:nil];
+                    [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
                     if (wallToEnable == 6) {
                         potentialScore += (250*scoreMultiplier);
                     } else {
@@ -924,7 +924,7 @@ const GLubyte powerUpIndicies[] = {
                     {
                         bounce = -bounce;
                         bounce = bounce +0.01f;
-                        [NSThread detachNewThreadSelector:@selector(playSound) toTarget:self withObject:nil];
+                        [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
                         if (wallToEnable == 2) {
                             potentialScore += (250*scoreMultiplier);
                         } else {
@@ -999,7 +999,7 @@ const GLubyte powerUpIndicies[] = {
                             powerUpAbsorbedTemp=[randomRect powerUpAbsorbed];
                         }
                         potentialScore += 20;
-                        [NSThread detachNewThreadSelector:@selector(playSound) toTarget:self withObject:nil];
+                        [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
                     } else if(!CGRectIntersectsRect(tempRect, rectOfBrick)) {
                         randomBrickHitCounter=0;
                     }
@@ -1010,7 +1010,7 @@ const GLubyte powerUpIndicies[] = {
                     CGRect intersectRectSideRect1 = CGRectIntersection(tempRect, upperLeftRect);
                     CGRect intersectRectSideRect2 = CGRectIntersection(tempRect, upperRightRect);
                     ballHitCounter = ballHitCounter+1;
-                    [NSThread detachNewThreadSelector:@selector(playSound) toTarget:self withObject:nil];
+                    [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
                     isPlaying = YES;
                     float whereBallHit = ((intersectRect.origin.x+(intersectRect.size.width/2))-(tempRect2.origin.x+(tempRect2.size.width/2)));
                     float whereBallHit2 = ((intersectRect.origin.y+(intersectRect.size.height/2))-(tempRect2.origin.y+(tempRect2.size.height/2)));
@@ -1095,12 +1095,6 @@ const GLubyte powerUpIndicies[] = {
                     }
                     bounce *=ballPointer.speedMultiplier;
                     xbounce *=ballPointer.speedMultiplier;
-                    /*CGRect temptemptempRect = tempRect;
-                    temptemptempRect.origin.y=tempRect.origin.y+bounce;
-                    temptemptempRect.origin.x=tempRect.origin.x+xbounce;
-                    if (CGRectIntersectsRect(tempRect2, temptemptempRect)&&(intersectRect.origin.y-tempRect2.origin.y)>=56) {
-                        bounce=-bounce;
-                    }*/
                 }
             } 
             else if (!CGRectIntersectsRect(tempRect2, tempRect)){
@@ -1214,7 +1208,7 @@ const GLubyte powerUpIndicies[] = {
 -(IBAction)createNewGame:(UIStoryboardSegue *)sender {
     
 }
--(void)playSound
+-(void)playSound:(NSData *)soundData
 {
     @autoreleasepool {
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBSound"]== NO) {
@@ -1224,52 +1218,13 @@ const GLubyte powerUpIndicies[] = {
         {
             return;
         }
-        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:audioFile1  error:nil];
+        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:soundData  error:nil];
         audioPlayer.volume=.0625f;
         audioPlayer.delegate = self;
         [audioPlayer prepareToPlay];
         isPlaying=YES;
         playcount=playcount+1;
         [audioPlayer play];
-    }
-}
--(void)playSound2
-{
-    @autoreleasepool {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBSound"]== NO)
-            return;
-        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:audioFile2  error:nil];
-        audioPlayer.delegate = self;
-        [audioPlayer prepareToPlay];
-        [audioPlayer play];
-    //[audioPlayer autorelease];
-    //AudioServicesPlaySystemSound(soundID2);
-    }
-}
--(void)playSound3
-{
-    @autoreleasepool {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBSound"]== NO)
-            return;
-        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:audioFile3  error:nil];
-        audioPlayer.delegate = self;
-        [audioPlayer prepareToPlay];
-        [audioPlayer play];
-    //[audioPlayer autorelease];
-    //AudioServicesPlaySystemSound(soundID3);
-    }
-}
--(void)playSound4
-{
-    @autoreleasepool {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBSound"]== NO)
-            return;
-        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:audioFile4  error:nil];
-        audioPlayer.delegate = self;
-        [audioPlayer prepareToPlay];
-        [audioPlayer play];
-    //[audioPlayer autorelease];
-    //AudioServicesPlaySystemSound(soundID3);
     }
 }
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
@@ -1868,7 +1823,7 @@ SKIP4:
         didStartLoseWall=NO;
         return;
     }
-    //RPBLOG(@"wallToLose:%i", wallToLose);
+    //RPBLog(@"wallToLose:%i", wallToLose);
     wallToLose=4;
     scoreMultiplier=1.0f;
     //mainView.wallToLose=wallToLose;
@@ -1911,9 +1866,6 @@ SKIP4:
         self.loseWallChangeTimer=[NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(loseTimeChangeWall:) userInfo:nil repeats:YES];
         [loseWallChangeTimer fire];
     }
-    /*self.cheatCheckTimer = [NSTimer scheduledTimerWithTimeInterval:1.00 target:self selector:@selector(cheatCheck:) userInfo:nil repeats:YES];
-    [cheatCheckTimer retain];
-    [cheatCheckTimer fire];*/
     if (wallEnabled == YES) {
         self.wallScoreBoostTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(wallScoreBoostEnableOrDisable:) userInfo:nil repeats:YES];
     } else {
@@ -1951,16 +1903,8 @@ SKIP4:
         ballPointer.speedMultiplier=ballPointer.speedMultiplier+.75f;
         ballPointer.xBounce=ballPointer.xBounce*ballPointer.speedMultiplier;
         ballPointer.bounce=ballPointer.bounce*ballPointer.speedMultiplier;
-        //[ballViewArray replaceObjectAtIndex:i withObject:ballPointer];
     }
 	speedBounce = speedBounce + .5;
-	//RPBLOG(@"speedBounce: %lf", speedBounce);
-	/*[ballTimer invalidate];
-	[ballTimer release];
-	self.ballTimer = [NSTimer scheduledTimerWithTimeInterval:speedBounce target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
-	[ballTimer fire];
-	[ballTimer retain];*/
-	//RPBLOG(@"speedUp: Called");
 }
 -(void)powerUpEndPowerUp:(NSTimer *)theTimer
 {
@@ -1982,20 +1926,6 @@ SKIP4:
 	[theTimer invalidate];
 	//RPBLOG(@"Method Called!");
 }
-/*-(void)cheatCheck:(NSTimer *)theTimer
-{
-    
-    if (ballHitCounterScore >7) {
-        //[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] endGame];
-        doAddOnToScore = NO;
-        [cheatCheckTimer invalidate];
-        [cheatCheckTimer release];
-        self.cheatCheckTimer = [NSTimer scheduledTimerWithTimeInterval:10.00 target:self selector:@selector(cheatCheck:) userInfo:nil repeats:YES];
-    } else {
-        ballHitCounterScore = 0;
-        doAddOnToScore = YES;
-    }
-}*/
 -(void)lostGame
 {
 	[ballTimer invalidate];
@@ -2327,7 +2257,6 @@ SKIP4:
     noScoreZone2 = CGRectMake(wallSize, noscorezone+wallSize, noscorezone, screenSize.size.height-(noscorezone*2));
     noScoreZone3 = CGRectMake(wallSize, screenSize.size.height-(noscorezone+wallSize), screenSize.size.width-(wallSize*2), noscorezone);
     noScoreZone4 = CGRectMake(screenSize.size.height-(noscorezone+wallSize), noscorezone+wallSize, noscorezone, screenSize.size.height-(noscorezone*2));
-    //paddlelocation = paddleCenter;
     CGRect tempRect = CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
     leftTopRect = CGRectMake(tempRect.origin.x, tempRect.origin.y-4, paddleSize/2, 4);
     rightTopRect = CGRectMake(tempRect.origin.x+(paddleSize/2), tempRect.origin.y-4, (paddleSize/2), 4);
@@ -2349,9 +2278,6 @@ SKIP4:
     if ([highScoreValue intValue]!=0) {
         self.highScoreField.text=[NSString stringWithFormat:@"High Score: %d",[highScoreArray[0][@"RPBScore"] intValue],nil];
     }
-    
-    //[mainView addSubview:ball1.ballView];
-    //[mainView sendSubviewToBack:ball1.ballView];
     [ballViewArray addObject:ball1];
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBAccelerometerEnabled"] == YES) {
         accelerometerDelegate = [[CMMotionManager alloc] init];
@@ -2366,26 +2292,8 @@ SKIP4:
     randomBrickDidStart=YES;
     randomBrickTimer = [NSTimer scheduledTimerWithTimeInterval:21.0 target:self selector:@selector(randomBrickTimerFire:) userInfo:nil repeats:YES];
     [randomBrickTimer fire];
-    /*audioPlayer2 = [[AVAudioPlayer alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall FX Lightning" withExtension:@"m4a"]  error:nil];
-     audioPlayer3 = [[AVAudioPlayer alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall Slow Down" withExtension:@"m4a"]  error:nil];*/
-	/*bounce = 1.0f;
-     xbounce = 0.0f;
-     didStart = 1;
-     speedBounce = 0.01;
-     topOfScreen = CGRectMake(0, -1, 320, 4);
-     leftOfScreen = CGRectMake(1, 0, 4, 480);
-     rightOfScreen = CGRectMake(315, 1, 4, 480);
-     bottomOfScreen = CGRectMake(0, 479, 320, 4);
-     ballTimer = [NSTimer scheduledTimerWithTimeInterval:speedBounce target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
-     [ballTimer retain];
-     speedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(speedUp:) userInfo:nil repeats:YES];
-     [speedTimer retain];
-     [ballTimer fire];
-     [speedTimer fire];*/
     [bounceArray addObject:@1.0f];
     [xBounceArray addObject:@0.0f];
-    //powerUpImage4 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    //powerUpImage4.backgroundColor=[UIColor redColor];
     doSlowDown=NO;
     score=0;
 	didStart = 1;
@@ -2395,39 +2303,20 @@ SKIP4:
 	isPaused = 0;
 	speedBounce = 1.0;
     speedMultiplier=(1);
-	/*ballHitCounter = 0;
-    ballHitCounterTop = 0;
-    ballHitCounterRight = 0;
-    ballHitCounterLeft = 0;*/
-    //ballHitCounterScore = 0;
 	scoreMultiplier = 1.0f;
     doAddOnToScore = YES;
     wallEnabled = NO;
     justStartedWallTimer = YES;
-	/*topOfScreen = CGRectMake(0, -1, 320, 5);
-	leftOfScreen = CGRectMake(1, 0, 5, 480);
-	rightOfScreen = CGRectMake(316, 1, 5, 480);
-	bottomOfScreen = CGRectMake(0, 476, 320, 5);
-    topOfScreenBall = CGRectMake(0, 0, 320, 19);
-    leftOfScreenBall = CGRectMake(0, 0, 19, 480);
-    rightOfScreenBall = CGRectMake(301, 0, 19, 480);
-    bottomOfScreenBall = CGRectMake(0, 461, 312, 19);*/
-    //CGRect screenSize = [[UIScreen mainScreen] bounds];
     self.ballTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
-	self.speedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(speedUp:) userInfo:nil repeats:YES];
-    /*self.cheatCheckTimer = [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(cheatCheck:) userInfo:nil repeats:YES];
-    [cheatCheckTimer retain];*/
+    self.speedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(speedUp:) userInfo:nil repeats:YES];
 	self.powerUpTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpCreate:) userInfo:nil repeats:YES];
     double time = [self randomTimerTime];
     self.wallScoreBoostTimer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(wallScoreBoostEnableOrDisable:) userInfo:nil repeats:YES];
-    /*self.loseWallChangeTimer = [NSTimer scheduledTimerWithTimeInterval:60.00 target:self selector:@selector(loseTimeChangeWall:) userInfo:nil repeats:YES];
-    [loseWallChangeTimer fire];*/
     RPBBall *ballPointer = ballViewArray[0];
     ballViewArray[0] = ballPointer;
 	[ballTimer fire];
 	[speedTimer fire];
 	[powerUpTimer fire];
-    //[cheatCheckTimer fire];
     [wallScoreBoostTimer fire];
 	[mainView setNeedsDisplay];
 }
