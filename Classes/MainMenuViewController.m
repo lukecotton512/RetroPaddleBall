@@ -28,6 +28,9 @@
     [super viewDidLoad];
     if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
         [self hideAds];
+    } else {
+        bannerAd.delegate = self;
+        bannerAd.hidden = YES;
     }
 }
 
@@ -39,6 +42,9 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
+-(void)bannerViewDidLoadAd:(ADBannerView *)banner {
+    bannerAd.hidden = NO;
+}
 -(void)hideAds {
     [bannerAd removeFromSuperview];
 }

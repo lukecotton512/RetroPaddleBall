@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 
-@interface GameOverViewController : UIViewController <UIAlertViewDelegate> {
+@interface GameOverViewController : UIViewController <UIAlertViewDelegate, ADBannerViewDelegate> {
     IBOutlet ADBannerView *bannerView;
 	IBOutlet UILabel *scoreTextView;
 	IBOutlet UITextField *highScoreAlertField;
@@ -24,4 +24,5 @@
 //@property (nonatomic, assign) int i;
 @property (nonatomic, strong) NSMutableArray *highScores;
 -(void)updateScore;
+-(IBAction)playAgain:(id)sender;
 @end

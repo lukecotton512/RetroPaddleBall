@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.17" systemVersion="13D65" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="vJQ-5s-MBU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="vJQ-5s-MBU">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.11"/>
+        <deployment defaultVersion="1552" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
     </dependencies>
     <scenes>
         <!--Main Menu View Controller-->
@@ -13,12 +13,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="RetroPaddleBallMainDisplay.png" id="308-ze-vZZ">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="RetroPaddleBallTextMain~iPad.png" id="308-ze-vZZ">
+                                <rect key="frame" x="224" y="73" width="321" height="252"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jpn-wk-fl9">
-                                <rect key="frame" x="234" y="484" width="300" height="60"/>
+                                <rect key="frame" x="234" y="412" width="300" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                                 <state key="normal" image="PlayGameButton.png">
@@ -33,7 +33,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eqd-x4-B0s">
-                                <rect key="frame" x="234" y="584" width="300" height="60"/>
+                                <rect key="frame" x="234" y="512" width="300" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                                 <state key="normal" image="SettingsButton.png">
@@ -48,7 +48,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vus-fx-RsC">
-                                <rect key="frame" x="234" y="684" width="300" height="60"/>
+                                <rect key="frame" x="234" y="612" width="300" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                                 <state key="normal" image="HighScoreButton.png">
@@ -63,7 +63,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XTk-FW-FuV">
-                                <rect key="frame" x="234" y="784" width="300" height="60"/>
+                                <rect key="frame" x="234" y="712" width="300" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
                                 <state key="normal" image="HowToPlay.png">
@@ -78,8 +78,8 @@
                                 </connections>
                             </button>
                             <adBannerView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="n12-sT-C8V">
-                                <rect key="frame" x="0.0" y="974" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="960" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </adBannerView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -796,6 +796,16 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NzI-cB-ExU">
+                                <rect key="frame" x="46" y="46" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="closeTutorial.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="5zd-FX-bre" kind="unwind" unwindAction="goToBeginning:" id="9Ld-bB-1RU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <gestureRecognizers/>
@@ -803,6 +813,7 @@
                     <navigationItem key="navigationItem" id="7Or-JT-mfP"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Oj-8d-T6c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="5zd-FX-bre" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2256" y="2341"/>
         </scene>
@@ -871,6 +882,16 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sVT-mS-xwS">
+                                <rect key="frame" x="46" y="46" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="closeTutorial.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="UfP-4x-4jj" kind="unwind" unwindAction="goToBeginning:" id="hRQ-Fo-YV7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <gestureRecognizers/>
@@ -883,6 +904,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Spm-eg-Hu3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="UfP-4x-4jj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3131" y="2347"/>
         </scene>
@@ -958,6 +980,16 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WVg-0y-Kb4">
+                                <rect key="frame" x="46" y="46" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="closeTutorial.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="flE-KU-ktb" kind="unwind" unwindAction="goToBeginning:" id="4wT-4E-Lwf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <gestureRecognizers/>
@@ -970,6 +1002,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GTt-N2-hAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="flE-KU-ktb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3994" y="2347"/>
         </scene>
@@ -1107,6 +1140,16 @@
                                 <rect key="frame" x="161" y="207" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hGW-Dh-peb">
+                                <rect key="frame" x="46" y="46" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="closeTutorial.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="dAH-nE-3ej" kind="unwind" unwindAction="goToBeginning:" id="wDY-92-6Nf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <gestureRecognizers/>
@@ -1114,6 +1157,7 @@
                     <navigationItem key="navigationItem" id="zD8-Wx-JVw"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pf7-Qp-gDs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="dAH-nE-3ej" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4873" y="2347"/>
         </scene>
@@ -1172,6 +1216,16 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jDp-R7-1tO">
+                                <rect key="frame" x="46" y="46" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="closeTutorial.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="F4o-YE-uua" kind="unwind" unwindAction="goToBeginning:" id="elv-n2-Utb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <gestureRecognizers/>
@@ -1179,6 +1233,7 @@
                     <navigationItem key="navigationItem" id="VT6-xQ-W2y"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Krk-PZ-cw2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="F4o-YE-uua" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="5754" y="2347"/>
         </scene>
@@ -1266,6 +1321,16 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ecb-Mo-zhG">
+                                <rect key="frame" x="46" y="46" width="60" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="closeTutorial.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="YmA-90-RyX" kind="unwind" unwindAction="goToBeginning:" id="Qox-YI-bhw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -1273,6 +1338,7 @@
                     <navigationItem key="navigationItem" id="faN-z1-J5Y"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HSb-X4-wvh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="YmA-90-RyX" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="6672" y="2347"/>
         </scene>
@@ -1348,14 +1414,14 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oLl-7z-KKb">
-                                <rect key="frame" x="234" y="627" width="300" height="60"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="u7v-gZ-rc1">
+                                <rect key="frame" x="46" y="46" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="MainMenuButton.png">
+                                <state key="normal" image="closeTutorial.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="dbd-u9-ikg" kind="unwind" unwindAction="goToBeginning:" id="1rQ-50-tzt"/>
+                                    <segue destination="dbd-u9-ikg" kind="unwind" unwindAction="goToBeginning:" id="28q-l1-XM2"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1377,8 +1443,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="GameOver.png" id="boQ-h9-9Cd">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="GameOverTitle~iPad.png" id="boQ-h9-9Cd">
+                                <rect key="frame" x="219" y="72" width="330" height="225"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jMi-QP-Dff">
@@ -1393,7 +1459,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="91f-Ka-EYU" kind="unwind" unwindAction="createNewGame:" id="lc1-HI-3qa"/>
+                                    <action selector="playAgain:" destination="k5o-df-bAH" eventType="touchUpInside" id="FDv-iq-daJ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="w8e-wb-PDn">
@@ -1426,17 +1492,17 @@
                                     <segue destination="Pnc-YV-Lw7" kind="modal" id="mVb-o7-cE7"/>
                                 </connections>
                             </button>
+                            <adBannerView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="diE-vo-NPA">
+                                <rect key="frame" x="0.0" y="974" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </adBannerView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Score: " textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="ncM-00-h9P">
-                                <rect key="frame" x="224" y="370" width="320" height="21"/>
+                                <rect key="frame" x="224" y="305" width="320" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <adBannerView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="diE-vo-NPA">
-                                <rect key="frame" x="0.0" y="974" width="320" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </adBannerView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </view>
@@ -1472,7 +1538,7 @@
         <!--Core Graphics Drawing View Controller-->
         <scene sceneID="DmS-XP-73u">
             <objects>
-                <viewController id="f9L-jj-Q6L" customClass="CoreGraphicsDrawingViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameController" id="f9L-jj-Q6L" customClass="CoreGraphicsDrawingViewController" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="qrH-fo-NGd" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1613,7 +1679,7 @@
         <image name="BlueBallButton.png" width="80" height="80"/>
         <image name="BlueBallButtonHighlighted.png" width="80" height="80"/>
         <image name="EndGameButton.png" width="200" height="40"/>
-        <image name="GameOver.png" width="768" height="1024"/>
+        <image name="GameOverTitle~iPad.png" width="330" height="225"/>
         <image name="GreenBallButton.png" width="80" height="80"/>
         <image name="GreenBallButtonHighlighted.png" width="80" height="80"/>
         <image name="HighScoreButton.png" width="400" height="80"/>
@@ -1635,19 +1701,23 @@
         <image name="ResetScoresButton.png" width="200" height="40"/>
         <image name="RestorePurchases.png" width="500" height="80"/>
         <image name="ResumeGameButton.png" width="200" height="40"/>
-        <image name="RetroPaddleBallMainDisplay.png" width="768" height="1024"/>
+        <image name="RetroPaddleBallTextMain~iPad.png" width="321" height="252"/>
         <image name="SettingsButton.png" width="400" height="80"/>
         <image name="SlowDown.png" width="40" height="40"/>
         <image name="YellowBallButton.png" width="80" height="80"/>
         <image name="YellowBallButtonHighlighted.png" width="80" height="80"/>
         <image name="Yes.png" width="80" height="40"/>
+        <image name="closeTutorial.png" width="40" height="40"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="lightContent"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination">
+            <size key="portraitSize" width="768" height="1024"/>
+            <size key="landscapeSize" width="1024" height="768"/>
+        </simulatedScreenMetrics>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="MbJ-xy-5GS"/>
+        <segue reference="mVb-o7-cE7"/>
     </inferredMetricsTieBreakers>
 </document>

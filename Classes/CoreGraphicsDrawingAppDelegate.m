@@ -61,7 +61,7 @@
         isOniPad=NO;
     }
     // Add the view controller's view to the window and display.
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+	//[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
 	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
     [[AVAudioSession sharedInstance] setActive: YES error:nil];
@@ -145,7 +145,7 @@
         SKPaymentTransaction *paymentTransaction = transactions[i];
         switch (paymentTransaction.transactionState) {
             case SKPaymentTransactionStatePurchased: {
-                [[NSUserDefaults standardUserDefaults] setValue:paymentTransaction.transactionReceipt forKey:@"RPBUpgradedProduct"];
+                [[NSUserDefaults standardUserDefaults] setValue:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] forKey:@"RPBUpgradedProduct"];
                 self.upgradePurchased=YES;
                 [[NSUserDefaults standardUserDefaults] setBool:self.upgradePurchased forKey:@"RPBUpgradeBought"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -153,7 +153,7 @@
                 break;
             }
             case SKPaymentTransactionStateRestored: {
-                [[NSUserDefaults standardUserDefaults] setValue:paymentTransaction.originalTransaction.transactionReceipt forKey:@"RPBUpgradedProduct"];
+                [[NSUserDefaults standardUserDefaults] setValue:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] forKey:@"RPBUpgradedProduct"];
                 self.upgradePurchased=YES;
                 [[NSUserDefaults standardUserDefaults] setBool:self.upgradePurchased forKey:@"RPBUpgradeBought"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -334,6 +334,11 @@
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
+    UINavigationController *naviController = (UINavigationController *) self.window.rootViewController;
+    if ([naviController.topViewController isKindOfClass:NSClassFromString(@"CoreGraphicsDrawingViewController")]) {
+        CoreGraphicsDrawingViewController *drawingController = (CoreGraphicsDrawingViewController *) naviController.topViewController;
+        [drawingController pauseGame:self];
+    }
 }
 
 

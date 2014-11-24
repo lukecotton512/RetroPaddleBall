@@ -30,7 +30,13 @@
     self.score = [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] score];
     if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
         [bannerView removeFromSuperview];
+    } else {
+        bannerView.delegate = self;
+        bannerView.hidden = YES;
     }
+}
+-(void)bannerViewDidLoadAd:(ADBannerView *)banner {
+    banner.hidden = NO;
 }
 -(void)viewDidAppear:(BOOL)animated {
     int i;
@@ -41,7 +47,7 @@
 			//[highScoreAlertField setBackgroundColor:[UIColor whiteColor]];
             highScoreAlert.alertViewStyle=UIAlertViewStylePlainTextInput;
             highScoreAlertField=[highScoreAlert textFieldAtIndex:0];
-            highScoreAlertField.placeholder = @"Enter High Score";
+            highScoreAlertField.placeholder = @"Enter name";
 			//[highScoreAlert addSubview:highScoreAlertField];
 			[highScoreAlert show];
 			break;
@@ -99,8 +105,21 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-
-
-
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+}
+-(void)playAgain:(id)sender {
+    UIStoryboard *theStoryboard;
+    if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
+        theStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPad" bundle:nil];
+    } else {
+        theStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPhone" bundle:nil];
+    }
+    CoreGraphicsDrawingViewController *newGame = [theStoryboard instantiateViewControllerWithIdentifier:@"GameController"];
+    UINavigationController *naviControl = [self navigationController];
+    NSMutableArray *viewControllerArray = [NSMutableArray arrayWithArray:[naviControl viewControllers]];
+    [viewControllerArray removeLastObject];
+    [viewControllerArray addObject:newGame];
+    naviControl.viewControllers = viewControllerArray;
+}
 @end

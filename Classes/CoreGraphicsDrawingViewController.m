@@ -100,13 +100,18 @@ const GLubyte powerUpIndicies[] = {
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
     if (self.context == nil) {
-        RPBLog(@"Failed to create context");
+        self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        if (self.context == nil) {
+            RPBLog(@"Failed to create context");
+            return;
+        }
     }
     mainView.context = self.context;
     [EAGLContext setCurrentContext:self.context];
     self.preferredFramesPerSecond = 60;
+    self.resumeOnDidBecomeActive = NO;
 }
 -(void)setupGL {
     self.paused = NO;
@@ -345,13 +350,13 @@ const GLubyte powerUpIndicies[] = {
 -(CGRect)randomRectangle
 {
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
-        float randomNumberx = (arc4random() % 650) + 38;
-        float randomNumbery = (arc4random() % 906) + 38;
+        float randomNumberx = (arc4random() % 450) + 72;
+        float randomNumbery = (arc4random() % 606) + 72;
         //RPBLOG(@"randomRectangle: x: %f y: %f", randomNumberx, randomNumbery);
         return CGRectMake(randomNumberx, randomNumbery, 40, 40);
     } else {
-        float randomNumberx = (arc4random() % 241) + 19;
-        float randomNumbery = (arc4random() % 311) + 19;
+        float randomNumberx = (arc4random() % 241) + 38;
+        float randomNumbery = (arc4random() % 311) + 38;
         //RPBLOG(@"randomRectangle: x: %f y: %f", randomNumberx, randomNumbery);
         return CGRectMake(randomNumberx, randomNumbery, 20, 20);
     }
@@ -366,6 +371,9 @@ const GLubyte powerUpIndicies[] = {
     glClear(GL_COLOR_BUFFER_BIT);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+    if (_gameOver==YES) {
+        return;
+    }
     if (self.paddleEffect==nil || self.leftWallEffect==nil) {
         return;
     }
@@ -394,7 +402,6 @@ const GLubyte powerUpIndicies[] = {
     glDrawElements(GL_TRIANGLES, sizeof(PaddleIndicies)/sizeof(PaddleIndicies[0]), GL_UNSIGNED_BYTE, 0);
     glEnable(GL_BLEND);
     glBindBuffer(GL_ARRAY_BUFFER, _wallVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(WallVertices), WallVertices, GL_STATIC_DRAW);
     [self.leftWallEffect prepareToDraw];
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _wallIndexBuffer);
     glEnableVertexAttribArray(GLKVertexAttribPosition);
@@ -497,169 +504,9 @@ const GLubyte powerUpIndicies[] = {
     }
 }
 -(void)update {
+    [self moveBall:nil];
     GLKMatrix4 modelViewMatrixPaddle = GLKMatrix4Translate(GLKMatrix4Identity, paddleCenter.x-(paddleSize/2), ((self.view.frame.size.height-(paddleCenter.y-(paddleSize/2)))-paddleSize), 0.0f);
     self.paddleEffect.transform.modelviewMatrix = modelViewMatrixPaddle;
-    if (wallToLose == 1) {
-        for (int i=0; i<4; i++) {
-            WallVertices[i].Color[0] = 1.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=16; i<20; i++) {
-            WallVertices[i].Color[0] = 0.5f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    }
-    else if (wallToEnable == 1) {
-        for (int i=0; i<4; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 1.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=16; i<20; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.5f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else {
-        for (int i=0; i<4; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 1.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=16; i<20; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.5f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    }
-    if (wallToLose == 2) {
-        for (int i=12; i<16; i++) {
-            WallVertices[i].Color[0] = 1.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=28; i<32; i++) {
-            WallVertices[i].Color[0] = 0.5f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else if (wallToEnable == 2) {
-        for (int i=12; i<16; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 1.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=28; i<32; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.5f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else {
-        for (int i=12; i<16; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 1.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=28; i<32; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.5f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    }
-    if (wallToLose == 3) {
-        for (int i=4; i<8; i++) {
-            WallVertices[i].Color[0] = 1.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=20; i<24; i++) {
-            WallVertices[i].Color[0] = 0.5f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else if (wallToEnable == 3) {
-        for (int i=4; i<8; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 1.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=20; i<24; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.5f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else {
-        for (int i=4; i<8; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 1.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=20; i<24; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.5f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    }
-    if (wallToLose == 4||wallToLose==0) {
-        for (int i=8; i<12; i++) {
-            WallVertices[i].Color[0] = 1.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=24; i<28; i++) {
-            WallVertices[i].Color[0] = 0.5f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else if (wallToEnable == 4) {
-        for (int i=8; i<12; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 1.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=24; i<28; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.5f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else {
-        for (int i=8; i<12; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 1.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=24; i<28; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.5f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-    }
     for (RPBBall *ball in ballViewArray) {
         GLKMatrix4 modelViewMatrixBall = GLKMatrix4Translate(GLKMatrix4Identity, ball.ballRect.origin.x, (self.view.frame.size.height-ball.ballRect.origin.y)-ball.ballRect.size.height, 0.0f);
         ball.ballEffect.transform.modelviewMatrix = modelViewMatrixBall;
@@ -701,15 +548,8 @@ const GLubyte powerUpIndicies[] = {
         int ballHitCounterLeft = ballPointer.ballHitCounterLeft;
         int ballHitCounterRight = ballPointer.ballHitCounterRight;
         int ballHitCounterScore = ballPointer.ballHitCounterScore;
-        CGRect tempRect2 = CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
-        CGRect tempRect3;
-        tempRect3.origin.y=tempRect2.origin.y+5;
-        tempRect3.origin.x=tempRect2.origin.x-5;
-        tempRect3.size.width=tempRect2.size.width+tempRect.size.width;
-        tempRect3.size.height=tempRect2.size.height+tempRect.size.height;
-        CGRect temptempRect = tempRect;
-        temptempRect.origin.y = tempRect.origin.y+bounce;
         CGRect paddleRect = CGRectMake(paddleCenter.x-paddleSize/2, paddleCenter.y-paddleSize/2, paddleSize, paddleSize);
+        CGRect tempRect2 = paddleRect;
         CGRect intersectRect = CGRectIntersection(paddleRect,tempRect);
         if ((CGRectIntersectsRect(powerUpRect, tempRect) && powerUpEnabled ==1 && whichPowerUp ==1) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==1)) {
             powerUpEnabledEnabled = 1;
@@ -759,12 +599,9 @@ const GLubyte powerUpIndicies[] = {
             [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile3];
             return;
         }
-        if ((CGRectIntersectsRect(powerUpRect3, tempRect) && powerUpEnabled ==1 && whichPowerUp == 3)||(brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==3)){
-            //powerUpEnabledEnabled = 1;
-            //didStartStartPowerUp = 1;
+        if ((CGRectIntersectsRect(powerUpRect3, tempRect) && powerUpEnabled ==1 && whichPowerUp == 3)||(brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==3)) {
             brickIntersectionEnablePowerUp=NO;
             if (whichBrick!=4) {
-                //[[randomBrickArray[whichBrick] rectView] setBackgroundColor:[UIColor greenColor]];
                 [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
             }
             whichBrick=4;
@@ -773,19 +610,13 @@ const GLubyte powerUpIndicies[] = {
             RPBBall *currentBall = ballViewArray[i];
             RPBBall *newBall=[[RPBBall alloc] init];
             newBall.ballRect=CGRectMake(tempRect.origin.x-(tempRect.size.width+1), tempRect.origin.y, tempRect.size.width, tempRect.size.height);
-            //UIView *newView = [[UIView alloc] initWithFrame:CGRectMake(ballRect.origin.x-1, ballRect.origin.y, 10, 10)];
-            /*float tempNum = currentBall.xbounce;
-             tempNum = -tempNum;*/
             newBall.bounce=currentBall.bounce;
             newBall.xBounce=-(currentBall.xBounce);
             newBall.speedMultiplier=currentBall.speedMultiplier;
             newBall.ballEffect = [[GLKBaseEffect alloc] init];
             newBall.ballEffect.transform.projectionMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, 0, self.view.frame.size.height, -1024, 1024);
-            //tempNum = [[bounceArray objectAtIndex:i] floatValue];
-            //[bounceArray addObject:[NSNumber numberWithFloat:tempNum]];
+            newBall.multiplyFactor = currentBall.multiplyFactor;
             [ballViewArray addObject:newBall];
-            //[mainView addSubview:newBall.ballView];
-            //[mainView sendSubviewToBack:newBall.ballView];
             [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile4];
         }
         if ((CGRectIntersectsRect(powerUpRect4, tempRect) && powerUpEnabled ==1 && whichPowerUp == 4)||(brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==4)){
@@ -806,6 +637,7 @@ const GLubyte powerUpIndicies[] = {
             //mainView.wallToLose=wallToLose;
             [mainView setNeedsDisplay];
             scoreMultiplier=4.0f;
+            [self updateWalls];
             self.loseWallChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(loseTimeChangeWall:) userInfo:nil repeats:YES];
             didStartLoseWall=YES;
             [loseWallChangeTimer fire];
@@ -839,7 +671,6 @@ const GLubyte powerUpIndicies[] = {
                 }
                 if(ballHitCounterLeft>=5)
                 {
-                    [self performSelectorOnMainThread:@selector(ballEmergencyRescue:) withObject:@[ballPointer,@1] waitUntilDone:YES];
                     return;
                 }
             } else if (!CGRectIntersectsRect(leftOfScreen, tempRect)){
@@ -873,7 +704,6 @@ const GLubyte powerUpIndicies[] = {
                     }
                     if(ballHitCounterRight>=5)
                     {
-                        [self performSelectorOnMainThread:@selector(ballEmergencyRescue:) withObject:@[ballPointer,@3] waitUntilDone:YES];
                         return;
                     }
                 }
@@ -915,11 +745,6 @@ const GLubyte powerUpIndicies[] = {
                         return;
                     }
                 } else {
-                    if(CGRectIntersectsRect(tempRect2, tempRect))
-                    {
-                        xbounce= -2.0f;
-                        bounce = 0.1f;
-                    }
                     if (ballHitCounterTop<=1)
                     {
                         bounce = -bounce;
@@ -937,7 +762,6 @@ const GLubyte powerUpIndicies[] = {
                 }
                 if(ballHitCounterTop>=5)
                 {
-                    [self performSelectorOnMainThread:@selector(ballEmergencyRescue:) withObject:@[ballPointer,@2] waitUntilDone:YES];
                     return;
                 }
             } else if (!CGRectIntersectsRect(topOfScreen, tempRect)){
@@ -1117,7 +941,7 @@ const GLubyte powerUpIndicies[] = {
         tempRect.origin.y=tempRect.origin.y+ballPointer.bounce;
         tempRect.origin.x=tempRect.origin.x+ballPointer.xBounce;
         ballPointer.ballRect=tempRect;
-        if (!(CGRectIntersectsRect(tempRect3, tempRect)||CGRectIntersectsRect(tempRect, topOfScreen)||CGRectIntersectsRect(tempRect, leftOfScreen)||CGRectIntersectsRect(tempRect, rightOfScreen))) {
+        if (!(CGRectIntersectsRect(tempRect2, tempRect)||CGRectIntersectsRect(tempRect, topOfScreen)||CGRectIntersectsRect(tempRect, leftOfScreen)||CGRectIntersectsRect(tempRect, rightOfScreen)||CGRectIntersectsRect(tempRect, bottomOfScreen))) {
             ballHitCounterScore=0;
         }
         scoreField.text=[NSString localizedStringWithFormat:NSLocalizedString(@"SCORE:", nil), score];
@@ -1191,6 +1015,7 @@ const GLubyte powerUpIndicies[] = {
 }
 -(void)theEnd
 {
+    _gameOver = YES;
     [self lostGame];
 	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] setScore:score];
     [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] endGame];
@@ -1200,10 +1025,15 @@ const GLubyte powerUpIndicies[] = {
     } else {
         theStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPhone" bundle:nil];
     }
+    for (AVAudioPlayer *thePlayer in self.audioPlayers) {
+        thePlayer.delegate = nil;
+    }
     GameOverViewController *gameOver = [theStoryboard instantiateViewControllerWithIdentifier:@"GameOverScene"];
     UINavigationController *naviControl = [self navigationController];
-    [naviControl presentViewController:gameOver animated:YES completion:NULL];
-    
+    NSMutableArray *viewControllerArray = [NSMutableArray arrayWithArray:[naviControl viewControllers]];
+    [viewControllerArray removeLastObject];
+    [viewControllerArray addObject:gameOver];
+    naviControl.viewControllers = viewControllerArray;
 }
 -(IBAction)createNewGame:(UIStoryboardSegue *)sender {
     
@@ -1219,18 +1049,27 @@ const GLubyte powerUpIndicies[] = {
             return;
         }
         AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:soundData  error:nil];
-        audioPlayer.volume=.0625f;
+        if (audioPlayer==nil) {
+            return;
+        }
+        [self.audioPlayers addObject:audioPlayer];
+        if (soundData==self.audioFile1) {
+            audioPlayer.volume=0.0625f;
+        } else {
+            audioPlayer.volume = 1.0f;
+        }
         audioPlayer.delegate = self;
         [audioPlayer prepareToPlay];
+        [audioPlayer play];
         isPlaying=YES;
         playcount=playcount+1;
-        [audioPlayer play];
     }
 }
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     isPlaying=NO;
     playcount=playcount-1;
+    [self.audioPlayers removeObject:player];
 }
 -(void)wallScoreBoostEnableOrDisable:(NSTimer *)theTimer
 {
@@ -1243,7 +1082,6 @@ const GLubyte powerUpIndicies[] = {
         srand(time(NULL));
         wallToEnable = (rand() % 3) + 1;
         //mainView.wallEnabled = wallToEnable;
-        [mainView setNeedsDisplay];
         [wallScoreBoostTimer invalidate];
         self.wallScoreBoostTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(wallScoreBoostEnableOrDisable:) userInfo:nil repeats:YES];
         justStartedWallTimer = YES;
@@ -1252,13 +1090,178 @@ const GLubyte powerUpIndicies[] = {
     } else if (wallEnabled == YES) {
         wallToEnable = 0;
         //mainView.wallEnabled = wallToEnable;
-        [mainView setNeedsDisplay];
         [wallScoreBoostTimer invalidate];
         self.wallScoreBoostTimer = [NSTimer scheduledTimerWithTimeInterval:[self randomTimerTime] target:self selector:@selector(wallScoreBoostEnableOrDisable:) userInfo:nil repeats:YES];
         justStartedWallTimer = YES;
         [wallScoreBoostTimer fire];
         wallEnabled = NO;
     }
+    [self updateWalls];
+}
+-(void)updateWalls {
+    if (wallToLose == 1) {
+        for (int i=0; i<4; i++) {
+            WallVertices[i].Color[0] = 1.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=16; i<20; i++) {
+            WallVertices[i].Color[0] = 0.5f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    }
+    else if (wallToEnable == 1) {
+        for (int i=0; i<4; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 1.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=16; i<20; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.5f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    } else {
+        for (int i=0; i<4; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 1.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=16; i<20; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.5f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    }
+    if (wallToLose == 2) {
+        for (int i=12; i<16; i++) {
+            WallVertices[i].Color[0] = 1.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=28; i<32; i++) {
+            WallVertices[i].Color[0] = 0.5f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    } else if (wallToEnable == 2) {
+        for (int i=12; i<16; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 1.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=28; i<32; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.5f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    } else {
+        for (int i=12; i<16; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 1.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=28; i<32; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.5f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    }
+    if (wallToLose == 3) {
+        for (int i=4; i<8; i++) {
+            WallVertices[i].Color[0] = 1.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=20; i<24; i++) {
+            WallVertices[i].Color[0] = 0.5f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    } else if (wallToEnable == 3) {
+        for (int i=4; i<8; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 1.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=20; i<24; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.5f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    } else {
+        for (int i=4; i<8; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 1.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=20; i<24; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.5f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    }
+    if (wallToLose == 4||wallToLose==0) {
+        for (int i=8; i<12; i++) {
+            WallVertices[i].Color[0] = 1.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=24; i<28; i++) {
+            WallVertices[i].Color[0] = 0.5f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    } else if (wallToEnable == 4) {
+        for (int i=8; i<12; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 1.0f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=24; i<28; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.5f;
+            WallVertices[i].Color[2] = 0.0f;
+            WallVertices[i].Color[3] = 0.5f;
+        }
+    } else {
+        for (int i=8; i<12; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 1.0f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+        for (int i=24; i<28; i++) {
+            WallVertices[i].Color[0] = 0.0f;
+            WallVertices[i].Color[1] = 0.0f;
+            WallVertices[i].Color[2] = 0.5f;
+            WallVertices[i].Color[3] = 1.0f;
+        }
+    }
+    glBindBuffer(GL_ARRAY_BUFFER, _wallVertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(WallVertices), WallVertices, GL_STATIC_DRAW);
 }
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -1397,59 +1400,15 @@ const GLubyte powerUpIndicies[] = {
     }
     if (goThroughAgain==YES&&goThroughAgain2==YES) {
         skip4jump=YES;
-        //goto SKIP3;
     }
 SKIP4:
     for (i=0; i<[ballViewArray count]; i++) {
         RPBBall *ballPointer = ballViewArray[i];
-        if (CGRectIntersectsRect(tempRect, ballPointer.ballRect)) {
-            CGRect intersectRect = CGRectIntersection(tempRect, ballPointer.ballRect);
-            CGRect theBallRect = ballPointer.ballRect;
-            if (intersectRect.size.width==theBallRect.size.width&&intersectRect.size.height==theBallRect.size.height) {
-                //CGRect unionRect = CGRectUnion(tempRect, ballPointer.ballRect);
-                /*float tempY=tempRect.origin.y;
-                float tempX=tempRect.origin.x;
-                float differenceY=ballPointer.ballRect.origin.y-tempY;
-                float differenceX=ballPointer.ballRect.origin.x-tempX;*/
-                /*if (unionRect.size.width<unionRect.size.height) {
-                    float differenceY=tempRect.origin.y-unionRect.size.height;
-                    paddleImagePointTemp.y-=differenceY+1;
-                } else {
-                    float differenceX=tempRect.origin.x-unionRect.size.width;
-                    paddleImagePointTemp.x-=differenceX+1;
-                }*/
-                /*paddleImagePointTemp.x-=differenceX;
-                paddleImagePointTemp.y-=differenceY;*/
-                return;
-            }
-            if(CGRectIntersectsRect(CGRectMake(ballPointer.ballRect.origin.x, ballPointer.ballRect.origin.y+1, theBallRect.size.width, 1), tempRect)&&intersectRect.size.width==theBallRect.size.width){
-                paddleImagePointTemp.y=paddleImagePointTemp.y-intersectRect.size.height;
-                paddleImagePointTemp.x=paddleImagePointTemp.x;
-            }
-            if(CGRectIntersectsRect(CGRectMake(ballPointer.ballRect.origin.x, ballPointer.ballRect.origin.y+theBallRect.size.height, theBallRect.size.width, 1), tempRect)&&intersectRect.size.width==theBallRect.size.width){
-                paddleImagePointTemp.y=paddleImagePointTemp.y+intersectRect.size.height;
-                paddleImagePointTemp.x=paddleImagePointTemp.x;
-            }
-            if(CGRectIntersectsRect(CGRectMake(ballPointer.ballRect.origin.x, ballPointer.ballRect.origin.y, 1, theBallRect.size.height), tempRect)&&intersectRect.size.height==theBallRect.size.height){
-                paddleImagePointTemp.x=paddleImagePointTemp.x-intersectRect.size.width;
-                paddleImagePointTemp.y=paddleImagePointTemp.y;
-            }
-            if(CGRectIntersectsRect(CGRectMake(ballPointer.ballRect.origin.x, ballPointer.ballRect.origin.y, 1, theBallRect.size.height), tempRect)&&intersectRect.size.height==theBallRect.size.height){
-                paddleImagePointTemp.x=paddleImagePointTemp.x+intersectRect.size.width;
-                paddleImagePointTemp.y=paddleImagePointTemp.y;
-            }
+        CGRect intersectRect = CGRectIntersection(tempRect, ballPointer.ballRect);
+        if (!CGRectIsNull(intersectRect)) {
+            return;
         }
     }
-    /*tempRect.origin.x=location.x-40;
-    tempRect.origin.y=location.y-40;
-    tempRect.size=CGSizeMake(80, 80);*/
-SKIP2:
-    /*if (dontsetx) {
-        paddleImagePointTemp.x=paddleCenter.x;
-    }
-    if (dontsety) {
-        paddleImagePointTemp.y=paddleCenter.y;
-    }*/
     paddleCenter=paddleImagePointTemp;
     tempRect = CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
     
@@ -1792,7 +1751,12 @@ SKIP4:
     {
         return;
     }
-	[ballTimer invalidate];
+    if (sender == [CoreGraphicsDrawingAppDelegate sharedAppDelegate]) {
+        _pausedAtUI = NO;
+    } else {
+        _pausedAtUI = YES;
+    }
+	//[ballTimer invalidate];
 	[speedTimer invalidate];
 	[powerUpTimer invalidate];
     if ([loseWallChangeTimer isValid]) {
@@ -1831,6 +1795,7 @@ SKIP4:
     [theTimer invalidate];
     //[theTimer release];
     powerUpEnabledEnabled=0;
+    [self updateWalls];
 }
 -(IBAction)endGame:(id)sender
 {
@@ -1851,8 +1816,8 @@ SKIP4:
 }
 -(IBAction)resumeGame:(id)sender
 {	
-	self.ballTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
-	[ballTimer fire];
+	//self.ballTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
+	//[ballTimer fire];
 	didStart = 1;
 	didStartPowerUp = 1;
 	self.speedTimer = [NSTimer scheduledTimerWithTimeInterval:10.00 target:self selector:@selector(speedUp:) userInfo:nil repeats:YES];
@@ -1951,6 +1916,7 @@ SKIP4:
 -(void)newGame
 {
     isPlaying=NO;
+    _gameOver = NO;
     whichBrick=4;
     powerUpAbsorbed=0;
     playcount=0;
@@ -1963,6 +1929,7 @@ SKIP4:
     //mainView.wallToLose=wallToLose;
     ballViewArray = [[NSMutableArray alloc] init];
     randomBrickArray=[[NSMutableArray alloc] init];
+    self.audioPlayers = [[NSMutableArray alloc] init];
     CGRect screenSize = [[UIScreen mainScreen] bounds];
 	CGRect pauseViewRect = pauseView.frame;
 	CGRect newPauseViewRect = CGRectMake((screenSize.size.width/2)-138, (screenSize.size.height/2)-121, pauseViewRect.size.width, pauseViewRect.size.height);
@@ -1970,8 +1937,6 @@ SKIP4:
     CGRect areYouSureViewRect = areYouSureView.frame;
 	CGRect newAreYouSureViewRect = CGRectMake((screenSize.size.width/2)-121, (screenSize.size.height/2)-104, areYouSureViewRect.size.width, areYouSureViewRect.size.height);
 	areYouSureView.frame = newAreYouSureViewRect;
-    ballRect.origin.x = (screenSize.size.width/2)-5;
-	ballRect.origin.y = 20;
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         ballRect.size.width = 20;
         ballRect.size.height = 20;
@@ -2179,18 +2144,7 @@ SKIP4:
     BallVerticies[3].Color[1] = [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorBall"]/255;
     BallVerticies[3].Color[2] = [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorBall"]/255;
     BallVerticies[3].Color[3] = 1.0f;
-    for (int i=0; i<16; i++) {
-        WallVertices[i].Color[0]=0.0f;
-        WallVertices[i].Color[1]=0.0f;
-        WallVertices[i].Color[2]=1.0f;
-        WallVertices[i].Color[3]=1.0f;
-    }
-    for (int i=16; i<32; i++) {
-        WallVertices[i].Color[0]=0.0f;
-        WallVertices[i].Color[1]=0.0f;
-        WallVertices[i].Color[2]=0.5f;
-        WallVertices[i].Color[3]=1.0f;
-    }
+    [self updateWalls];
     for (int i=0; i<4; i++) {
         RandomBrickVerticies[i].Color[0] = 0.0f;
         RandomBrickVerticies[i].Color[1] = 1.0f;
@@ -2212,8 +2166,8 @@ SKIP4:
     }
     if ([UIScreen mainScreen].scale>1.0f) {
         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-            self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt@2x~iPad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture2 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SlowDown@2x~iPad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
+            self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt@2x~ipad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
+            self.powerUpTexture2 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SlowDown@2x~ipad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
             self.powerUpTexture3 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BallSplit@2x~iPad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
         } else {
             self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt@2x.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
@@ -2222,8 +2176,8 @@ SKIP4:
         }
     } else {
         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-            self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt~iPad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture2 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SlowDown~iPad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
+            self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt~ipad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
+            self.powerUpTexture2 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SlowDown~ipad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
             self.powerUpTexture3 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BallSplit~iPad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
         } else {
             self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
@@ -2236,6 +2190,8 @@ SKIP4:
     paddleImageRect.size.width = paddleSize;
     paddleImageRect.size.height = paddleSize;
     paddleCenter=CGPointMake((screenSize.size.width/2),(screenSize.size.height/2));
+    ballRect.origin.x = (screenSize.size.width/2)-5;
+    ballRect.origin.y = (paddleCenter.y-paddleSize/2)-(ballRect.size.height/2)-5;
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         wallSize = WALLSIZEIPAD;
         wallBorderSize = WALLBORDERIPAD;
@@ -2272,6 +2228,9 @@ SKIP4:
     ball1.bounce=2.0f;
     ball1.ballEffect = [[GLKBaseEffect alloc] init];
     ball1.ballEffect.transform.projectionMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, 0, self.view.frame.size.height, -1024, 1024);
+    ball1.multiplyFactor = multiplyFactor;
+    ball1.speedMultiplier *= ball1.multiplyFactor;
+    ball1.oldSpeedMultiplier *= multiplyFactor;
     NSMutableArray *highScoreArray=[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] highScores];
     NSDictionary *highScoreEntry = highScoreArray[0];
     NSNumber *highScoreValue = highScoreEntry[@"RPBScore"];
@@ -2285,10 +2244,12 @@ SKIP4:
         [accelerometerDelegate startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMAccelerometerData *accelData,NSError *error){[self accelerometerDidAccelerate:accelData.acceleration.x y:accelData.acceleration.y];}];
     }
 	srand(time(NULL));
-    audioFile1 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"BallHit" withExtension:@"m4a"]];
-    audioFile2 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall FX Lightning" withExtension:@"m4a"]];
-    audioFile3 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall Slow Down" withExtension:@"m4a"]];
-    audioFile4 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall Ball Splitter" withExtension:@"m4a"]];
+    NSError *error;
+    audioFile1 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"BallHit" withExtension:@"caf"] options:NULL error:&error];
+    RPBLog(@"%@", error);
+    audioFile2 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall FX Lightning" withExtension:@"caf"]];
+    audioFile3 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall Slow Down" withExtension:@"caf"]];
+    audioFile4 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall Ball Splitter" withExtension:@"caf"]];
     randomBrickDidStart=YES;
     randomBrickTimer = [NSTimer scheduledTimerWithTimeInterval:21.0 target:self selector:@selector(randomBrickTimerFire:) userInfo:nil repeats:YES];
     [randomBrickTimer fire];
@@ -2307,14 +2268,14 @@ SKIP4:
     doAddOnToScore = YES;
     wallEnabled = NO;
     justStartedWallTimer = YES;
-    self.ballTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
+    //self.ballTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
     self.speedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(speedUp:) userInfo:nil repeats:YES];
 	self.powerUpTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpCreate:) userInfo:nil repeats:YES];
     double time = [self randomTimerTime];
     self.wallScoreBoostTimer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(wallScoreBoostEnableOrDisable:) userInfo:nil repeats:YES];
     RPBBall *ballPointer = ballViewArray[0];
     ballViewArray[0] = ballPointer;
-	[ballTimer fire];
+	//[ballTimer fire];
 	[speedTimer fire];
 	[powerUpTimer fire];
     [wallScoreBoostTimer fire];

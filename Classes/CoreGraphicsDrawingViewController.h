@@ -40,6 +40,7 @@
     BOOL velocityLockEnabled;
     BOOL velocitySignX;
     BOOL velocitySignY;
+    BOOL _pausedAtUI;
 	int score;
     int playcount;
     BOOL dontmove;
@@ -75,6 +76,7 @@
     BOOL randomBrickDidStart;
     BOOL randomBrickIsEnabled;
     BOOL randomBrickFailed;
+    BOOL _gameOver;
     int powerUpAbsorbedTemp;
 	int didStart;
 	int didStartPowerUp;
@@ -146,6 +148,7 @@
 }
 -(void)lockPaddle;
 -(void)unlockPaddle;
+-(void)updateWalls;
 -(IBAction)pauseGame:(id)sender;
 -(IBAction)endGame:(id)sender;
 -(IBAction)resumeGame:(id)sender;
@@ -211,6 +214,7 @@
 @property (nonatomic, strong) NSData *audioFile2;
 @property (nonatomic, strong) NSData *audioFile3;
 @property (nonatomic, strong) NSData *audioFile4;
+@property (nonatomic, strong) NSMutableArray *audioPlayers;
 @property (nonatomic, assign) CGPoint paddlelocation;
 @property (nonatomic, assign) CGRect ballRect;
 @property (nonatomic, assign) int score;
@@ -273,5 +277,6 @@
 @property (nonatomic, assign) CGRect upperRightRect; 
 @property (nonatomic, assign) CGRect lowerRightRect;
 @property (nonatomic, assign) float paddleSize;
+@property (nonatomic, assign) BOOL pausedAtUI;
 @end
 
