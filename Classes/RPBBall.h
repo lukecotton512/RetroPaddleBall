@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
+
+@class RPBRectangle;
 @interface RPBBall : NSObject
 {
-    CGRect ballRect;
+    RPBRectangle *ballRect;
     float xBounce;
     float bounce;
     float oldxBounce;
@@ -23,9 +25,8 @@
     int ballHitCounterRight;
     int ballHitCounterScore;
     float multiplyFactor;
-    GLKBaseEffect *ballEffect;
 }
-@property (nonatomic, assign) CGRect ballRect;
+@property (nonatomic, strong) RPBRectangle *ballRect;
 @property (nonatomic, assign) float xBounce;
 @property (nonatomic, assign) float bounce;
 @property (nonatomic, assign) float oldxBounce;
@@ -38,9 +39,15 @@
 @property (nonatomic, assign) float speedMultiplier;
 @property (nonatomic, assign) float oldSpeedMultiplier;
 @property (nonatomic, assign) float multiplyFactor;
-@property (nonatomic, strong) GLKBaseEffect *ballEffect;
+-(CGRect)rect;
+-(void)setRect:(CGRect)aRect;
+-(UIColor *)color;
+-(void)setColor:(UIColor *)aColor;
+-(GLKMatrix4)projectMatrix;
+-(void)setProjectMatrix:(GLKMatrix4)projectMatrix;
 -(void)speedUpBall;
 -(void)slowDownBall;
 -(void)undoSpeedUp;
 -(void)undoSlowDown;
+-(void)render;
 @end

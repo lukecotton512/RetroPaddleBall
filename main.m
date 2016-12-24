@@ -32,7 +32,6 @@ int main(int argc, char *argv[]) {
         if(debugIsEnabled==NO) {
             initapp();
         }
-        srandom(time(NULL));
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([CoreGraphicsDrawingAppDelegate class]));
     }
 }

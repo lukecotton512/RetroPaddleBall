@@ -26,8 +26,10 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Get high scores and score.
     highScores = [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] highScores];
     self.score = [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] score];
+    // Hide the ad banners based on if the user purchased the In-App Purchase.
     if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
         [bannerView removeFromSuperview];
     } else {
@@ -41,7 +43,7 @@
 -(void)viewDidAppear:(BOOL)animated {
     int i;
     self.scoreTextView.text=[NSString stringWithFormat:@"Score: %i",self.score];
-	for (i=0; i<[highScores count]; i++) {
+	for (i=0; i<highScores.count; i++) {
 		if (score>[highScores[i][@"RPBScore"] intValue]) {
 			UIAlertView *highScoreAlert= [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NEWHIGHSCORE", nil) message:NSLocalizedString(@"ENTERYOURNAME", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CANCEL", nil) otherButtonTitles:NSLocalizedString(@"OK",nil),nil];
 			//[highScoreAlertField setBackgroundColor:[UIColor whiteColor]];
@@ -62,12 +64,12 @@
     {
         return;
     }
-	NSDictionary *dictionary = @{@"RPBScore": @(score), @"RPBName": [highScoreAlertField text]};
+	NSDictionary *dictionary = @{@"RPBScore": @(score), @"RPBName": highScoreAlertField.text};
 	int i;
-	for (i=0; i<[highScores count]; i++) {
+	for (i=0; i<highScores.count; i++) {
 		if (score>[highScores[i][@"RPBScore"] intValue]) {
 			[highScores insertObject:dictionary atIndex:i];
-			if ([highScores count] == 11) {
+			if (highScores.count == 11) {
 				[highScores removeLastObject];
 			}
 			break;
@@ -116,8 +118,8 @@
         theStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPhone" bundle:nil];
     }
     CoreGraphicsDrawingViewController *newGame = [theStoryboard instantiateViewControllerWithIdentifier:@"GameController"];
-    UINavigationController *naviControl = [self navigationController];
-    NSMutableArray *viewControllerArray = [NSMutableArray arrayWithArray:[naviControl viewControllers]];
+    UINavigationController *naviControl = self.navigationController;
+    NSMutableArray *viewControllerArray = [NSMutableArray arrayWithArray:naviControl.viewControllers];
     [viewControllerArray removeLastObject];
     [viewControllerArray addObject:newGame];
     naviControl.viewControllers = viewControllerArray;

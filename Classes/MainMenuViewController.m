@@ -60,7 +60,7 @@
         } else {
             storyboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPhone" bundle:nil];
         }
-        UIPageViewController *pageViewController = [segue destinationViewController];
+        UIPageViewController *pageViewController = segue.destinationViewController;
         [pageViewController setViewControllers:@[[storyboard instantiateViewControllerWithIdentifier:@"tutorial0"]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:NULL];
         [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] setCurrentTutorialController:0];
         pageViewController.dataSource = [CoreGraphicsDrawingAppDelegate sharedAppDelegate];

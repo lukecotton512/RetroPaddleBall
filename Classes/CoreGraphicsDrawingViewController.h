@@ -12,7 +12,9 @@
 #import <GLKit/GLKit.h>
 #import <CoreMotion/CoreMotion.h>
 #import "RPBBall.h"
+#import "RPBPaddle.h"
 #import "RPBRandomRect.h"
+#import "RetroPaddleBall-Swift.h"
 #define FILTERINGFACTOR 0.15
 #define RANDOMBRICKAREA CGRectMake(0,0,320,200)
 #define BRICKDEBUG 1
@@ -37,6 +39,7 @@
     RPBRandomRect *randomRect1;
     RPBRandomRect *randomRect2;
     RPBRandomRect *randomRect3;
+    RPBWall *walls;
     BOOL velocityLockEnabled;
     BOOL velocitySignX;
     BOOL velocitySignY;
@@ -160,9 +163,8 @@
 -(void)wallScoreBoostEnableOrDisable:(NSTimer *)theTimer;
 -(void)randomBrickTimerFire:(NSTimer *)theTimer;
 -(void)loseTimeChangeWall:(NSTimer *)theTimer;
-- (void)accelerometerDidAccelerate:(UIAccelerationValue)theX y:(UIAccelerationValue)theY;
--(double)randomTimerTime;
--(CGRect)randomRectangle;
+@property (NS_NONATOMIC_IOSONLY, readonly) double randomTimerTime;
+@property (NS_NONATOMIC_IOSONLY, readonly) CGRect randomRectangle;
 -(CGRect)randomRectangle2:(int)j count:(int)k;
 -(void)lostGame;
 -(void)newGame;
@@ -195,6 +197,7 @@
 @property (nonatomic, strong) RPBRandomRect *randomRect1;
 @property (nonatomic, strong) RPBRandomRect *randomRect2;
 @property (nonatomic, strong) RPBRandomRect *randomRect3;
+@property (nonatomic, strong) RPBPaddle *paddle;
 @property (nonatomic, strong) GLKBaseEffect *paddleEffect;
 @property (nonatomic, strong) GLKBaseEffect *leftWallEffect;
 @property (nonatomic, strong) GLKBaseEffect *rightWallEffect;

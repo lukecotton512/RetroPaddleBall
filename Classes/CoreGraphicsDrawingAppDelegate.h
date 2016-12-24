@@ -21,7 +21,6 @@
 	NSUserDefaults *userDefaults;
 	NSDictionary *defaults;
 	NSMutableArray *highScores;
-    NSTimer *appSupportTimer;
     NSURL *ubiq;
     NSMetadataQuery *query;
     SKProduct *removeAdsProduct;
@@ -42,9 +41,8 @@
     BOOL isOniPad;
 }
 -(void)endGame;
-+(id)sharedAppDelegate;
--(NSString *)getPathToSave;
--(void)appSupportTimerCall:(NSTimer *)theTimer;
++(CoreGraphicsDrawingAppDelegate*)sharedAppDelegate;
+@property (NS_NONATOMIC_IOSONLY, getter=getPathToSave, readonly, copy) NSString *pathToSave;
 -(void)saveHighScores;
 -(void)restorePurchases;
 -(void)checkEligibility;
@@ -53,7 +51,6 @@
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response ;
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions;
 @property (nonatomic, strong) IBOutlet UIWindow *window;
-@property (nonatomic, strong) NSTimer *appSupportTimer;
 @property (nonatomic, strong) HighScoreDocument *highScoreDoc;
 @property (nonatomic, assign) int score;
 @property (nonatomic, assign) int currentTutorialController;

@@ -16,7 +16,7 @@
 @implementation CoreGraphicsDrawingAppDelegate
 
 @synthesize window;
-@synthesize userDefaults, defaults, score, highScores, difficultyMultiplier, appSupportTimer, highScoresEnabled, soundIsOn, ubiq, icloudEnabled, query, highScoreDoc, isDone, isOniPad, databaseCreated, alreadyChecked, upgradeEligible, productsRequest,removeAdsFreeProduct, removeAdsProduct, upgradePurchased, currentTutorialController;
+@synthesize userDefaults, defaults, score, highScores, difficultyMultiplier, highScoresEnabled, soundIsOn, ubiq, icloudEnabled, query, highScoreDoc, isDone, isOniPad, databaseCreated, alreadyChecked, upgradeEligible, productsRequest,removeAdsFreeProduct, removeAdsProduct, upgradePurchased, currentTutorialController;
 
 
 #pragma mark -
@@ -27,16 +27,16 @@
     if (ubiq) {
         icloudEnabled=YES;
         query = [[NSMetadataQuery alloc] init];
-        [query setSearchScopes:@[NSMetadataQueryUbiquitousDocumentsScope]];
+        query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];
         NSPredicate *pred = [NSPredicate predicateWithFormat:@"%K == %@", NSMetadataItemFSNameKey, @"highscoredatabase.db"];
-        [query setPredicate:pred];
+        query.predicate = pred;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryDidFinishGathering:) name:NSMetadataQueryDidFinishGatheringNotification object:query];
         [query startQuery];
     } else {
         self.highScores = [NSMutableArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]];
         if(highScores==nil) {
             self.highScores = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]]]];
-            if (highScores==nil||[highScores count]==0) {
+            if (highScores==nil||highScores.count==0) {
                 highScores = [NSMutableArray array];
                 int i;
                 for (i=0; i<10; i++) {
@@ -55,7 +55,7 @@
     // Override point for customization after application launch.
     self.databaseCreated=NO;
     highScoresEnabled=NO;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         isOniPad=YES;
     } else {
         isOniPad=NO;
@@ -71,9 +71,9 @@
     self.alreadyChecked=NO;
     self.upgradePurchased = NO;
     [self.window makeKeyAndVisible];
+    // Set the default preferences if they have never been set before and register our keys with the OS.
 	userDefaults = [NSUserDefaults standardUserDefaults];
     defaults = @{@"RPBRedColorPaddle": @0.0f, @"RPBGreenColorPaddle": @255.0f, @"RPBBlueColorPaddle": @0.0f, @"RPBRedColorBall": @255.0f, @"RPBGreenColorBall": @0.0f, @"RPBBlueColorBall": @0.0f, @"RPBDifficultyMultiplier": @0.0, @"RPBAccelerometerEnabled": @NO, @"RPBSound": @YES, @"RPBAlreadyChecked": @NO, @"RPBDatabaseCreated": @NO, @"RPBUpgradeEligible": @NO, @"RPBUpgradeBought": @NO, @"RPBFreeUpgradeNotice": @NO};
-    sleep(2);
     [userDefaults registerDefaults:defaults];
     [userDefaults synchronize];
     [self checkEligibility];
@@ -89,8 +89,9 @@
     [productsRequest start];
     return YES;
 }
+// Check to see if the user is eligble for an upgrade for free.
 -(void)checkEligibility {
-    NSString *bundleRoot = [[NSBundle mainBundle] bundlePath]; // e.g. /var/mobile/Applications/<GUID>/<AppName>.app
+    NSString *bundleRoot = [NSBundle mainBundle].bundlePath; // e.g. /var/mobile/Applications/<GUID>/<AppName>.app
     NSFileManager *manager = [NSFileManager defaultManager];
     NSDictionary* attrs = [manager attributesOfItemAtPath:bundleRoot error:nil];
     RPBLog(@"Build or download Date/Time of first  version to be installed: %@", [attrs fileCreationDate]);
@@ -100,7 +101,7 @@
     attrs = [manager attributesOfItemAtPath:rootPath error:nil];
     NSDate *createDate = [attrs fileCreationDate];
     RPBLog(@"Date/Time first installed (or first reinstalled after deletion): %@", createDate);
-    NSTimeInterval timeCreate = [createDate timeIntervalSince1970], timeMod = [modDate timeIntervalSince1970];
+    NSTimeInterval timeCreate = createDate.timeIntervalSince1970, timeMod = modDate.timeIntervalSince1970;
     NSTimeInterval interval1 = timeCreate-61, interval2 = timeCreate+61;
     if(!(timeMod>interval1&&timeMod<interval2)) {
         self.databaseCreated=YES;
@@ -126,7 +127,7 @@
     }
 }
 -(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-    NSArray *products = [response products];
+    NSArray *products = response.products;
     int i=0;
     for (SKProduct *indProduct in products) {
         if([indProduct.productIdentifier isEqualToString:@"com.lukecotton.retropaddleball.disableadsfree"]) {
@@ -141,11 +142,11 @@
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
 }
 -(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions {
-    for (int i=0; i<[transactions count]; i++) {
+    for (int i=0; i<transactions.count; i++) {
         SKPaymentTransaction *paymentTransaction = transactions[i];
         switch (paymentTransaction.transactionState) {
             case SKPaymentTransactionStatePurchased: {
-                [[NSUserDefaults standardUserDefaults] setValue:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] forKey:@"RPBUpgradedProduct"];
+                [[NSUserDefaults standardUserDefaults] setValue:[NSData dataWithContentsOfURL:[NSBundle mainBundle].appStoreReceiptURL] forKey:@"RPBUpgradedProduct"];
                 self.upgradePurchased=YES;
                 [[NSUserDefaults standardUserDefaults] setBool:self.upgradePurchased forKey:@"RPBUpgradeBought"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
@@ -153,11 +154,12 @@
                 break;
             }
             case SKPaymentTransactionStateRestored: {
-                [[NSUserDefaults standardUserDefaults] setValue:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]] forKey:@"RPBUpgradedProduct"];
+                [[NSUserDefaults standardUserDefaults] setValue:[NSData dataWithContentsOfURL:[NSBundle mainBundle].appStoreReceiptURL] forKey:@"RPBUpgradedProduct"];
                 self.upgradePurchased=YES;
                 [[NSUserDefaults standardUserDefaults] setBool:self.upgradePurchased forKey:@"RPBUpgradeBought"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
+                break;
             }
             case SKPaymentTransactionStateFailed: {
                 RPBLog(@"Payment Transaction Failed!");
@@ -169,13 +171,13 @@
         }
     }
 }
-+ (id)sharedAppDelegate
++ (CoreGraphicsDrawingAppDelegate*)sharedAppDelegate
 {
-	return [[UIApplication sharedApplication] delegate];
+	return (CoreGraphicsDrawingAppDelegate *)[UIApplication sharedApplication].delegate;
 }
 -(void)queryDidFinishGathering:(NSNotification *)notification
 {
-    NSMetadataQuery *query2 = [notification object];
+    NSMetadataQuery *query2 = notification.object;
     [query2 disableUpdates];
     [query2 stopQuery];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSMetadataQueryDidFinishGatheringNotification object:query2];
@@ -186,7 +188,7 @@
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
 }
 -(void)loadData:(NSMetadataQuery *)query2 {
-    if ([query2 resultCount]==1) {
+    if (query2.resultCount==1) {
         NSMetadataItem *item = [query2 resultAtIndex:0];
         NSURL *url = [item valueForAttribute:NSMetadataItemURLKey];
         HighScoreDocument *doc = [[HighScoreDocument alloc] initWithFileURL:url];
@@ -206,7 +208,7 @@
         self.highScores = [NSMutableArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]];
         if(highScores==nil) {
             self.highScores = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]]]];
-            if (highScores==nil||[highScores count]==0) {
+            if (highScores==nil||highScores.count==0) {
                 highScores = [NSMutableArray array];
                 int i;
                 for (i=0; i<10; i++) {
@@ -223,7 +225,7 @@
         NSURL *ubiqPackage = [[[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"highscoredatabase.db"];
         self.highScoreDoc = [[HighScoreDocument alloc] initWithFileURL:ubiqPackage];
         self.highScoreDoc.arrayContents=self.highScores;
-        [self.highScoreDoc saveToURL:[self.highScoreDoc fileURL] forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
+        [self.highScoreDoc saveToURL:(self.highScoreDoc).fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
             if (success) {
                 [self.highScoreDoc openWithCompletionHandler:^(BOOL success) {
                 RPBLog(@"iCloud Access To Document");
@@ -245,7 +247,7 @@
 {
     if (icloudEnabled==YES) {
         self.highScoreDoc.arrayContents=self.highScores;
-        [self.highScoreDoc saveToURL:[self.highScoreDoc fileURL] forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
+        [self.highScoreDoc saveToURL:(self.highScoreDoc).fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
         }];
     } else {
         NSData *arrayData=[NSKeyedArchiver archivedDataWithRootObject:highScores];
@@ -287,9 +289,9 @@
 }
 -(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
     if (completed==YES&&pageViewController.viewControllers[0]!=nil) {
-        if([[(TutorialViewController *)pageViewController.viewControllers[0] view] tag]>[[(TutorialViewController *)previousViewControllers[0] view] tag]) {
+        if(((TutorialViewController *)pageViewController.viewControllers[0]).view.tag>((TutorialViewController *)previousViewControllers[0]).view.tag) {
             currentTutorialController++;
-        } else if  ([[(TutorialViewController *)pageViewController.viewControllers[0] view] tag]<[[(TutorialViewController *)previousViewControllers[0] view] tag]) {
+        } else if  (((TutorialViewController *)pageViewController.viewControllers[0]).view.tag<((TutorialViewController *)previousViewControllers[0]).view.tag) {
             currentTutorialController--;
         }
     }
@@ -298,44 +300,15 @@
 {
 	
 }
-/*- (void)acceleratedInX:(float)xx Y:(float)yy Z:(float)zz
-{
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBAccelerometerEnabled"]== NO)
-    {
-        return;
-    }
-    //RPBLog(@"Accelerometer Event Called!");
-    float velocityX = xx;
-    float velocityY = -yy;
-    CGRect tempRect;
-    tempRect.origin.x=(tempRect.origin.x+velocityX)-30;
-    tempRect.origin.y=(tempRect.origin.y+velocityY)-30;
-    tempRect.size=CGSizeMake(60, 60);
-    CGPoint paddleImagePointTemp = gameController.paddleImage.center;
-    if ((CGRectIntersectsRect(tempRect, gameController.topOfScreen) && CGRectIntersectsRect(tempRect, gameController.leftOfScreen))|| (CGRectIntersectsRect(tempRect, gameController.topOfScreen) && CGRectIntersectsRect(tempRect, gameController.rightOfScreen))) {
-        return;
-    } else if ((CGRectIntersectsRect(tempRect, gameController.bottomOfScreen) && CGRectIntersectsRect(tempRect, gameController.leftOfScreen))|| (CGRectIntersectsRect(tempRect, gameController.bottomOfScreen) && CGRectIntersectsRect(tempRect, gameController.rightOfScreen))) {
-        return;
-    } else if (CGRectIntersectsRect(tempRect, gameController.topOfScreen) || CGRectIntersectsRect(tempRect, gameController.bottomOfScreen)) {
-        paddleImagePointTemp.x += velocityX;
-    } else if (CGRectIntersectsRect(tempRect, gameController.leftOfScreen) || CGRectIntersectsRect(tempRect, gameController.rightOfScreen)){
-        paddleImagePointTemp.y += velocityY;
-    } else {
-        paddleImagePointTemp = CGPointMake(paddleImagePointTemp.x+velocityX, paddleImagePointTemp.y+velocityY);
-    }
-    if(gameController.lastTimeUpdate > 0)
-    {
-        gameController.paddleImage.center = paddleImagePointTemp;
-    }
-    //lastTimeUpdate = acceleration.timestamp;
-}*/
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     /*
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
+    // Pause the game if the view controller is our drawing view controller
     UINavigationController *naviController = (UINavigationController *) self.window.rootViewController;
-    if ([naviController.topViewController isKindOfClass:NSClassFromString(@"CoreGraphicsDrawingViewController")]) {
+    if ([naviController.topViewController isKindOfClass:[CoreGraphicsDrawingViewController class]]) {
         CoreGraphicsDrawingViewController *drawingController = (CoreGraphicsDrawingViewController *) naviController.topViewController;
         [drawingController pauseGame:self];
     }
@@ -380,40 +353,13 @@
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
      */
 }
--(void)appSupportTimerCall:(NSTimer *)theTimer
-{
-    if (highScoresEnabled == NO) {
-        highScoresEnabled = YES;
-        return;
-    }
-    [theTimer invalidate];
-    char char1=0x50, char2=0x69, char3=0x72, char4=0x61, char5=0x63, char6=0x79, char7=0x20, char8=0x44, char9=0x65, char10=0x74, char11=0x65, char12=0x63, char13=0x74, char14=0x65, char15=0x64, char16=0x21, char17=0x00;
-    char charA[17]={char1, char2, char3, char4, char5, char6, char7, char8, char9, char10, char11, char12, char13, char14, char15, char16, char17};
-    char charA2[166]={0x54, 0x68, 0x69, 0x73, 0x20, 0x41, 0x70, 0x70, 0x20, 0x68, 0x61, 0x73, 0x20, 0x62, 0x65, 0x65, 0x6e,0x20,0x64,0x65,0x74,0x65,0x63,0x74,0x65,0x64,0x20,0x74,0x6f,0x20,0x68,0x61,0x76,0x65,0x20,0x62,0x65,0x65,0x6e,0x20,0x70,0x69,0x72,0x61,0x74,0x65,0x64,0x2c,0x20,0x62,0x65,0x63,0x61,0x75,0x73,0x65,0x20,0x69,0x74,0x20,0x68,0x61,0x73,0x20,0x62,0x65,0x65,0x6e,0x2c,0x20,0x69,0x74,0x20,0x77,0x69,0x6c,0x6c,0x20,0x6e,0x6f,0x77,0x20,0x73,0x68,0x75,0x74,0x20,0x64,0x6f,0x77,0x6e,0x2e,0x20,0x49,0x66,0x20,0x79,0x6f,0x75,0x20,0x6c,0x69,0x6b,0x65,0x20,0x74,0x68,0x65,0x20,0x61,0x70,0x70,0x2c,0x20,0x70,0x6c,0x65,0x61,0x73,0x65,0x20,0x70,0x75,0x72,0x63,0x68,0x61,0x73,0x65,0x20,0x74,0x68,0x65,0x20,0x61,0x70,0x70,0x20,0x6f,0x6e,0x20,0x74,0x68,0x65,0x20,0x41,0x70,0x70,0x20,0x53,0x74,0x6f,0x72,0x65,0x2e,0x20,0x54,0x68,0x61,0x6e,0x6b,0x20,0x79,0x6f,0x75,char17};
-    char charA3[3]={0x4f, 0x4b, 0x00};
-    NSString *charS= [[NSString alloc] initWithCString:charA encoding:NSASCIIStringEncoding];
-    NSString *charS2= [[NSString alloc] initWithCString:charA2 encoding:NSASCIIStringEncoding];
-    NSString *charS3= [[NSString alloc] initWithCString:charA3 encoding:NSASCIIStringEncoding];
-    UIAlertView *appSupport= [[UIAlertView alloc] initWithTitle:charS message:charS2 delegate:self cancelButtonTitle:charS3 otherButtonTitles:nil];
-    [appSupport show];
-}
+
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    //RPBLog(@"Showing Message");
+    // Dismiss paid users dialog.
     if([alertView.title isEqualToString:@"For Paid Users"]) {
         return;
     }
-    Class class=[UIApplication class];
-    char char1 = 0x00;
-    char charA[18]={0x73,0x68,0x61,0x72,0x65,0x64,0x41,0x70,0x70,0x6c,0x69,0x63,0x61,0x74,0x69,0x6f,0x6e,char1};
-    char charA2[10]={0x74,0x65,0x72,0x6d,0x69,0x6e,0x61,0x74,0x65,char1};
-    NSString *charS=[[NSString alloc] initWithCString:charA encoding:NSASCIIStringEncoding];
-    NSString *charS2=[[NSString alloc] initWithCString:charA2 encoding:NSASCIIStringEncoding];
-    objc_msgSend(objc_msgSend(class, NSSelectorFromString(charS)), NSSelectorFromString(charS2));
-    /*NSString *charS = [[NSString alloc] initWithString:@""];
-    [charS release];
-    [charS release];
-    [charS dealloc];*/
 }
 
 

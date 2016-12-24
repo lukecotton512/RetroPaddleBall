@@ -7,13 +7,14 @@
 //
 
 #import "RPBBall.h"
+#import "RPBRectangle.h"
 
 @implementation RPBBall
-@synthesize ballRect, ballHitCounter, ballHitCounterLeft, ballHitCounterTop, ballHitCounterRight, ballHitCounterScore, oldbounce, oldxBounce, oldSpeedMultiplier, xBounce, bounce, ballEffect, multiplyFactor;
--(id)init
+@synthesize ballRect, ballHitCounter, ballHitCounterLeft, ballHitCounterTop, ballHitCounterRight, ballHitCounterScore, oldbounce, oldxBounce, oldSpeedMultiplier, xBounce, bounce, multiplyFactor;
+-(instancetype)init
 {
     if (self=[super init]) {
-        ballRect = CGRectMake(0, 0, 10, 10);
+        ballRect = [[RPBRectangle alloc] init];
         speedMultiplier=3.0f;
         oldSpeedMultiplier=2.0f;
         ballHitCounter = 0;
@@ -74,5 +75,32 @@
     speedMultiplier=oldSpeedMultiplier;
     xBounce *= speedMultiplier;
     bounce *= speedMultiplier;
+}
+-(void)render {
+    [ballRect render];
+}
+// Gets and sets various parts of our rectangle.
+// Gets and sets our rectangle size and position.
+-(CGRect)rect {
+    return ballRect.rect;
+}
+-(void)setRect:(CGRect)aRect {
+    ballRect.rect = aRect;
+}
+
+// Get and set our rectangle color.
+-(UIColor *)color {
+    return ballRect.rectColor;
+}
+-(void)setColor:(UIColor *)aColor {
+    ballRect.rectColor = aColor;
+}
+
+// Gets and sets projection matrix.
+-(GLKMatrix4)projectMatrix {
+    return ballRect.projectionMatrix;
+}
+-(void)setProjectMatrix:(GLKMatrix4)projectMatrix {
+    ballRect.projectionMatrix = projectMatrix;
 }
 @end

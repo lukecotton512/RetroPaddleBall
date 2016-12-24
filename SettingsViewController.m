@@ -344,8 +344,8 @@
         CGRect originalFrame = self.paddleColorPopUp.frame;
         float sizeOfScreen;
         sizeOfScreen = self.view.bounds.size.width;
-        CGRect buttonFrame = [(UIButton *) sender frame];
-        buttonFrame = [self.view convertRect: buttonFrame fromView: [(UIButton *) sender superview]];
+        CGRect buttonFrame = ((UIButton *) sender).frame;
+        buttonFrame = [self.view convertRect: buttonFrame fromView: ((UIButton *) sender).superview];
         CGRect newFrame = CGRectMake((sizeOfScreen/2)-(self.paddleColorPopUp.frame.size.width/2), buttonFrame.origin.y+buttonFrame.size.height, originalFrame.size.width, originalFrame.size.height);
         self.paddleColorPopUp.frame = newFrame;
         [self.view addSubview:self.paddleColorPopUp];
@@ -363,8 +363,8 @@
         CGRect originalFrame = self.ballColorPopUp.frame;
         float sizeOfScreen;
         sizeOfScreen = self.view.bounds.size.width;
-        CGRect buttonFrame = [(UIButton *) sender frame];
-        buttonFrame = [self.view convertRect: buttonFrame fromView: [(UIButton *) sender superview]];
+        CGRect buttonFrame = ((UIButton *) sender).frame;
+        buttonFrame = [self.view convertRect: buttonFrame fromView: ((UIButton *) sender).superview];
         CGRect newFrame = CGRectMake((sizeOfScreen/2)-(self.ballColorPopUp.frame.size.width/2), buttonFrame.origin.y+buttonFrame.size.height, originalFrame.size.width, originalFrame.size.height);
         self.ballColorPopUp.frame = newFrame;
         [self.view addSubview:self.ballColorPopUp];

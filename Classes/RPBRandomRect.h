@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 
+@class RPBRectangle;
 @interface RPBRandomRect : NSObject {
-    CGRect rectOfView;
+    RPBRectangle *rectOfView;
     CGRect rightRect;
     CGRect leftRect;
     CGRect topRect;
@@ -24,7 +25,6 @@
     CGRect topRectBall;
     CGRect bottomRectBall;
     int powerUpAbsorbed;
-    GLKBaseEffect *brickBaseEffect;
 }
 @property (nonatomic, assign) CGRect rectOfView;
 @property (nonatomic, readonly, assign) CGRect rightRect;
@@ -40,5 +40,9 @@
 @property (nonatomic, readonly, assign) CGRect topRectBall;
 @property (nonatomic, readonly, assign) CGRect bottomRectBall;
 @property (nonatomic, assign) int powerUpAbsorbed;
-@property (nonatomic, strong) GLKBaseEffect *brickBaseEffect;
+-(UIColor *)color;
+-(void)setColor:(UIColor *)aColor;
+-(GLKMatrix4)projectMatrix;
+-(void)setProjectMatrix:(GLKMatrix4)projectMatrix;
+-(void)render;
 @end
