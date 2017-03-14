@@ -24,7 +24,7 @@
 
 @implementation CoreGraphicsDrawingViewController
 // Synthesize various variables.
-@synthesize ballTimer, mainView, didStart, speedBounce, speedTimer, scoreField, score, oldBallRect, oldPaddleRect, pauseView, didInvalidate, isPaused, powerUpRect, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, timerToRelease, scoreMultiplier, fireTimeInterval, difficultyMultiplier, ballRect, paddlelocation, paddleLocked, cheatCheckTimer, doAddOnToScore, noScoreZone,noScoreZone2,noScoreZone3,noScoreZone4, lastTimeUpdate, velocityX, velocityY, xAccel, yAccel, xAccelCali, yAccelCali, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer, isPlaying, soundIsOn, leftTopRect, rightTopRect, leftBottomRect, rightBottomRect, upperLeftRect, lowerLeftRect, upperRightRect, lowerRightRect, areYouSureView, pauseButton, ballViewArray, audioFile1, audioFile2, audioFile3, playcount, audioFile4, speedMultiplier, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, highScoreField, didStartLoseWall, loseWallChangeTimer, dontmoveUp, dontmoveDown, randomBrickHitCounter, randomRect1, randomRect2, randomRect3, velocityLockEnabled,velocitySignX, velocitySignY, paddleSize, context, paddleEffect;
+@synthesize ballTimer, mainView, didStart, speedBounce, speedTimer, scoreField, score, oldBallRect, oldPaddleRect, pauseView, didInvalidate, isPaused, powerUpRect, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, timerToRelease, scoreMultiplier, fireTimeInterval, difficultyMultiplier, ballRect, paddlelocation, paddleLocked, cheatCheckTimer, doAddOnToScore, noScoreZone,noScoreZone2,noScoreZone3,noScoreZone4, lastTimeUpdate, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer, isPlaying, soundIsOn, leftTopRect, rightTopRect, leftBottomRect, rightBottomRect, upperLeftRect, lowerLeftRect, upperRightRect, lowerRightRect, areYouSureView, pauseButton, ballViewArray, audioFile1, audioFile2, audioFile3, playcount, audioFile4, speedMultiplier, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, highScoreField, didStartLoseWall, loseWallChangeTimer, dontmoveUp, dontmoveDown, randomBrickHitCounter, randomRect1, randomRect2, randomRect3, velocityLockEnabled, paddleSize, context, paddleEffect;
 
 
 
@@ -83,7 +83,7 @@
 // Generates random rectangle for bricks.
 -(CGRect)randomRectangle2:(int)j count:(int)k;
 {
-    if(CGRectIntersectsRect(RANDOMBRICKAREA, CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize))){
+    if(CGRectIntersectsRect(RANDOMBRICKAREA, CGRectMake(self.paddle.paddleCenter.x-(paddleSize/2), self.paddle.paddleCenter.y-(paddleSize/2), paddleSize, paddleSize))){
         randomBrickFailed = YES;
         return CGRectNull;
     } else {
@@ -126,7 +126,7 @@
         if (CGRectIntersectsRect([randomBrickArray[i] rectOfView], randomRect)) {
             randomRect=[self randomRectangle2:j count:k+1];
         }
-        if (CGRectIntersectsRect(CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize), randomRect)) {
+        if (CGRectIntersectsRect(CGRectMake(self.paddle.paddleCenter.x-(paddleSize/2), self.paddle.paddleCenter.y-(paddleSize/2), paddleSize, paddleSize), randomRect)) {
             randomRect=[self randomRectangle2:j count:k+1];
         }
         if (CGRectIntersectsRect(powerUpRect, randomRect)&&powerUpEnabled==1) {
@@ -234,7 +234,7 @@
         int ballHitCounterLeft = ballPointer.ballHitCounterLeft;
         int ballHitCounterRight = ballPointer.ballHitCounterRight;
         int ballHitCounterScore = ballPointer.ballHitCounterScore;
-        CGRect paddleRect = CGRectMake(paddleCenter.x-paddleSize/2, paddleCenter.y-paddleSize/2, paddleSize, paddleSize);
+        CGRect paddleRect = self.paddle.rect;
         CGRect paddleRectangle = paddleRect;
         
         // Get intersection of paddle and ball.
@@ -726,46 +726,48 @@
     }
     BOOL dontsety=NO;
     BOOL dontsetx=NO;
+    // Get the current position from the touch object.
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:self.mainView];
+    
+    // First, adjust the paddle according to the walls.
+    // If we collide, then set the respective coordinate to the edge of that wall.
     CGRect tempRect;
     tempRect.origin.x=location.x-(paddleSize/2);
     tempRect.origin.y=location.y-(paddleSize/2);
     tempRect.size=CGSizeMake(paddleSize, paddleSize);
-    CGPoint paddleImagePointTemp = location;
-    paddleImagePointTemp = location;
-    int i;
+    CGPoint paddlePointTemp = location;
     if (CGRectIntersectsRect(tempRect, walls.topPaddleWall.rect)) {
-        paddleImagePointTemp.y = walls.topPaddleWall.rect.size.height+((paddleSize/2)+wallSize);
+        paddlePointTemp.y = walls.topPaddleWall.rect.origin.x-(paddleSize/2);
     }
     if (CGRectIntersectsRect(tempRect, walls.bottomPaddleWall.rect)) {
-        paddleImagePointTemp.y = walls.bottomPaddleWall.rect.origin.y-(paddleSize/2);
+        paddlePointTemp.y = walls.bottomPaddleWall.rect.origin.y-(paddleSize/2);
         
     } if (CGRectIntersectsRect(tempRect, walls.leftPaddleWall.rect)) {
-        paddleImagePointTemp.x = walls.leftPaddleWall.rect.size.width+((paddleSize/2)+wallSize);
+        paddlePointTemp.x = walls.leftPaddleWall.rect.size.width+((paddleSize/2)+wallSize);
         
     } if(CGRectIntersectsRect(tempRect, walls.rightPaddleWall.rect)){
-        paddleImagePointTemp.x = walls.rightPaddleWall.rect.origin.x-(paddleSize/2);
+        paddlePointTemp.x = walls.rightPaddleWall.rect.origin.x-(paddleSize/2);
     }
-    BOOL goThroughAgain, goThroughAgain2;
-    goThroughAgain=NO;
-    goThroughAgain2=NO;
-    BOOL skip4jump=NO;
+    
+    // Handle the random rectangles on the display.
     CGRect tempRect2;
-    tempRect2.origin.x=paddleImagePointTemp.x-(paddleSize/2);
-    tempRect2.origin.y=paddleImagePointTemp.y-(paddleSize/2);
+    tempRect2.origin.x=paddlePointTemp.x-(paddleSize/2);
+    tempRect2.origin.y=paddlePointTemp.y-(paddleSize/2);
     tempRect2.size=CGSizeMake(paddleSize, paddleSize);
     BOOL stillIntersecting=YES;
+    int i;
     for (i=0; (i<randomBrickArray.count&&(stillIntersecting==YES)); i++) {
         RPBRandomRect *brickPointer = randomBrickArray[i];
         if (CGRectIntersectsRect(brickPointer.rectOfView, tempRect2)) {
-            tempRect2.origin.x=paddleImagePointTemp.x-(paddleSize/2);
-            tempRect2.origin.y=paddleImagePointTemp.y-(paddleSize/2);
+            tempRect2.origin.x=paddlePointTemp.x-(paddleSize/2);
+            tempRect2.origin.y=paddlePointTemp.y-(paddleSize/2);
             tempRect2.size=CGSizeMake(paddleSize, paddleSize);
             CGRect intersectRect = CGRectIntersection(brickPointer.rectOfView, tempRect);
             if (((CGRectIntersectsRect(brickPointer.topRect, tempRect2))||(CGRectIntersectsRect(brickPointer.bottomRect, tempRect2)))&&((CGRectIntersectsRect(brickPointer.leftRect, tempRect2))||(CGRectIntersectsRect(brickPointer.rightRect, tempRect2)))) {
                 return;
             }
+            // If we intersect a like side, then don't do anything but just get out of here.
             if ((CGRectIntersectsRect(brickPointer.topRect, tempRect2))&&CGRectIntersectsRect(walls.topPaddleWall.rect, tempRect2)) {
                 return;
             }
@@ -786,7 +788,7 @@
                 }
                 velocityLockEnabled=YES;
                 velocitySignY=NO;
-                paddleImagePointTemp.y=brickPointer.topRect.origin.y-(paddleSize/2);
+                paddlePointTemp.y=brickPointer.topRect.origin.y-(paddleSize/2);
                 //dontsety=YES;
             }
             if(CGRectIntersectsRect(brickPointer.bottomRect, tempRect2)&&(intersectRect.size.width>intersectRect.size.height)&&!dontsety) {
@@ -797,7 +799,7 @@
                 }
                 velocityLockEnabled=YES;
                 velocitySignY=YES;
-                paddleImagePointTemp.y=brickPointer.bottomRect.origin.y+(paddleSize/2);
+                paddlePointTemp.y=brickPointer.bottomRect.origin.y+(paddleSize/2);
                 //dontsety=YES;
             }
             if (CGRectIntersectsRect(brickPointer.leftRect, tempRect2)&&(intersectRect.size.height>intersectRect.size.width)&&!dontsetx) {
@@ -808,7 +810,7 @@
                 }
                 velocityLockEnabled=YES;
                 velocitySignX=YES;
-                paddleImagePointTemp.x=brickPointer.leftRect.origin.x-(paddleSize/2);
+                paddlePointTemp.x=brickPointer.leftRect.origin.x-(paddleSize/2);
                 //dontsetx=YES;
             }
             if (CGRectIntersectsRect(brickPointer.rightRect, tempRect2)&&(intersectRect.size.height>intersectRect.size.width)&&!dontsetx) {
@@ -819,35 +821,25 @@
                 }
                 velocityLockEnabled=YES;
                 velocitySignX=NO;
-                paddleImagePointTemp.x=brickPointer.rightRect.origin.x+(paddleSize/2);
-                //dontsetx=YES;
+                paddlePointTemp.x=brickPointer.rightRect.origin.x+(paddleSize/2);
             }
             if (CGRectIntersectsRect(tempRect2, walls.topPaddleWall.rect)) {
-                paddleImagePointTemp.y = walls.topPaddleWall.rect.size.height+((paddleSize/2)+wallSize);
-                //dontsety=YES;
-                //paddleImagePointTemp.x = location.x;
+                paddlePointTemp.y = walls.topPaddleWall.rect.size.height+((paddleSize/2)+wallSize);
             }
             if (CGRectIntersectsRect(tempRect2, walls.bottomPaddleWall.rect)) {
-                paddleImagePointTemp.y = walls.bottomPaddleWall.rect.origin.y-(paddleSize/2);
-                //dontsety=YES;
-                //paddleImagePointTemp.x = location.x;
+                paddlePointTemp.y = walls.bottomPaddleWall.rect.origin.y-(paddleSize/2);
             } if (CGRectIntersectsRect(tempRect2, walls.leftPaddleWall.rect)) {
-                paddleImagePointTemp.x = walls.leftPaddleWall.rect.size.width+((paddleSize/2)+wallSize);
-                //dontsetx=YES;
-                //paddleImagePointTemp.y = location.y;
+                paddlePointTemp.x = walls.leftPaddleWall.rect.size.width+((paddleSize/2)+wallSize);
             } if(CGRectIntersectsRect(tempRect2, walls.rightPaddleWall.rect)){
-                paddleImagePointTemp.x = walls.rightPaddleWall.rect.origin.x-(paddleSize/2);
-                //dontsetx=YES;
-                //paddleImagePointTemp.y = location.y;
+                paddlePointTemp.x = walls.rightPaddleWall.rect.origin.x-(paddleSize/2);
             }
-            tempRect2.origin.x=paddleImagePointTemp.x-(paddleSize/2);
-            tempRect2.origin.y=paddleImagePointTemp.y-(paddleSize/2);
+            tempRect2.origin.x=paddlePointTemp.x-(paddleSize/2);
+            tempRect2.origin.y=paddlePointTemp.y-(paddleSize/2);
             tempRect2.size=CGSizeMake(paddleSize, paddleSize);
         }
     }
-    if (goThroughAgain==YES&&goThroughAgain2==YES) {
-        skip4jump=YES;
-    }
+    
+    // If we intersect a ball, then don't update anything and just get out of here.
     for (i=0; i<ballViewArray.count; i++) {
         RPBBall *ballPointer = ballViewArray[i];
         CGRect intersectRect = CGRectIntersection(tempRect, ballPointer.rect);
@@ -855,9 +847,10 @@
             return;
         }
     }
-    paddleCenter=paddleImagePointTemp;
-    tempRect = CGRectMake(paddleImagePointTemp.x-(paddleSize/2), paddleImagePointTemp.y-(paddleSize/2), paddleSize, paddleSize);
-    self.paddle.rect = tempRect;
+    
+    // Set the new position for the paddle.
+    self.paddle.paddleCenter = paddlePointTemp;
+    tempRect = self.paddle.rect;
     
     
     leftTopRect = CGRectMake(tempRect.origin.x, tempRect.origin.y-4, (paddleSize/2), 4);
@@ -869,10 +862,12 @@
     upperRightRect = CGRectMake(tempRect.origin.x+paddleSize, tempRect.origin.y, 4, (paddleSize/2));
     lowerRightRect = CGRectMake(tempRect.origin.x+paddleSize, tempRect.origin.y+(paddleSize/2), 4, (paddleSize/2));
 }
+// We moved the paddle, so really call the method that handles the beginning of the touch.
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self touchesBegan:touches withEvent:event];
 }
+
 -(void)releaseBallTimer
 {
 	[timerToRelease invalidate];
@@ -1132,35 +1127,8 @@
     } else {
         multiplyFactor = 1.0f;
     }
+
     
-    // Setup proper images for powerup based off scaling.
-    if ([UIScreen mainScreen].scale>1.0f) {
-        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-            self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt@2x~ipad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture2 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SlowDown@2x~ipad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture3 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BallSplit@2x~iPad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-        } else {
-            self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt@2x.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture2 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SlowDown@2x.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture3 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BallSplit@2x.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-        }
-    } else {
-        if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-            self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt~ipad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture2 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SlowDown~ipad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture3 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BallSplit~iPad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-        } else {
-            self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture2 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SlowDown.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-            self.powerUpTexture3 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BallSplit.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
-        }
-    }
-    CGRect paddleImageRect = CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
-    paddleImageRect.size.width = paddleSize;
-    paddleImageRect.size.height = paddleSize;
-    paddleCenter=CGPointMake((screenSize.size.width/2),(screenSize.size.height/2));
-    ballRect.origin.x = (screenSize.size.width/2)-5;
-    ballRect.origin.y = (paddleCenter.y-paddleSize/2)-(ballRect.size.height/2)-5;
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         wallSize = WALLSIZEIPAD;
         wallBorderSize = WALLBORDERIPAD;
@@ -1174,7 +1142,7 @@
     noScoreZone2 = CGRectMake(wallSize, noscorezone+wallSize, noscorezone, screenSize.size.height-(noscorezone*2));
     noScoreZone3 = CGRectMake(wallSize, screenSize.size.height-(noscorezone+wallSize), screenSize.size.width-(wallSize*2), noscorezone);
     noScoreZone4 = CGRectMake(screenSize.size.height-(noscorezone+wallSize), noscorezone+wallSize, noscorezone, screenSize.size.height-(noscorezone*2));
-    CGRect tempRect = CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
+    CGRect tempRect = CGRectMake(self.paddle.paddleCenter.x-(paddleSize/2), self.paddle.paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
     leftTopRect = CGRectMake(tempRect.origin.x, tempRect.origin.y-4, paddleSize/2, 4);
     rightTopRect = CGRectMake(tempRect.origin.x+(paddleSize/2), tempRect.origin.y-4, (paddleSize/2), 4);
     leftBottomRect = CGRectMake(leftTopRect.origin.x, leftTopRect.origin.y+(paddleSize/2), (paddleSize/2), 4);
@@ -1192,9 +1160,15 @@
     self.paddle.color = [UIColor colorWithRed:redColorPaddle/255.0f green:greenColorPaddle/255.0f blue:blueColorPaddle/255.0f alpha:1.0];
     self.paddle.projectMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, self.view.frame.size.height, 0, -1024, 1024);
     self.paddle.rect = CGRectMake(CGRectGetMidX(self.view.frame)-paddleSize/2, CGRectGetMidY(self.view.frame)-paddleSize/2, paddleSize, paddleSize);
+    CGRect paddleImageRect = CGRectMake(self.paddle.paddleCenter.x-(paddleSize/2), self.paddle.paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
+    paddleImageRect.size.width = paddleSize;
+    paddleImageRect.size.height = paddleSize;
+    self.paddle.paddleCenter=CGPointMake((screenSize.size.width/2),(screenSize.size.height/2));
     
     // Setup the ball.
     RPBBall *ball1 = [[RPBBall alloc] init];
+    ballRect.origin.x = (screenSize.size.width/2)-5;
+    ballRect.origin.y = (self.paddle.paddleCenter.y-paddleSize/2)-(ballRect.size.height/2)-5;
     ball1.rect=ballRect;
     ball1.xBounce=0.0f;
     ball1.bounce=2.0f;

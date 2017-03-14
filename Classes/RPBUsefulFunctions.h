@@ -7,5 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
+// Function prototypes.
 void RPBLog(NSString *format, ...);
+void moveRectBack(CGRect * rect, CGRect intersect);

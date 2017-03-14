@@ -20,6 +20,8 @@
 -(void)setRect:(CGRect)aRect;
 -(UIColor *)color;
 -(void)setColor:(UIColor *)aColor;
+-(CGPoint)paddleCenter;
+-(void)setPaddleCenter:(CGPoint)newCenter;
 -(GLKMatrix4)projectMatrix;
 -(void)setProjectMatrix:(GLKMatrix4)projectMatrix;
 

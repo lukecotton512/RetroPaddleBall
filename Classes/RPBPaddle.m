@@ -41,6 +41,21 @@
     _rectangle.rectColor = aColor;
 }
 
+// Get and set the paddle center.
+-(CGPoint)paddleCenter {
+    CGRect curRect = self.rect;
+    return CGPointMake(CGRectGetMidX(curRect), CGRectGetMidY(curRect));
+}
+
+-(void)setPaddleCenter:(CGPoint)newCenter {
+    CGRect curRect = self.rect;
+    CGFloat paddleSizeX = curRect.size.width;
+    CGFloat paddleSizeY = curRect.size.height;
+    CGPoint newOrigin = CGPointMake(newCenter.x - paddleSizeX/2, newCenter.y - paddleSizeY/2);
+    curRect.origin = newOrigin;
+    self.rect = curRect;
+}
+
 // Gets and sets projection matrix.
 -(GLKMatrix4)projectMatrix {
     return _rectangle.projectionMatrix;

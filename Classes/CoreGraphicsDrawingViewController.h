@@ -21,7 +21,6 @@
 	IBOutlet UILabel *scoreField;
     IBOutlet UILabel *highScoreField;
 	IBOutlet UIView *pauseView;
-    CGPoint paddleCenter;
     IBOutlet UIView *areYouSureView;
     IBOutlet UIButton *pauseButton;
     CGRect powerUpRect;
@@ -54,10 +53,6 @@
     NSTimer *wallScoreBoostTimer;
     NSTimer *loseWallChangeTimer;
     NSTimer *randomBrickTimer;
-    UIAccelerationValue xAccel;
-    UIAccelerationValue yAccel;
-    UIAccelerationValue xAccelCali;
-    UIAccelerationValue yAccelCali;
     NSTimeInterval lastTimeUpdate;
 	double difficultyMultiplier;
     double speedMultiplier;
@@ -89,8 +84,6 @@
 	int powerUpEnabledEnabled;
     int paddleLocked;
 	float scoreMultiplier;
-    float velocityX;
-    float velocityY;
 	double speedBounce;
 	double fireTimeInterval;
 	CGRect oldBallRect;
@@ -130,8 +123,8 @@
 -(void)wallScoreBoostEnableOrDisable:(NSTimer *)theTimer;
 -(void)randomBrickTimerFire:(NSTimer *)theTimer;
 -(void)loseTimeChangeWall:(NSTimer *)theTimer;
-@property (NS_NONATOMIC_IOSONLY, readonly) double randomTimerTime;
-@property (NS_NONATOMIC_IOSONLY, readonly) CGRect randomRectangle;
+@property (nonatomic, readonly) double randomTimerTime;
+@property (nonatomic, readonly) CGRect randomRectangle;
 -(CGRect)randomRectangle2:(int)j count:(int)k;
 -(void)lostGame;
 -(void)newGame;
@@ -190,8 +183,6 @@
 @property (nonatomic, assign) BOOL dontmoveUp;
 @property (nonatomic, assign) BOOL dontmoveDown;
 @property (nonatomic, assign) BOOL velocityLockEnabled;
-@property (nonatomic, assign) BOOL velocitySignX;
-@property (nonatomic, assign) BOOL velocitySignY;
 @property (nonatomic, assign) int didInvalidate;
 @property (nonatomic, assign) int isPaused;
 @property (nonatomic, assign) int powerUpEnabled;
@@ -213,13 +204,7 @@
 @property (nonatomic, assign) double speedBounce;
 @property (nonatomic, assign) NSTimeInterval lastTimeUpdate;
 @property (nonatomic, assign) double difficultyMultiplier;
-@property (nonatomic, assign) float velocityX;
-@property (nonatomic, assign) float velocityY;
 @property (nonatomic, assign) float scoreMultiplier;
-@property (nonatomic, assign) UIAccelerationValue xAccel;
-@property (nonatomic, assign) UIAccelerationValue yAccel; 
-@property (nonatomic, assign) UIAccelerationValue xAccelCali;
-@property (nonatomic, assign) UIAccelerationValue yAccelCali;
 @property (nonatomic, assign) BOOL justStartedWallTimer;
 @property (nonatomic, assign) CGRect oldBallRect;
 @property (nonatomic, assign) CGRect oldPaddleRect;
