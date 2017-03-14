@@ -12,6 +12,7 @@
 #import "RPBRectangle.h"
 #import "RPBUsefulFunctions.h"
 
+// Size definitions for various objects on the screen.
 #define PADDLESIZE 80
 #define PADDLESIZEIPAD 160
 #define NOSCOREZONE 30
@@ -23,7 +24,7 @@
 
 @implementation CoreGraphicsDrawingViewController
 // Synthesize various variables.
-@synthesize ballTimer, mainView, topOfScreen, rightOfScreen, leftOfScreen, bottomOfScreen, didStart, speedBounce, speedTimer, scoreField, score, oldBallRect, oldPaddleRect, pauseView, didInvalidate, isPaused, powerUpRect, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, timerToRelease, scoreMultiplier, fireTimeInterval, difficultyMultiplier, ballRect, paddlelocation, paddleLocked, cheatCheckTimer, doAddOnToScore, noScoreZone,noScoreZone2,noScoreZone3,noScoreZone4, lastTimeUpdate, velocityX, velocityY, xAccel, yAccel, xAccelCali, yAccelCali, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer,bottomOfScreenBall,topOfScreenBall,rightOfScreenBall,leftOfScreenBall, isPlaying, soundIsOn, leftTopRect, rightTopRect, leftBottomRect, rightBottomRect, upperLeftRect, lowerLeftRect, upperRightRect, lowerRightRect, areYouSureView, pauseButton, ballViewArray, audioFile1, audioFile2, audioFile3, playcount, audioFile4, speedMultiplier, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, highScoreField, didStartLoseWall, loseWallChangeTimer, dontmoveUp, dontmoveDown, randomBrickHitCounter, randomRect1, randomRect2, randomRect3, velocityLockEnabled,velocitySignX, velocitySignY, paddleSize, context, paddleEffect;
+@synthesize ballTimer, mainView, didStart, speedBounce, speedTimer, scoreField, score, oldBallRect, oldPaddleRect, pauseView, didInvalidate, isPaused, powerUpRect, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, timerToRelease, scoreMultiplier, fireTimeInterval, difficultyMultiplier, ballRect, paddlelocation, paddleLocked, cheatCheckTimer, doAddOnToScore, noScoreZone,noScoreZone2,noScoreZone3,noScoreZone4, lastTimeUpdate, velocityX, velocityY, xAccel, yAccel, xAccelCali, yAccelCali, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer, isPlaying, soundIsOn, leftTopRect, rightTopRect, leftBottomRect, rightBottomRect, upperLeftRect, lowerLeftRect, upperRightRect, lowerRightRect, areYouSureView, pauseButton, ballViewArray, audioFile1, audioFile2, audioFile3, playcount, audioFile4, speedMultiplier, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, highScoreField, didStartLoseWall, loseWallChangeTimer, dontmoveUp, dontmoveDown, randomBrickHitCounter, randomRect1, randomRect2, randomRect3, velocityLockEnabled,velocitySignX, velocitySignY, paddleSize, context, paddleEffect;
 
 
 
@@ -34,13 +35,6 @@
     }
     return self;
 }
-
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
 
 
 
@@ -583,7 +577,7 @@
         ballPointerRect.origin.y=ballPointerRect.origin.y-ballPointer.bounce;
         ballPointerRect.origin.x=ballPointerRect.origin.x-ballPointer.xBounce;
         ballPointer.rect=ballPointerRect;
-        if (!(CGRectIntersectsRect(paddleRectangle, ballPointerRect)||CGRectIntersectsRect(ballPointerRect, topOfScreen)||CGRectIntersectsRect(ballPointerRect, leftOfScreen)||CGRectIntersectsRect(ballPointerRect, rightOfScreen)||CGRectIntersectsRect(ballPointerRect, bottomOfScreen))) {
+        if (!(CGRectIntersectsRect(paddleRectangle, ballPointerRect)||CGRectIntersectsRect(ballPointerRect, walls.topWall.rect)||CGRectIntersectsRect(ballPointerRect, walls.leftWall.rect)||CGRectIntersectsRect(ballPointerRect, walls.rightWall.rect)||CGRectIntersectsRect(ballPointerRect, walls.bottomWall.rect))) {
             ballHitCounterScore=0;
         }
         scoreField.text=[NSString localizedStringWithFormat:NSLocalizedString(@"SCORE:", nil), score];
@@ -741,17 +735,17 @@
     CGPoint paddleImagePointTemp = location;
     paddleImagePointTemp = location;
     int i;
-    if (CGRectIntersectsRect(tempRect, topOfScreenBall)) {
-        paddleImagePointTemp.y = topOfScreenBall.size.height+((paddleSize/2)+wallSize);
+    if (CGRectIntersectsRect(tempRect, walls.topPaddleWall.rect)) {
+        paddleImagePointTemp.y = walls.topPaddleWall.rect.size.height+((paddleSize/2)+wallSize);
     }
-    if (CGRectIntersectsRect(tempRect, bottomOfScreenBall)) {
-        paddleImagePointTemp.y = bottomOfScreenBall.origin.y-(paddleSize/2);
+    if (CGRectIntersectsRect(tempRect, walls.bottomPaddleWall.rect)) {
+        paddleImagePointTemp.y = walls.bottomPaddleWall.rect.origin.y-(paddleSize/2);
         
-    } if (CGRectIntersectsRect(tempRect, leftOfScreenBall)) {
-        paddleImagePointTemp.x = leftOfScreenBall.size.width+((paddleSize/2)+wallSize);
+    } if (CGRectIntersectsRect(tempRect, walls.leftPaddleWall.rect)) {
+        paddleImagePointTemp.x = walls.leftPaddleWall.rect.size.width+((paddleSize/2)+wallSize);
         
-    } if(CGRectIntersectsRect(tempRect, rightOfScreenBall)){
-        paddleImagePointTemp.x = rightOfScreenBall.origin.x-(paddleSize/2);
+    } if(CGRectIntersectsRect(tempRect, walls.rightPaddleWall.rect)){
+        paddleImagePointTemp.x = walls.rightPaddleWall.rect.origin.x-(paddleSize/2);
     }
     BOOL goThroughAgain, goThroughAgain2;
     goThroughAgain=NO;
@@ -772,16 +766,16 @@
             if (((CGRectIntersectsRect(brickPointer.topRect, tempRect2))||(CGRectIntersectsRect(brickPointer.bottomRect, tempRect2)))&&((CGRectIntersectsRect(brickPointer.leftRect, tempRect2))||(CGRectIntersectsRect(brickPointer.rightRect, tempRect2)))) {
                 return;
             }
-            if ((CGRectIntersectsRect(brickPointer.topRect, tempRect2))&&CGRectIntersectsRect(topOfScreenBall, tempRect2)) {
+            if ((CGRectIntersectsRect(brickPointer.topRect, tempRect2))&&CGRectIntersectsRect(walls.topPaddleWall.rect, tempRect2)) {
                 return;
             }
-            if ((CGRectIntersectsRect(brickPointer.bottomRect, tempRect2))&&CGRectIntersectsRect(bottomOfScreenBall, tempRect2)) {
+            if ((CGRectIntersectsRect(brickPointer.bottomRect, tempRect2))&&CGRectIntersectsRect(walls.bottomPaddleWall.rect, tempRect2)) {
                 return;
             }
-            if ((CGRectIntersectsRect(brickPointer.leftRect, tempRect))&&CGRectIntersectsRect(leftOfScreenBall, tempRect2)) {
+            if ((CGRectIntersectsRect(brickPointer.leftRect, tempRect))&&CGRectIntersectsRect(walls.leftPaddleWall.rect, tempRect2)) {
                 return;
             }
-            if ((CGRectIntersectsRect(brickPointer.rightRect, tempRect2))&&CGRectIntersectsRect(rightOfScreenBall, tempRect2)) {
+            if ((CGRectIntersectsRect(brickPointer.rightRect, tempRect2))&&CGRectIntersectsRect(walls.rightPaddleWall.rect, tempRect2)) {
                 return;
             }
             if (CGRectIntersectsRect(brickPointer.topRect, tempRect2)&&(intersectRect.size.width>intersectRect.size.height)&&!dontsety) {
@@ -828,21 +822,21 @@
                 paddleImagePointTemp.x=brickPointer.rightRect.origin.x+(paddleSize/2);
                 //dontsetx=YES;
             }
-            if (CGRectIntersectsRect(tempRect2, topOfScreenBall)) {
-                paddleImagePointTemp.y = topOfScreenBall.size.height+((paddleSize/2)+wallSize);
+            if (CGRectIntersectsRect(tempRect2, walls.topPaddleWall.rect)) {
+                paddleImagePointTemp.y = walls.topPaddleWall.rect.size.height+((paddleSize/2)+wallSize);
                 //dontsety=YES;
                 //paddleImagePointTemp.x = location.x;
             }
-            if (CGRectIntersectsRect(tempRect2, bottomOfScreenBall)) {
-                paddleImagePointTemp.y = bottomOfScreenBall.origin.y-(paddleSize/2);
+            if (CGRectIntersectsRect(tempRect2, walls.bottomPaddleWall.rect)) {
+                paddleImagePointTemp.y = walls.bottomPaddleWall.rect.origin.y-(paddleSize/2);
                 //dontsety=YES;
                 //paddleImagePointTemp.x = location.x;
-            } if (CGRectIntersectsRect(tempRect2, leftOfScreenBall)) {
-                paddleImagePointTemp.x = leftOfScreenBall.size.width+((paddleSize/2)+wallSize);
+            } if (CGRectIntersectsRect(tempRect2, walls.leftPaddleWall.rect)) {
+                paddleImagePointTemp.x = walls.leftPaddleWall.rect.size.width+((paddleSize/2)+wallSize);
                 //dontsetx=YES;
                 //paddleImagePointTemp.y = location.y;
-            } if(CGRectIntersectsRect(tempRect2, rightOfScreenBall)){
-                paddleImagePointTemp.x = rightOfScreenBall.origin.x-(paddleSize/2);
+            } if(CGRectIntersectsRect(tempRect2, walls.rightPaddleWall.rect)){
+                paddleImagePointTemp.x = walls.rightPaddleWall.rect.origin.x-(paddleSize/2);
                 //dontsetx=YES;
                 //paddleImagePointTemp.y = location.y;
             }
@@ -1176,14 +1170,6 @@
         wallBorderSize = WALLBORDER;
         noscorezone=NOSCOREZONE;
     }
-    topOfScreen = CGRectMake(0, 0, screenSize.size.width, wallSize);
-	leftOfScreen = CGRectMake(0, 0, wallSize, screenSize.size.height);
-	rightOfScreen = CGRectMake((screenSize.size.width-wallSize), 0, wallSize, screenSize.size.height);
-	bottomOfScreen = CGRectMake(0, (screenSize.size.height-wallSize), screenSize.size.width, wallSize);
-    topOfScreenBall = CGRectMake((wallBorderSize+wallSize), wallSize, screenSize.size.width-((wallBorderSize+wallSize)*2), wallBorderSize);
-    leftOfScreenBall = CGRectMake(wallSize, (wallBorderSize+wallSize), wallBorderSize, (screenSize.size.height-((wallBorderSize+wallSize)*2)));
-    rightOfScreenBall = CGRectMake((screenSize.size.width-(wallBorderSize+wallSize)), (wallBorderSize+wallSize), wallBorderSize, (screenSize.size.height-((wallBorderSize+wallSize)*2)));
-    bottomOfScreenBall = CGRectMake((wallBorderSize+wallSize), (screenSize.size.height-(wallBorderSize+wallSize)), (screenSize.size.width-((wallBorderSize+wallSize)*2)), wallBorderSize);
     noScoreZone = CGRectMake(wallSize,wallSize, screenSize.size.width-(wallSize*2), noscorezone);
     noScoreZone2 = CGRectMake(wallSize, noscorezone+wallSize, noscorezone, screenSize.size.height-(noscorezone*2));
     noScoreZone3 = CGRectMake(wallSize, screenSize.size.height-(noscorezone+wallSize), screenSize.size.width-(wallSize*2), noscorezone);
