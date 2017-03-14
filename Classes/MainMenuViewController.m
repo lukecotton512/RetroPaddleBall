@@ -8,9 +8,10 @@
 
 #import "MainMenuViewController.h"
 #import "CoreGraphicsDrawingAppDelegate.h"
+#import "RPBUsefulFunctions.h"
 
 @implementation MainMenuViewController
-@synthesize window, bannerAd;
+@synthesize window;
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -26,33 +27,14 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
-        [self hideAds];
-    } else {
-        bannerAd.delegate = self;
-        bannerAd.hidden = YES;
-    }
 }
 
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
--(void)bannerViewDidLoadAd:(ADBannerView *)banner {
-    bannerAd.hidden = NO;
-}
--(void)hideAds {
-    [bannerAd removeFromSuperview];
-}
 -(IBAction)goToBeginning:(UIStoryboardSegue *)unwindSegue {
     
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    // Setup the tutorial view controller.
     if ([segue.identifier isEqualToString:@"showTutorial"] == YES) {
         UIStoryboard *storyboard;
         if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
@@ -79,8 +61,5 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-
-
-
 
 @end

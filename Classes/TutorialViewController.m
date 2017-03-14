@@ -8,6 +8,7 @@
 
 #import "TutorialViewController.h"
 #import "CoreGraphicsDrawingAppDelegate.h"
+#import "RPBUsefulFunctions.h"
 
 @interface TutorialViewController ()
 

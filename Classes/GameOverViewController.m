@@ -8,9 +8,10 @@
 
 #import "GameOverViewController.h"
 #import "CoreGraphicsDrawingAppDelegate.h"
+#import "RPBUsefulFunctions.h"
 
 @implementation GameOverViewController
-@synthesize scoreTextView, score, highScoreAlertField, highScores, bannerView;
+@synthesize scoreTextView, score, highScoreAlertField, highScores;
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -29,28 +30,19 @@
     // Get high scores and score.
     highScores = [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] highScores];
     self.score = [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] score];
-    // Hide the ad banners based on if the user purchased the In-App Purchase.
-    if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
-        [bannerView removeFromSuperview];
-    } else {
-        bannerView.delegate = self;
-        bannerView.hidden = YES;
-    }
-}
--(void)bannerViewDidLoadAd:(ADBannerView *)banner {
-    banner.hidden = NO;
+    
 }
 -(void)viewDidAppear:(BOOL)animated {
+    // Check to see if we got on the high score board.
     int i;
     self.scoreTextView.text=[NSString stringWithFormat:@"Score: %i",self.score];
 	for (i=0; i<highScores.count; i++) {
+        // If we did, then present the user with a dialog box.
 		if (score>[highScores[i][@"RPBScore"] intValue]) {
 			UIAlertView *highScoreAlert= [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NEWHIGHSCORE", nil) message:NSLocalizedString(@"ENTERYOURNAME", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CANCEL", nil) otherButtonTitles:NSLocalizedString(@"OK",nil),nil];
-			//[highScoreAlertField setBackgroundColor:[UIColor whiteColor]];
             highScoreAlert.alertViewStyle=UIAlertViewStylePlainTextInput;
             highScoreAlertField=[highScoreAlert textFieldAtIndex:0];
             highScoreAlertField.placeholder = @"Enter name";
-			//[highScoreAlert addSubview:highScoreAlertField];
 			[highScoreAlert show];
 			break;
 		}

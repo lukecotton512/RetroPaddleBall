@@ -7,16 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <iAd/iAd.h>
 #import "CoreGraphicsDrawingViewController.h"
-//#import "CoreGraphicsDrawingAppDelegate.h"
-@interface MainMenuViewController : UIViewController <ADBannerViewDelegate> {
-	//CoreGraphicsDrawingViewController *gameController;
+
+@interface MainMenuViewController : UIViewController {
 	IBOutlet UIWindow *window;
-    IBOutlet ADBannerView *bannerAd;
 }
 -(IBAction)goToBeginning:(UIStoryboardSegue *)unwindSegue;
--(void)hideAds;
 @property (nonatomic, strong) IBOutlet UIWindow *window;
-@property (nonatomic, strong) IBOutlet ADBannerView *bannerAd;
 @end

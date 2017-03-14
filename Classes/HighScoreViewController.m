@@ -8,6 +8,7 @@
 
 #import "HighScoreViewController.h"
 #import "CoreGraphicsDrawingAppDelegate.h"
+#import "RPBUsefulFunctions.h"
 
 @implementation HighScoreViewController
 @synthesize highScores;
@@ -30,11 +31,13 @@
 }
 -(void)viewDidAppear:(BOOL)animated
 {
+    // Load all high scores upon the view being put onto the screen.
 	[super viewDidAppear:animated];
 	[self loadHighScores];
 }
 -(void)loadHighScores
 {
+    // All high scores. Loop through each field and put the text in the fields.
 	highScores = [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] highScores];
     int i=0;
     for (UILabel *nameLabel in self.nameFields) {
@@ -49,22 +52,25 @@
 }
 -(IBAction)resetHighScores:(id)sender
 {
+    // Present an alert view to the user asking to remove all high scores and present it.
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"HIGHSCORESMESSAGETITLE", nil) message:NSLocalizedString(@"HIGHSCORESMESSAGEMESSAGE", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"HIGHSCORESMESSAGENO", nil) otherButtonTitles:NSLocalizedString(@"HIGHSCORESMESSAGEDELETE", nil), nil];
 	[alertView show];
 }
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    // If the user tapped cancel, then get out of here.
 	if (buttonIndex == 0) {
 		return;
 	}
+    // If the didn't then clear out all high scores by creating a new array to replace the original.
 	highScores = [NSMutableArray array];
 	int i;
 	for (i=0; i<10; i++) {
 		NSDictionary *dictionary = @{@"RPBScore": @0, @"RPBName": @" "};
 		[highScores addObject:dictionary];
 	}
+    // Delete all high scores by removing the original file and then replacing it.
     CoreGraphicsDrawingAppDelegate *appDelegate = [CoreGraphicsDrawingAppDelegate sharedAppDelegate];
-    //appDelegate.highScores=nil;
 	appDelegate.highScores=highScores;
     [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/highscoredatabase.db", [appDelegate getPathToSave]] error:nil];
 	[appDelegate saveHighScores];
@@ -90,8 +96,5 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-
-
-
 
 @end

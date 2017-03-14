@@ -20,7 +20,7 @@
     }
     return self;
 }
-// Setters and getters for the containing rect
+// Setters and getters for the containing rect.
 -(void)setRectOfView:(CGRect)theRectOfView
 {
     rectOfView.rect=theRectOfView;

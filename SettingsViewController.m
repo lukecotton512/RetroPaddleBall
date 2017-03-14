@@ -8,8 +8,10 @@
 
 #import "SettingsViewController.h"
 #import "CoreGraphicsDrawingAppDelegate.h"
+#import "RPBUsefulFunctions.h"
+
 @implementation SettingsViewController
-@synthesize greenBallColorButton, redBallColorButton, blueBallColorButton, yellowBallColorButton, greenPaddleColorButton, redPaddleColorButton, bluePaddleColorButton, yellowPaddleColorButton, selectedButtonBall, selectedButtonPaddle, easyButton, mediumButton, hardButton, selectedButtonDifficulty, touchButton, accelerometerButton, selectedButtonControl, selectedButtonSound, offSoundButton, onSoundButton, develSettings, develView, purchaseLabel, purchaseButton, paddleColorPopUp, paddlePopUpIsEnabled, ballPopUpIsEnabled, paddlePopUpButton, ballPopUpButton;
+@synthesize greenBallColorButton, redBallColorButton, blueBallColorButton, yellowBallColorButton, greenPaddleColorButton, redPaddleColorButton, bluePaddleColorButton, yellowPaddleColorButton, selectedButtonBall, selectedButtonPaddle, easyButton, mediumButton, hardButton, selectedButtonDifficulty, touchButton, accelerometerButton, selectedButtonControl, selectedButtonSound, offSoundButton, onSoundButton, develSettings, develView, paddleColorPopUp, paddlePopUpIsEnabled, ballPopUpIsEnabled, paddlePopUpButton, ballPopUpButton;
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -25,6 +27,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Layout the pop-up views.
     self.paddlePopUpIsEnabled = NO;
     self.ballPopUpIsEnabled = NO;
     self.paddleColorPopUp.layer.cornerRadius=5.0f;
@@ -33,19 +36,8 @@
     self.ballColorPopUp.layer.borderColor=[UIColor whiteColor].CGColor;
     self.paddleColorPopUp.layer.borderWidth=1.0f;
     self.ballColorPopUp.layer.borderWidth=1.0f;
-    if (![SKPaymentQueue canMakePayments]) {
-        purchaseLabel.hidden=YES;
-        purchaseButton.hidden=YES;
-    }
-    if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradePurchased]) {
-        [purchaseLabel setHidden:YES];
-        [purchaseButton setHidden:YES];
-    }
-    if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradeEligible]) {
-        [purchaseButton setTitle:@"Free" forState:UIControlStateNormal];
-        
-    }
-	//Ball init
+    
+	// Ball init.
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorBall"] == 0.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorBall"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorBall"] == 0.0f) {
 		greenBallColorButton.selected=YES;
 		blueBallColorButton.selected=NO;
@@ -78,7 +70,7 @@
 		selectedButtonBall = yellowBallColorButton;
         [self.ballPopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}	
-	//Paddle init
+	//Paddle init.
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorPaddle"] == 0.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorPaddle"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorPaddle"] == 0.0f) {
 		greenPaddleColorButton.selected=YES;
 		bluePaddleColorButton.selected=NO;
@@ -146,26 +138,9 @@
     develSettings.direction=UISwipeGestureRecognizerDirectionUp;
     develSettings.numberOfTouchesRequired=3;
     [self.view addGestureRecognizer:develSettings];
-	/*greenBallColorButton.adjustsImageWhenDisabled=YES;
-	redBallColorButton.adjustsImageWhenDisabled=YES;
-	blueBallColorButton.adjustsImageWhenDisabled=YES;
-	yellowBallColorButton.adjustsImageWhenDisabled=YES;
-	greenPaddleColorButton.adjustsImageWhenDisabled=YES;
-	bluePaddleColorButton.adjustsImageWhenDisabled=YES;
-	redPaddleColorButton.adjustsImageWhenDisabled=YES;
-	yellowPaddleColorButton.adjustsImageWhenDisabled=YES;*/
 	
 }
--(IBAction)restorePurchases:(id)sender {
-    [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] restorePurchases];
-}
--(IBAction)removeAds:(id)sender {
-    if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] upgradeEligible]) {
-        [[SKPaymentQueue defaultQueue] addPayment:[SKPayment paymentWithProduct:[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] removeAdsFreeProduct]]];
-    } else {
-        [[SKPaymentQueue defaultQueue] addPayment:[SKPayment paymentWithProduct:[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] removeAdsProduct]]];
-    }
-}
+
 -(void)openDevelSettings
 {
     RPBLog(@"Swipe Detected");
@@ -179,20 +154,11 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
-/*-(IBAction)easyButton:(id)sender
-{
-	
-}
--(IBAction)middleButton:(id)sender
-{
-	
-}
--(IBAction)hardButton:(id)sender
-{
-	
-}*/
+
 -(IBAction)changeBallColor:(id)sender
 {
+    // Find what button the user tapped, and then set the color based off what they selected.
+    // User selected green ball color.
 	if([sender tag] == 0)
 	{
 		[[NSUserDefaults standardUserDefaults] setFloat:0.0f forKey:@"RPBRedColorBall"];
@@ -204,6 +170,7 @@
 		[[NSUserDefaults standardUserDefaults] synchronize];
         [self.ballPopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // User selected blue ball color.
 	if([sender tag] == 1)
 	{
 		[[NSUserDefaults standardUserDefaults] setFloat:0.0f forKey:@"RPBRedColorBall"];
@@ -215,6 +182,7 @@
 		[[NSUserDefaults standardUserDefaults] synchronize];
         [self.ballPopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // User selected red ball color.
 	if([sender tag] == 2)
 	{
 		[[NSUserDefaults standardUserDefaults] setFloat:255.0f forKey:@"RPBRedColorBall"];
@@ -226,6 +194,7 @@
         [self.ballPopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 	}
+    // User selected yellow ball color.
 	if([sender tag] == 3)
 	{
 		[[NSUserDefaults standardUserDefaults] setFloat:255.0f forKey:@"RPBRedColorBall"];
@@ -240,6 +209,8 @@
 }
 -(IBAction)changePaddleColor:(id)sender
 {
+    // Change the paddle color to the selected color.
+    // User selected green paddle color.
 	if([sender tag] == 0)
 	{
 		[[NSUserDefaults standardUserDefaults] setFloat:0.0f forKey:@"RPBRedColorPaddle"];
@@ -251,6 +222,7 @@
 		[[NSUserDefaults standardUserDefaults] synchronize];
         [self.paddlePopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // User selected blue paddle color.
 	if([sender tag] == 1)
 	{
 		[[NSUserDefaults standardUserDefaults] setFloat:0.0f forKey:@"RPBRedColorPaddle"];
@@ -262,6 +234,7 @@
 		[[NSUserDefaults standardUserDefaults] synchronize];
         [self.paddlePopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // User selected red paddle color.
 	if([sender tag] == 2)
 	{
 		[[NSUserDefaults standardUserDefaults] setFloat:255.0f forKey:@"RPBRedColorPaddle"];
@@ -273,6 +246,7 @@
 		[[NSUserDefaults standardUserDefaults] synchronize];
         [self.paddlePopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // User selected yellow paddle color.
 	if([sender tag] == 3)
 	{
 		[[NSUserDefaults standardUserDefaults] setFloat:255.0f forKey:@"RPBRedColorPaddle"];
@@ -306,29 +280,17 @@
 		selectedButtonDifficulty = hardButton;
 	}
 }
--(IBAction)changeControlMethod:(id)sender
-{
-    if ([sender tag] == 1) {
-		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"RPBAccelerometerEnabled"];
-		selectedButtonControl.selected = NO;
-		touchButton.selected = YES;
-		selectedButtonControl = touchButton;
-	}
-	if ([sender tag] == 2) {
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RPBAccelerometerEnabled"];
-		selectedButtonControl.selected = NO;
-		accelerometerButton.selected = YES;
-		selectedButtonControl = accelerometerButton;
-	}
-}
+// Enables or disables sound based off what the user selected.
 -(IBAction)changeSoundState:(id)sender
 {
+    // Enable sound.
     if ([sender tag] == 1) {
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RPBSound"];
 		selectedButtonSound.selected = NO;
 		onSoundButton.selected = YES;
 		selectedButtonSound = onSoundButton;
 	}
+    // Disable sound.
 	if ([sender tag] == 2) {
 		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"RPBSound"];
 		selectedButtonSound.selected = NO;

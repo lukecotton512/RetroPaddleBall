@@ -13,10 +13,11 @@
 #import "HighScoreViewController.h"
 #import "HighScoreDocument.h"
 #import "TutorialViewController.h"
+#import "RPBUsefulFunctions.h"
 @implementation CoreGraphicsDrawingAppDelegate
 
 @synthesize window;
-@synthesize userDefaults, defaults, score, highScores, difficultyMultiplier, highScoresEnabled, soundIsOn, ubiq, icloudEnabled, query, highScoreDoc, isDone, isOniPad, databaseCreated, alreadyChecked, upgradeEligible, productsRequest,removeAdsFreeProduct, removeAdsProduct, upgradePurchased, currentTutorialController;
+@synthesize userDefaults, defaults, score, highScores, difficultyMultiplier, highScoresEnabled, soundIsOn, ubiq, icloudEnabled, query, highScoreDoc, isDone, isOniPad, databaseCreated, alreadyChecked, currentTutorialController;
 
 
 #pragma mark -
@@ -69,112 +70,21 @@
     //[self.window addSubview:viewController.view];
 	//currentViewController = viewController;
     self.alreadyChecked=NO;
-    self.upgradePurchased = NO;
     [self.window makeKeyAndVisible];
     // Set the default preferences if they have never been set before and register our keys with the OS.
 	userDefaults = [NSUserDefaults standardUserDefaults];
     defaults = @{@"RPBRedColorPaddle": @0.0f, @"RPBGreenColorPaddle": @255.0f, @"RPBBlueColorPaddle": @0.0f, @"RPBRedColorBall": @255.0f, @"RPBGreenColorBall": @0.0f, @"RPBBlueColorBall": @0.0f, @"RPBDifficultyMultiplier": @0.0, @"RPBAccelerometerEnabled": @NO, @"RPBSound": @YES, @"RPBAlreadyChecked": @NO, @"RPBDatabaseCreated": @NO, @"RPBUpgradeEligible": @NO, @"RPBUpgradeBought": @NO, @"RPBFreeUpgradeNotice": @NO};
     [userDefaults registerDefaults:defaults];
     [userDefaults synchronize];
-    [self checkEligibility];
-    NSSet *productIdentifiers;
-    if (self.upgradeEligible) {
-        RPBLog(@"Upgrade Eligible = YES");
-    } else {
-        RPBLog(@"Upgrade Eligible = NO");
-    }
-    productIdentifiers = [NSSet setWithObjects:@"com.lukecotton.retropaddleball.disableadsfree",@"com.lukecotton.retropaddleball.disableads", nil];
-    productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
-    productsRequest.delegate = self;
-    [productsRequest start];
+    
     return YES;
 }
-// Check to see if the user is eligble for an upgrade for free.
--(void)checkEligibility {
-    NSString *bundleRoot = [NSBundle mainBundle].bundlePath; // e.g. /var/mobile/Applications/<GUID>/<AppName>.app
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSDictionary* attrs = [manager attributesOfItemAtPath:bundleRoot error:nil];
-    RPBLog(@"Build or download Date/Time of first  version to be installed: %@", [attrs fileCreationDate]);
-    NSDate *modDate = [attrs fileModificationDate];
-    RPBLog(@"Date/Time of last install (unless bundle changed by code): %@", modDate);
-    NSString *rootPath = [bundleRoot substringToIndex:[bundleRoot rangeOfString:@"/" options:NSBackwardsSearch].location]; // e.g /var/mobile/Applications/<GUID>
-    attrs = [manager attributesOfItemAtPath:rootPath error:nil];
-    NSDate *createDate = [attrs fileCreationDate];
-    RPBLog(@"Date/Time first installed (or first reinstalled after deletion): %@", createDate);
-    NSTimeInterval timeCreate = createDate.timeIntervalSince1970, timeMod = modDate.timeIntervalSince1970;
-    NSTimeInterval interval1 = timeCreate-61, interval2 = timeCreate+61;
-    if(!(timeMod>interval1&&timeMod<interval2)) {
-        self.databaseCreated=YES;
-    } else {
-        self.databaseCreated=NO;
-    }
-    self.upgradePurchased = [[NSUserDefaults standardUserDefaults] boolForKey:@"RPBUpgradeBought"];
-    self.alreadyChecked=[[NSUserDefaults standardUserDefaults] boolForKey:@"RPBAlreadyChecked"];
-    self.upgradeEligible = [[NSUserDefaults standardUserDefaults] boolForKey:@"RPBUpgradeEligible"];
-    if(!alreadyChecked) {
-        self.alreadyChecked=YES;
-        [[NSUserDefaults standardUserDefaults] setBool:self.alreadyChecked forKey:@"RPBAlreadyChecked"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        if(databaseCreated) {
-            self.upgradeEligible=YES;
-            [[NSUserDefaults standardUserDefaults] setBool:self.upgradeEligible forKey:@"RPBUpgradeEligible"];
-            if(![[NSUserDefaults standardUserDefaults] boolForKey:@"RPBFreeUpgradeNotice"]) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"For Paid Users" message:@"If you are reading this then you bought RetroPaddleBall when it was a paid app. RetroPaddleBall is now a free app with ads in it. Since you bought the app when it was a paid app, you are eligible to remove the ads for free. Just go to Settings, and tap the button labeled \"Remove Ads\" (Don't worry! Even the button label says free).\n\n If you are recieving this message and have already have done this, then tap \"Restore Purchases\" to get your ads removed." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-                [alertView show];
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"RPBFreeUpgradeNotice"];
-            }
-        }
-    }
-}
--(void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
-    NSArray *products = response.products;
-    int i=0;
-    for (SKProduct *indProduct in products) {
-        if([indProduct.productIdentifier isEqualToString:@"com.lukecotton.retropaddleball.disableadsfree"]) {
-            removeAdsFreeProduct = products[i];
-            RPBLog(@"%@", removeAdsFreeProduct.productIdentifier);
-        } else if ([indProduct.productIdentifier isEqualToString:@"com.lukecotton.retropaddleball.disableads"]){
-            removeAdsProduct = products[i];
-            RPBLog(@"%@", removeAdsProduct.productIdentifier);
-        }
-        i++;
-    }
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-}
--(void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions {
-    for (int i=0; i<transactions.count; i++) {
-        SKPaymentTransaction *paymentTransaction = transactions[i];
-        switch (paymentTransaction.transactionState) {
-            case SKPaymentTransactionStatePurchased: {
-                [[NSUserDefaults standardUserDefaults] setValue:[NSData dataWithContentsOfURL:[NSBundle mainBundle].appStoreReceiptURL] forKey:@"RPBUpgradedProduct"];
-                self.upgradePurchased=YES;
-                [[NSUserDefaults standardUserDefaults] setBool:self.upgradePurchased forKey:@"RPBUpgradeBought"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
-                break;
-            }
-            case SKPaymentTransactionStateRestored: {
-                [[NSUserDefaults standardUserDefaults] setValue:[NSData dataWithContentsOfURL:[NSBundle mainBundle].appStoreReceiptURL] forKey:@"RPBUpgradedProduct"];
-                self.upgradePurchased=YES;
-                [[NSUserDefaults standardUserDefaults] setBool:self.upgradePurchased forKey:@"RPBUpgradeBought"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
-                break;
-            }
-            case SKPaymentTransactionStateFailed: {
-                RPBLog(@"Payment Transaction Failed!");
-                [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
-                break;
-            }
-            default:
-                break;
-        }
-    }
-}
+// Return our app delegate.
 + (CoreGraphicsDrawingAppDelegate*)sharedAppDelegate
 {
 	return (CoreGraphicsDrawingAppDelegate *)[UIApplication sharedApplication].delegate;
 }
+// Called once we are done finding the high score database.
 -(void)queryDidFinishGathering:(NSNotification *)notification
 {
     NSMetadataQuery *query2 = notification.object;
@@ -184,9 +94,8 @@
     query=nil;
     [self loadData:query2];
 }
--(void)restorePurchases {
-    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
-}
+
+// Loads the data from disk.
 -(void)loadData:(NSMetadataQuery *)query2 {
     if (query2.resultCount==1) {
         NSMetadataItem *item = [query2 resultAtIndex:0];
@@ -219,8 +128,7 @@
             } else {
             }
         } else {
-            if (self.upgradeEligible) {
-            }
+            
         }
         NSURL *ubiqPackage = [[[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"highscoredatabase.db"];
         self.highScoreDoc = [[HighScoreDocument alloc] initWithFileURL:ubiqPackage];

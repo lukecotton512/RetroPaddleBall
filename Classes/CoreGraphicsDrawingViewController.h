@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-#import <AudioToolbox/AudioToolbox.h>
 #import <GLKit/GLKit.h>
-#import <CoreMotion/CoreMotion.h>
 #import "RPBBall.h"
 #import "RPBPaddle.h"
 #import "RPBRandomRect.h"
@@ -33,13 +31,12 @@
     EAGLContext *context;
     GLKBaseEffect *paddleEffect;
     NSMutableArray *ballViewArray;
-    NSMutableArray *bounceArray;
-    NSMutableArray *xBounceArray;
     NSMutableArray *randomBrickArray;
     RPBRandomRect *randomRect1;
     RPBRandomRect *randomRect2;
     RPBRandomRect *randomRect3;
     RPBWall *walls;
+    RPBPowerUp *powerup;
     BOOL velocityLockEnabled;
     BOOL velocitySignX;
     BOOL velocitySignY;
@@ -57,7 +54,6 @@
     NSTimer *wallScoreBoostTimer;
     NSTimer *loseWallChangeTimer;
     NSTimer *randomBrickTimer;
-    CMMotionManager *accelerometerDelegate;
     UIAccelerationValue xAccel;
     UIAccelerationValue yAccel;
     UIAccelerationValue xAccelCali;
@@ -91,7 +87,6 @@
 	int didInvalidate;
 	int powerUpEnabled;
 	int powerUpEnabledEnabled;
-	int whichPowerUp;
     int paddleLocked;
 	float scoreMultiplier;
     float velocityX;
@@ -151,7 +146,6 @@
 }
 -(void)lockPaddle;
 -(void)unlockPaddle;
--(void)updateWalls;
 -(IBAction)pauseGame:(id)sender;
 -(IBAction)endGame:(id)sender;
 -(IBAction)resumeGame:(id)sender;
@@ -183,7 +177,6 @@
 @property (nonatomic, strong) NSTimer *wallScoreBoostTimer;
 @property (nonatomic, strong) NSTimer *randomBrickTimer;
 @property (nonatomic, strong) NSTimer *loseWallChangeTimer;
-@property (nonatomic) CMMotionManager *accelerometerDelegate;
 @property (nonatomic, assign) int randomBrickHitCounter;
 @property (nonatomic, retain) EAGLContext *context;
 @property (nonatomic, strong) IBOutlet GLKView *mainView;
@@ -241,7 +234,6 @@
 @property (nonatomic, assign) BOOL didStartLoseWall;
 @property (nonatomic, assign) int didStart;
 @property (nonatomic, assign) int didStartPowerUp;
-@property (nonatomic, assign) int whichPowerUp;
 @property (nonatomic, assign) int paddleLocked;
 @property (nonatomic, assign) int wallToEnable;
 @property (nonatomic, assign) int playcount;

@@ -7,4 +7,3 @@
     #import <UIKit/UIKit.h>
     #import <objc/message.h>
 #endif
-void RPBLog(NSString *format, ...);

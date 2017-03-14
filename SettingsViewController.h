@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <StoreKit/StoreKit.h>
 
 @interface SettingsViewController : UIViewController {
 	IBOutlet UIButton *greenBallColorButton;
@@ -54,8 +53,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *offSoundButton;
 @property (nonatomic, strong) IBOutlet UIButton *onSoundButton;
 @property (nonatomic, strong) IBOutlet UIView *develView;
-@property (nonatomic, strong) IBOutlet UIButton *purchaseButton;
-@property (nonatomic, strong) IBOutlet UILabel *purchaseLabel;
 @property (nonatomic, strong) IBOutlet UIView *paddleColorPopUp;
 @property (nonatomic, strong) IBOutlet UIView *ballColorPopUp;
 @property (nonatomic, strong) IBOutlet UIButton *ballPopUpButton;
@@ -71,11 +68,8 @@
 -(IBAction)changeBallColor:(id)sender;
 -(IBAction)changePaddleColor:(id)sender;
 -(IBAction)changeDifficulty:(id)sender;
--(IBAction)changeControlMethod:(id)sender;
 -(IBAction)changeSoundState:(id)sender;
--(IBAction)removeAds:(id)sender;
 -(void)openDevelSettings;
--(IBAction)restorePurchases:(id)sender;
 -(IBAction)showPaddleColorPopUp:(id)sender;
 -(IBAction)showBallColorPopUp:(id)sender;
 @end

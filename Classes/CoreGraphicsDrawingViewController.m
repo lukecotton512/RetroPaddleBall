@@ -10,6 +10,8 @@
 #import "CoreGraphicsDrawingAppDelegate.h"
 #import "GameOverViewController.h"
 #import "RPBRectangle.h"
+#import "RPBUsefulFunctions.h"
+
 #define PADDLESIZE 80
 #define PADDLESIZEIPAD 160
 #define NOSCOREZONE 30
@@ -18,65 +20,10 @@
 #define WALLSIZEIPAD (WALLSIZE*2)
 #define WALLBORDER 15
 #define WALLBORDERIPAD (WALLBORDER*2)
-typedef struct {
-    float Position[3];
-    float Color[4];
-} Vertex;
-Vertex PaddleVertices[4];
-Vertex WallVertices[32];
-Vertex BallVerticies[4];
-Vertex RandomBrickVerticies[4];
-Vertex RandomBrickRedVerticies[4];
-Vertex PowerUpVerticies[4];
-const GLfloat PowerUpVerticiesTexture[] = {
-    1.0f, 1.0f,
-    1.0f, 0.0f,
-    0.0f, 1.0f,
-    0.0f, 0.0f
-};
-const GLubyte PaddleIndicies[] = {
-    0,1,2,
-    1,3,2
-};
-const GLubyte BallIndicies[] = {
-    0,1,2,
-    1,3,2
-};
-const GLubyte RandomBrickIndicies[] = {
-    0,1,2,
-    1,3,2
-};
-const GLubyte WallIndicies[] = {
-    0,1,2,
-    2,3,0,
 
-    4,5,6,
-    6,7,4,
-    
-    8,9,10,
-    10,11,8,
-    
-    12,13,14,
-    14,15,12,
-    
-    16,17,18,
-    18,19,16,
-    
-    20,21,22,
-    21,22,23,
-    
-    24,25,26,
-    26,27,24,
-    
-    28,29,30,
-    29,30,31
-};
-const GLubyte powerUpIndicies[] = {
-    0,1,2,
-    1,3,2
-};
 @implementation CoreGraphicsDrawingViewController
-@synthesize ballTimer, mainView, topOfScreen, rightOfScreen, leftOfScreen, bottomOfScreen, didStart, speedBounce, speedTimer, scoreField, score, oldBallRect, oldPaddleRect, pauseView, didInvalidate, isPaused, powerUpRect, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, timerToRelease, scoreMultiplier, fireTimeInterval, whichPowerUp, difficultyMultiplier, ballRect, paddlelocation, paddleLocked, cheatCheckTimer, doAddOnToScore, noScoreZone,noScoreZone2,noScoreZone3,noScoreZone4, accelerometerDelegate, lastTimeUpdate, velocityX, velocityY, xAccel, yAccel, xAccelCali, yAccelCali, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer,bottomOfScreenBall,topOfScreenBall,rightOfScreenBall,leftOfScreenBall, isPlaying, soundIsOn, leftTopRect, rightTopRect, leftBottomRect, rightBottomRect, upperLeftRect, lowerLeftRect, upperRightRect, lowerRightRect, areYouSureView, pauseButton, ballViewArray, audioFile1, audioFile2, audioFile3, playcount, audioFile4, speedMultiplier, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, highScoreField, didStartLoseWall, loseWallChangeTimer, dontmoveUp, dontmoveDown, randomBrickHitCounter, randomRect1, randomRect2, randomRect3, velocityLockEnabled,velocitySignX, velocitySignY, paddleSize, context, paddleEffect;
+// Synthesize various variables.
+@synthesize ballTimer, mainView, topOfScreen, rightOfScreen, leftOfScreen, bottomOfScreen, didStart, speedBounce, speedTimer, scoreField, score, oldBallRect, oldPaddleRect, pauseView, didInvalidate, isPaused, powerUpRect, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, timerToRelease, scoreMultiplier, fireTimeInterval, difficultyMultiplier, ballRect, paddlelocation, paddleLocked, cheatCheckTimer, doAddOnToScore, noScoreZone,noScoreZone2,noScoreZone3,noScoreZone4, lastTimeUpdate, velocityX, velocityY, xAccel, yAccel, xAccelCali, yAccelCali, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer,bottomOfScreenBall,topOfScreenBall,rightOfScreenBall,leftOfScreenBall, isPlaying, soundIsOn, leftTopRect, rightTopRect, leftBottomRect, rightBottomRect, upperLeftRect, lowerLeftRect, upperRightRect, lowerRightRect, areYouSureView, pauseButton, ballViewArray, audioFile1, audioFile2, audioFile3, playcount, audioFile4, speedMultiplier, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, highScoreField, didStartLoseWall, loseWallChangeTimer, dontmoveUp, dontmoveDown, randomBrickHitCounter, randomRect1, randomRect2, randomRect3, velocityLockEnabled,velocitySignX, velocitySignY, paddleSize, context, paddleEffect;
 
 
 
@@ -116,145 +63,20 @@ const GLubyte powerUpIndicies[] = {
     self.preferredFramesPerSecond = 60;
     self.resumeOnDidBecomeActive = NO;
 }
+
+// Sets up everything for OpenGL.
 -(void)setupGL {
+    // Unpause everything and setup current context.
     self.paused = NO;
     [EAGLContext setCurrentContext:self.context];
-    self.leftWallEffect = [[GLKBaseEffect alloc] init];
-    self.rightWallEffect = [[GLKBaseEffect alloc] init];
-    self.bottomWallEffect = [[GLKBaseEffect alloc] init];
-    self.topWallEffect = [[GLKBaseEffect alloc] init];
-    self.leftWallPaddleEffect = [[GLKBaseEffect alloc] init];
-    self.rightWallPaddleEffect = [[GLKBaseEffect alloc] init];
-    self.bottomWallPaddleEffect = [[GLKBaseEffect alloc] init];
-    self.topWallPaddleEffect = [[GLKBaseEffect alloc] init];
-    self.paddleEffect = [[GLKBaseEffect alloc] init];
-    self.powerUpEffect = [[GLKBaseEffect alloc] init];
-    glGenBuffers(1, &_paddleVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _paddleVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(PaddleVertices), PaddleVertices, GL_STATIC_DRAW);
     
-    glGenBuffers(1, &_ballVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _ballVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(BallVerticies), BallVerticies, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_wallVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _wallVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(WallVertices), WallVertices, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_paddleIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _paddleIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(PaddleIndicies), PaddleIndicies, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_ballIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ballIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(BallIndicies), BallIndicies, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_wallIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _wallIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6, WallIndicies, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_rightWallIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _rightWallIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6, WallIndicies+6, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_topWallIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _topWallIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6, WallIndicies+12, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_bottomWallIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bottomWallIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6, WallIndicies+18, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_leftWallIndexPaddleBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _leftWallIndexPaddleBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6, WallIndicies+24, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_rightWallIndexPaddleBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _rightWallIndexPaddleBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6, WallIndicies+30, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_topWallIndexPaddleBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _topWallIndexPaddleBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6, WallIndicies+36, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_bottomWallIndexPaddleBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _bottomWallIndexPaddleBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6, WallIndicies+42, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_randomBrickVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _randomBrickVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(RandomBrickVerticies), RandomBrickVerticies, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_randomBrickIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _randomBrickIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(RandomBrickIndicies), RandomBrickIndicies, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_randomBrickRedVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _randomBrickRedVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(RandomBrickRedVerticies), RandomBrickRedVerticies, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_powerUpIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _powerUpIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(powerUpIndicies), powerUpIndicies, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_powerUpVertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _powerUpVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(PowerUpVerticies), PowerUpVerticies, GL_STATIC_DRAW);
-    
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, 0, self.view.frame.size.height, -1024, 1024);
-    
-    self.paddleEffect.transform.projectionMatrix = projectionMatrix;
-    self.leftWallEffect.transform.projectionMatrix = projectionMatrix;
-    self.rightWallEffect.transform.projectionMatrix = projectionMatrix;
-    self.bottomWallEffect.transform.projectionMatrix = projectionMatrix;
-    self.topWallEffect.transform.projectionMatrix = projectionMatrix;
-    self.leftWallPaddleEffect.transform.projectionMatrix = projectionMatrix;
-    self.rightWallPaddleEffect.transform.projectionMatrix = projectionMatrix;
-    self.bottomWallPaddleEffect.transform.projectionMatrix = projectionMatrix;
-    self.topWallPaddleEffect.transform.projectionMatrix = projectionMatrix;
-    self.powerUpEffect.transform.projectionMatrix = projectionMatrix;
-    
-    self.leftWallEffect.colorMaterialEnabled=GL_TRUE;
-    self.rightWallEffect.colorMaterialEnabled=GL_TRUE;
-    self.topWallEffect.colorMaterialEnabled=GL_TRUE;
-    self.bottomWallEffect.colorMaterialEnabled=GL_TRUE;
-    self.leftWallPaddleEffect.colorMaterialEnabled=GL_TRUE;
-    self.rightWallPaddleEffect.colorMaterialEnabled=GL_TRUE;
-    self.topWallPaddleEffect.colorMaterialEnabled=GL_TRUE;
-    self.bottomWallPaddleEffect.colorMaterialEnabled=GL_TRUE;
 }
+
+// Shuts down everything.
 -(void)tearDownGL {
     self.paused = YES;
-    [EAGLContext setCurrentContext:self.context];
-    
-    glDeleteBuffers(1, &_ballVertexBuffer);
-    glDeleteBuffers(1, &_paddleVertexBuffer);
-    glDeleteBuffers(1, &_wallVertexBuffer);
-    glDeleteBuffers(1, &_paddleIndexBuffer);
-    glDeleteBuffers(1, &_ballIndexBuffer);
-    glDeleteBuffers(1, &_wallIndexBuffer);
-    glDeleteBuffers(1, &_rightWallIndexBuffer);
-    glDeleteBuffers(1, &_topWallIndexBuffer);
-    glDeleteBuffers(1, &_bottomWallIndexBuffer);
-    glDeleteBuffers(1, &_randomBrickIndexBuffer);
-    glDeleteBuffers(1, &_randomBrickRedVertexBuffer);
-    glDeleteBuffers(1, &_randomBrickVertexBuffer);
-    glDeleteBuffers(1, &_powerUpTextureVertexBuffer);
-    glDeleteBuffers(1, &_powerUpVertexBuffer);
-    glDeleteBuffers(1, &_powerUpIndexBuffer);
-    
-    self.paddleEffect = nil;
-    self.leftWallEffect = nil;
-    self.rightWallEffect = nil;
-    self.topWallEffect = nil;
-    self.bottomWallEffect = nil;
-    self.leftWallPaddleEffect = nil;
-    self.rightWallPaddleEffect = nil;
-    self.topWallPaddleEffect = nil;
-    self.bottomWallPaddleEffect = nil;
-    self.powerUpEffect = nil;
-    
 }
+
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self newGame];
@@ -263,13 +85,8 @@ const GLubyte powerUpIndicies[] = {
     [super viewWillDisappear:animated];
     [self theEnd];
 }
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
+
+// Generates random rectangle for bricks.
 -(CGRect)randomRectangle2:(int)j count:(int)k;
 {
     if(CGRectIntersectsRect(RANDOMBRICKAREA, CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize))){
@@ -349,12 +166,12 @@ const GLubyte powerUpIndicies[] = {
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         float randomNumberx = (arc4random() % (450 - 72)) + 72;
         float randomNumbery = (arc4random() % (606 - 72)) + 72;
-        //RPBLOG(@"randomRectangle: x: %f y: %f", randomNumberx, randomNumbery);
+        RPBLog(@"randomRectangle: x: %f y: %f", randomNumberx, randomNumbery);
         return CGRectMake(randomNumberx, randomNumbery, 40, 40);
     } else {
         float randomNumberx = (arc4random() % (241 - 38)) + 38;
         float randomNumbery = (arc4random() % (311 - 38)) + 38;
-        //RPBLOG(@"randomRectangle: x: %f y: %f", randomNumberx, randomNumbery);
+        RPBLog(@"randomRectangle: x: %f y: %f", randomNumberx, randomNumbery);
         return CGRectMake(randomNumberx, randomNumbery, 20, 20);
     }
 }
@@ -375,24 +192,12 @@ const GLubyte powerUpIndicies[] = {
         return;
     }
     // Check to make sure things have been set up.
-    if (self.paddle==nil || self.leftWallEffect==nil) {
+    if (self.paddle==nil || walls==nil) {
         return;
     }
     // Render the power up on the display.
-    if (powerUpEnabled == 1&& whichBrick==4 && powerUpAbsorbed==0) {
-        [self.powerUpEffect prepareToDraw];
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _powerUpIndexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, _powerUpVertexBuffer);
-        glEnableVertexAttribArray(GLKVertexAttribPosition);
-        glVertexAttribPointer(GLKVertexAttribPosition, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *)offsetof(Vertex, Position));
-        glEnableVertexAttribArray(GLKVertexAttribColor);
-        glVertexAttribPointer(GLKVertexAttribColor, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *)offsetof(Vertex, Color));
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        if (whichPowerUp!=4) {
-            glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-            glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 8, PowerUpVerticiesTexture);
-        }
-        glDrawElements(GL_TRIANGLES, sizeof(powerUpIndicies)/sizeof(powerUpIndicies[0]), GL_UNSIGNED_BYTE, 0);
+    if (powerUpEnabled == 1 && whichBrick==4 && powerUpAbsorbed==0) {
+        [powerup render];
     }
     // Render the paddle.
     [self.paddle render];
@@ -406,42 +211,17 @@ const GLubyte powerUpIndicies[] = {
     }
     // Render each random brick if they are supposed to be on display.
     if (randomBrickIsEnabled == YES) {
-        for (int i=0; i<3; i++) {
-            RPBRandomRect *randomRectPointer = randomBrickArray[i];
+        for (RPBRandomRect *randomRectPointer in randomBrickArray) {
             [randomRectPointer render];
         }
     }
 }
 
+// Called when the view controller wants to update the frame, in this case we call moveball.
 -(void)update {
     [self moveBall:nil];
-    /*GLKMatrix4 modelViewMatrixPaddle = GLKMatrix4Translate(GLKMatrix4Identity, paddleCenter.x-(paddleSize/2), ((self.view.frame.size.height-(paddleCenter.y-(paddleSize/2)))-paddleSize), 0.0f);
-    self.paddleEffect.transform.modelviewMatrix = modelViewMatrixPaddle;
-    for (RPBBall *ball in ballViewArray) {
-        GLKMatrix4 modelViewMatrixBall = GLKMatrix4Translate(GLKMatrix4Identity, ball.ballRect.origin.x, (self.view.frame.size.height-ball.ballRect.origin.y)-ball.ballRect.size.height, 0.0f);
-        ball.ballEffect.transform.modelviewMatrix = modelViewMatrixBall;
-    }
-    if (randomBrickIsEnabled == YES) {
-        for (int i=0; i<3; i++) {
-            RPBRandomRect *randomRectPointer = randomBrickArray[i];
-            GLKBaseEffect *brickBaseEffect = randomRectPointer.brickBaseEffect;
-            brickBaseEffect.transform.modelviewMatrix = GLKMatrix4Translate(GLKMatrix4Identity, randomRectPointer.rectOfView.origin.x, (self.view.frame.size.height-randomRectPointer.rectOfView.origin.y) - randomRectPointer.rectOfView.size.height, 0.0f);
-        }
-    }
-    if (powerUpEnabled == 1&&whichBrick==4&&powerUpAbsorbed==0) {
-        GLKMatrix4 modelViewMatrixPowerUp;
-        if (whichPowerUp==1) {
-            modelViewMatrixPowerUp = GLKMatrix4Translate(GLKMatrix4Identity, powerUpRect.origin.x, (self.view.frame.size.height-powerUpRect.origin.y)-powerUpRect.size.height, 0.0f);
-        } else if (whichPowerUp==2) {
-            modelViewMatrixPowerUp = GLKMatrix4Translate(GLKMatrix4Identity, powerUpRect2.origin.x, (self.view.frame.size.height-powerUpRect2.origin.y)-powerUpRect2.size.height, 0.0f);
-        } else if (whichPowerUp==3) {
-            modelViewMatrixPowerUp = GLKMatrix4Translate(GLKMatrix4Identity, powerUpRect3.origin.x, (self.view.frame.size.height-powerUpRect3.origin.y)-powerUpRect3.size.height, 0.0f);
-        } else if (whichPowerUp==4) {
-            modelViewMatrixPowerUp = GLKMatrix4Translate(GLKMatrix4Identity, powerUpRect4.origin.x, (self.view.frame.size.height-powerUpRect4.origin.y)-powerUpRect4.size.height, 0.0f);
-        }
-        self.powerUpEffect.transform.modelviewMatrix = modelViewMatrixPowerUp;
-    }*/
 }
+
 -(void)moveBall:(NSTimer *)theTimer
 {
     int i;
@@ -449,278 +229,293 @@ const GLubyte powerUpIndicies[] = {
         RPBBall *ballPointer=ballViewArray[i];
         // Lock the paddle.
         [self lockPaddle];
+        // Get various variables we need to manipulate.
         float bounceAngle;
         int potentialScore=0;
         float xbounce=ballPointer.xBounce;
         float bounce=ballPointer.bounce;
-        CGRect tempRect = ballPointer.rect;
+        CGRect ballPointerRect = ballPointer.rect;
         int ballHitCounter = ballPointer.ballHitCounter;
         int ballHitCounterTop = ballPointer.ballHitCounterTop;
         int ballHitCounterLeft = ballPointer.ballHitCounterLeft;
         int ballHitCounterRight = ballPointer.ballHitCounterRight;
         int ballHitCounterScore = ballPointer.ballHitCounterScore;
         CGRect paddleRect = CGRectMake(paddleCenter.x-paddleSize/2, paddleCenter.y-paddleSize/2, paddleSize, paddleSize);
-        CGRect tempRect2 = paddleRect;
-        CGRect intersectRect = CGRectIntersection(paddleRect,tempRect);
-        // We intersected the first power-up.
-        if ((CGRectIntersectsRect(powerUpRect, tempRect) && powerUpEnabled ==1 && whichPowerUp ==1) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==1)) {
-            powerUpEnabledEnabled = 1;
-            brickIntersectionEnablePowerUp=NO;
-            if (whichBrick!=4) {
-                //[[randomBrickArray[whichBrick] rectView] setBackgroundColor:[UIColor greenColor]];
-                [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
+        CGRect paddleRectangle = paddleRect;
+        
+        // Get intersection of paddle and ball.
+        CGRect intersectRect = CGRectIntersection(paddleRect, ballPointerRect);
+        
+        // If there is a powerup on the screen and we intersected it.
+        if (powerUpEnabled == 1 && CGRectIntersectsRect(powerup.rectangle.rect, ballPointerRect)) {
+            // We intersected the first power-up.
+            if ((powerup.whichPowerUp == RPBPowerUpTypeSpeedUp) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==1)) {
+                powerUpEnabledEnabled = 1;
+                brickIntersectionEnablePowerUp=NO;
+                if (whichBrick!=4) {
+                    [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
+                }
+                whichBrick=4;
+                powerUpAbsorbed=0;
+                didStartStartPowerUp = 1;
+                scoreMultiplier = 3.0f;
+                powerUpEnabled = 0;
+                speedBounce = speedBounce+2;
+                int k;
+                for (k=0; k<ballViewArray.count; k++) {
+                    RPBBall *ballPointer2=ballViewArray[k];
+                    [ballPointer2 speedUpBall];
+                }
+                speedMultiplier=(1+speedBounce);
+                self.powerUpStartedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpEndPowerUp:) userInfo:nil repeats:YES];
+                [powerUpStartedTimer fire];
+                [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile2];
+                return;
             }
-            whichBrick=4;
-            powerUpAbsorbed=0;
-            didStartStartPowerUp = 1;
-            scoreMultiplier = 3.0f;
-            powerUpEnabled = 0;
-            speedBounce = speedBounce+2;
-            int k;
-            for (k=0; k<ballViewArray.count; k++) {
-                RPBBall *ballPointer2=ballViewArray[k];
-                [ballPointer2 speedUpBall];
+            // We intersected the second power-up.
+            if ((powerup.whichPowerUp == RPBPowerUpTypeSlowDown) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp == 2)) {
+                powerUpEnabledEnabled = 1;
+                brickIntersectionEnablePowerUp=NO;
+                if (whichBrick!=4) {
+                    [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
+                }
+                whichBrick=4;
+                powerUpAbsorbed=0;
+                didStartStartPowerUp = 1;
+                scoreMultiplier = 2.0f;
+                powerUpEnabled = 0;
+                speedBounce = speedBounce-2;
+                int k;
+                for (k=0; k<ballViewArray.count; k++) {
+                    RPBBall *ballPointer2=ballViewArray[k];
+                    [ballPointer2 slowDownBall];
+                }
+                speedMultiplier=(1+speedBounce);
+                self.powerUpStartedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpEndPowerUp:) userInfo:nil repeats:YES];
+                [powerUpStartedTimer fire];
+                [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile3];
+                return;
             }
-            speedMultiplier=(1+speedBounce);
-            self.powerUpStartedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpEndPowerUp:) userInfo:nil repeats:YES];
-            [powerUpStartedTimer fire];
-            [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile2];
-            return;
+            
+            // We intersected the ball split powerup.
+            if ((powerup.whichPowerUp == RPBPowerUpTypeSplitBall) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp == 3)) {
+                brickIntersectionEnablePowerUp=NO;
+                if (whichBrick!=4) {
+                    [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
+                }
+                whichBrick=4;
+                powerUpAbsorbed=0;
+                powerUpEnabled = 0;
+                RPBBall *currentBall = ballViewArray[i];
+                RPBBall *newBall=[[RPBBall alloc] init];
+                newBall.rect=CGRectMake(ballPointerRect.origin.x-(ballPointerRect.size.width+1), ballPointerRect.origin.y, ballPointerRect.size.width, ballPointerRect.size.height);
+                newBall.bounce=currentBall.bounce;
+                newBall.xBounce=-(currentBall.xBounce);
+                newBall.speedMultiplier=currentBall.speedMultiplier;
+                newBall.projectMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, self.view.frame.size.height, 0, -1024, 1024);
+                newBall.multiplyFactor = currentBall.multiplyFactor;
+                [ballViewArray addObject:newBall];
+                // Play the power up sound.
+                [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile4];
+            }
+            
+            // We intersected the fourth power-up.
+            if ((powerup.whichPowerUp == RPBPowerUpTypeChangeWall) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp == 4)) {
+                brickIntersectionEnablePowerUp=NO;
+                if (whichBrick!=4) {
+                    [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
+                }
+                whichBrick=4;
+                powerUpAbsorbed=0;
+                powerUpEnabled = 0;
+                didStartStartPowerUp=1;
+                powerUpEnabledEnabled=1;
+                int oldWallToLose=wallToLose;
+                while (oldWallToLose==wallToLose||wallToLose==wallEnabled) {
+                    wallToLose = (arc4random() % 4) + 1;
+                    walls.wallToLose = wallToLose;
+                }
+                scoreMultiplier=4.0f;
+                self.loseWallChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(loseTimeChangeWall:) userInfo:nil repeats:YES];
+                didStartLoseWall=YES;
+                [loseWallChangeTimer fire];
+            }
         }
-        // We intersected the second power-up.
-        if ((CGRectIntersectsRect(powerUpRect2, tempRect) && powerUpEnabled ==1 && whichPowerUp ==2) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==2)){
-            powerUpEnabledEnabled = 1;
-            brickIntersectionEnablePowerUp=NO;
-            if (whichBrick!=4) {
-                //[[randomBrickArray[whichBrick] rectView] setBackgroundColor:[UIColor greenColor]];
-                [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
-            }
-            whichBrick=4;
-            powerUpAbsorbed=0;
-            didStartStartPowerUp = 1;
-            scoreMultiplier = 2.0f;
-            powerUpEnabled = 0;
-            speedBounce = speedBounce-2;
-            int k;
-            for (k=0; k<ballViewArray.count; k++) {
-                RPBBall *ballPointer2=ballViewArray[k];
-                [ballPointer2 slowDownBall];
-            }
-            speedMultiplier=(1+speedBounce);
-            self.powerUpStartedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpEndPowerUp:) userInfo:nil repeats:YES];
-            [powerUpStartedTimer fire];
-            [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile3];
-            return;
-        }
-        // We intersected the ball split powerup.
-        if ((CGRectIntersectsRect(powerUpRect3, tempRect) && powerUpEnabled ==1 && whichPowerUp == 3)||(brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==3)) {
-            brickIntersectionEnablePowerUp=NO;
-            if (whichBrick!=4) {
-                [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
-            }
-            whichBrick=4;
-            powerUpAbsorbed=0;
-            powerUpEnabled = 0;
-            RPBBall *currentBall = ballViewArray[i];
-            RPBBall *newBall=[[RPBBall alloc] init];
-            newBall.rect=CGRectMake(tempRect.origin.x-(tempRect.size.width+1), tempRect.origin.y, tempRect.size.width, tempRect.size.height);
-            newBall.bounce=currentBall.bounce;
-            newBall.xBounce=-(currentBall.xBounce);
-            newBall.speedMultiplier=currentBall.speedMultiplier;
-            newBall.projectMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, self.view.frame.size.height, 0, -1024, 1024);
-            newBall.multiplyFactor = currentBall.multiplyFactor;
-            [ballViewArray addObject:newBall];
-            [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile4];
-        }
-        // We intersected the second power-up.
-        if ((CGRectIntersectsRect(powerUpRect4, tempRect) && powerUpEnabled ==1 && whichPowerUp == 4)||(brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==4)){
-            brickIntersectionEnablePowerUp=NO;
-            if (whichBrick!=4) {
-                [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
-            }
-            whichBrick=4;
-            powerUpAbsorbed=0;
-            powerUpEnabled = 0;
-            didStartStartPowerUp=1;
-            powerUpEnabledEnabled=1;
-            int oldWallToLose=wallToLose;
-            while (oldWallToLose==wallToLose||wallToLose==wallEnabled) {
-                wallToLose = (arc4random() % 4) +1;
-                walls.wallToLose = wallToLose;
-            }
-            scoreMultiplier=4.0f;
-            [self updateWalls];
-            self.loseWallChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(loseTimeChangeWall:) userInfo:nil repeats:YES];
-            didStartLoseWall=YES;
-            [loseWallChangeTimer fire];
-        }
-            if (CGRectIntersectsRect(walls.leftWall.rect, tempRect)) {
-                ballHitCounterLeft = ballHitCounterLeft+1;
-                if (walls.wallToLose==1) {
-                    if (ballViewArray.count==1) {
-                        [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
-                        return;
-                    } else {
-                        [ballViewArray removeObjectAtIndex:i];
-                        return;
-                    }
+        
+        // We intersected the left wall.
+        if (CGRectIntersectsRect(walls.leftWall.rect, ballPointerRect)) {
+            ballHitCounterLeft = ballHitCounterLeft+1;
+            // We hit the losing wall.
+            if (walls.wallToLose==1) {
+                if (ballViewArray.count==1) {
+                    [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
+                    return;
                 } else {
-                    if (ballHitCounterRight<=1)
-                    {
-                        [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
-                        xbounce = -xbounce;
-                        xbounce = xbounce+0.01f;
-                        if (walls.wallToEnable == 1) {
-                            potentialScore += (250*scoreMultiplier);
-                        } else {
-                            potentialScore += (10*scoreMultiplier);
-                    }
-                }
-                ballHitCounterScore = ballHitCounterScore + 1;
-                }
-                if(ballHitCounterLeft>=5)
-                {
+                    [ballViewArray removeObjectAtIndex:i];
                     return;
                 }
             } else {
-                ballHitCounterLeft=0;
-            }
-            if (CGRectIntersectsRect(walls.rightWall.rect, tempRect)) {
-                ballHitCounterRight= ballHitCounterRight+1;
-                if (walls.wallToLose==3) {
-                    if (ballViewArray.count==1) {
-                        [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
-                        return;
+                if (ballHitCounterRight<=1)
+                {
+                    [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
+                    xbounce = -xbounce;
+                    xbounce = xbounce+0.01f;
+                    if (walls.wallToEnable == 1) {
+                        potentialScore += (250*scoreMultiplier);
                     } else {
-                        [ballViewArray removeObjectAtIndex:i];
-                        return;
-                    }
+                        potentialScore += (10*scoreMultiplier);
+                }
+            }
+            ballHitCounterScore = ballHitCounterScore + 1;
+            }
+            if(ballHitCounterLeft>=5)
+            {
+                return;
+            }
+        } else {
+            ballHitCounterLeft=0;
+        }
+        if (CGRectIntersectsRect(walls.rightWall.rect, ballPointerRect)) {
+            ballHitCounterRight= ballHitCounterRight+1;
+            if (walls.wallToLose==3) {
+                if (ballViewArray.count==1) {
+                    [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
+                    return;
                 } else {
-                    if (ballHitCounterRight<=1)
-                    {
-                        xbounce = -xbounce;
-                        xbounce = xbounce+0.01f;
-                        [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
-                        if (walls.wallToEnable == 3) {
-                            potentialScore += (250*scoreMultiplier);
-                        } else {
-                            potentialScore += (10*scoreMultiplier);
-                        }
-                        ballHitCounterScore = ballHitCounterScore + 1;
-                    }
-                    if(ballHitCounterRight>=5)
-                    {
-                        return;
-                    }
+                    [ballViewArray removeObjectAtIndex:i];
+                    return;
                 }
             } else {
-                ballHitCounterRight=0;
-            }
-            if (CGRectIntersectsRect(walls.bottomWall.rect, tempRect)) {
-                
-                if (walls.wallToLose==4) {
-                    if (ballViewArray.count==1) {
-                        [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
-                        return;
-                    } else {
-                        [ballViewArray removeObjectAtIndex:i];
-                        return;
-                    }
-                } else {
-                    bounce = -bounce;
-                    bounce = bounce +0.01f;
+                if (ballHitCounterRight<=1)
+                {
+                    xbounce = -xbounce;
+                    xbounce = xbounce+0.01f;
                     [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
-                    if (walls.wallToEnable == 6) {
+                    if (walls.wallToEnable == 3) {
                         potentialScore += (250*scoreMultiplier);
                     } else {
                         potentialScore += (10*scoreMultiplier);
                     }
                     ballHitCounterScore = ballHitCounterScore + 1;
                 }
+                if(ballHitCounterRight>=5)
+                {
+                    return;
+                }
             }
-            if (CGRectIntersectsRect(walls.topWall.rect, tempRect)) {
-                ballHitCounterTop = ballHitCounterTop+1;
-                if (walls.wallToLose==2) {
-                    if (ballViewArray.count==1) {
-                        [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
+        } else {
+            ballHitCounterRight=0;
+        }
+        if (CGRectIntersectsRect(walls.bottomWall.rect, ballPointerRect)) {
+            if (walls.wallToLose==4) {
+                if (ballViewArray.count==1) {
+                    [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
                         return;
                     } else {
                         [ballViewArray removeObjectAtIndex:i];
                         return;
                     }
+            } else {
+                bounce = -bounce;
+                bounce = bounce +0.01f;
+                [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
+                if (walls.wallToEnable == 6) {
+                    potentialScore += (250*scoreMultiplier);
                 } else {
-                    if (ballHitCounterTop<=1)
-                    {
-                        bounce = -bounce;
-                        bounce = bounce +0.01f;
-                        [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
-                        if (walls.wallToEnable == 2) {
-                            potentialScore += (250*scoreMultiplier);
-                        } else {
-                            potentialScore += (10*scoreMultiplier);
-                        }
-                    //ballHitCounterTop=ballHitCounterTop+1;
+                    potentialScore += (10*scoreMultiplier);
+                }
+                ballHitCounterScore = ballHitCounterScore + 1;
+            }
+        }
+        if (CGRectIntersectsRect(walls.topWall.rect, ballPointerRect)) {
+            ballHitCounterTop = ballHitCounterTop+1;
+            if (walls.wallToLose==2) {
+                if (ballViewArray.count==1) {
+                    [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
+                    return;
+                } else {
+                    [ballViewArray removeObjectAtIndex:i];
+                    return;
+                }
+            } else {
+                if (ballHitCounterTop<=1)
+                {
+                    bounce = -bounce;
+                    bounce = bounce +0.01f;
+                    [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
+                    if (walls.wallToEnable == 2) {
+                        potentialScore += (250*scoreMultiplier);
+                    } else {
+                        potentialScore += (10*scoreMultiplier);
+                    }
                         ballHitCounterScore = ballHitCounterScore + 1;
                     }
-                    //[bounceArray replaceObjectAtIndex:i withObject:[NSNumber numberWithFloat:bounce]];
                 }
                 if(ballHitCounterTop>=5)
                 {
                     return;
                 }
-            } else {
-                ballHitCounterTop=0;
-            } if (randomBrickIsEnabled) {
-                for (int i=0; i<randomBrickArray.count; i++) {
-                    RPBRandomRect *randomRect = randomBrickArray[i];
-                    CGRect rectOfBrick = randomRect.rectOfView;
-                    if (CGRectIntersectsRect(tempRect, rectOfBrick)) {
-                        randomBrickHitCounter +=1;
-                    }
-                    if (CGRectIntersectsRect(tempRect, rectOfBrick)&&randomBrickHitCounter<=1) {
-                        CGRect intersectRect = CGRectIntersection(rectOfBrick, tempRect);
-                        if (CGRectIntersectsRect(randomRect.bottomRectBall, tempRect)&&CGRectIntersectsRect(randomRect.bottomRectBall, paddleRect)) {
+        } else {
+            ballHitCounterTop=0;
+        }
+        // Random bricks are on the screen
+        if (randomBrickIsEnabled) {
+            // Go through each one.
+            for (int i=0; i<randomBrickArray.count; i++) {
+                // Get it and where it is on the screen.
+                RPBRandomRect *randomRect = randomBrickArray[i];
+                CGRect rectOfBrick = randomRect.rectOfView;
+                //
+                if (CGRectIntersectsRect(ballPointerRect, rectOfBrick)) {
+                    if (randomBrickHitCounter<=1) {
+                        CGRect intersectRect = CGRectIntersection(rectOfBrick, ballPointerRect);
+                        if (CGRectIntersectsRect(randomRect.bottomRectBall, ballPointerRect)&&CGRectIntersectsRect(randomRect.bottomRectBall, paddleRect)) {
                             dontmoveUp=YES;
                         } else {
                             dontmoveUp=NO;
                         }
-                        if (CGRectIntersectsRect(randomRect.topRectBall, tempRect)&&CGRectIntersectsRect(randomRect.topRectBall, paddleRect)) {
+                        if (CGRectIntersectsRect(randomRect.topRectBall, ballPointerRect)&&CGRectIntersectsRect(randomRect.topRectBall, paddleRect)) {
                             dontmoveDown=YES;
                         } else {
                             dontmoveDown=NO;
                         }
-                        if ((CGRectIntersectsRect(randomRect.topRectBall, tempRect)||CGRectIntersectsRect(randomRect.bottomRectBall, tempRect)||CGRectIntersectsRect(randomRect.leftRectBall, tempRect)||CGRectIntersectsRect(randomRect.rightRectBall, tempRect))&&(CGRectIntersectsRect(randomRect.topRectBall, paddleRect)||CGRectIntersectsRect(randomRect.bottomRectBall, paddleRect)||CGRectIntersectsRect(randomRect.leftRectBall, paddleRect)||CGRectIntersectsRect(randomRect.rightRectBall, paddleRect))) {
+                        // Don't let the paddle move if we are wedged between the ball and the paddle.
+                        if ((CGRectIntersectsRect(randomRect.topRectBall, ballPointerRect)||CGRectIntersectsRect(randomRect.bottomRectBall, ballPointerRect)||CGRectIntersectsRect(randomRect.leftRectBall, ballPointerRect)||CGRectIntersectsRect(randomRect.rightRectBall, ballPointerRect))&&(CGRectIntersectsRect(randomRect.topRectBall, paddleRect)||CGRectIntersectsRect(randomRect.bottomRectBall, paddleRect)||CGRectIntersectsRect(randomRect.leftRectBall, paddleRect)||CGRectIntersectsRect(randomRect.rightRectBall, paddleRect))) {
                             dontmove=YES;
                         } else {
                             dontmove=NO;
                         }
-                        if (CGRectIntersectsRect(randomRect.topRect, tempRect)&&intersectRect.size.width>intersectRect.size.height) {
+                        // We are intesecting the top.
+                        if (CGRectIntersectsRect(randomRect.topRect, ballPointerRect)&&intersectRect.size.width>intersectRect.size.height) {
                             CGRect tempRect4=ballPointer.rect;
-                            tempRect4.origin.y=(randomRect.topRect.origin.y-(tempRect.size.height+3));
+                            tempRect4.origin.y=(randomRect.topRect.origin.y-(ballPointerRect.size.height+3));
                             bounce=-bounce+0.1f;
                             ballPointer.rect=tempRect4;
-                            tempRect=ballPointer.rect;
+                            ballPointerRect=ballPointer.rect;
                         }
-                        if (CGRectIntersectsRect(randomRect.bottomRect, tempRect)&&intersectRect.size.width>intersectRect.size.height) {
+                        // We are intersecting the bottom.
+                        if (CGRectIntersectsRect(randomRect.bottomRect, ballPointerRect)&&intersectRect.size.width>intersectRect.size.height) {
                             CGRect tempRect4=ballPointer.rect;
                             tempRect4.origin.y=(randomRect.bottomRect.origin.y+3);
                             bounce=-bounce+0.1f;
                             ballPointer.rect=tempRect4;
-                            tempRect=ballPointer.rect;
+                            ballPointerRect=ballPointer.rect;
                         }
-                        if (CGRectIntersectsRect(randomRect.leftRect, tempRect)&&intersectRect.size.width<intersectRect.size.height) {
+                        // We are intersecting the left side.
+                        if (CGRectIntersectsRect(randomRect.leftRect, ballPointerRect)&&intersectRect.size.width<intersectRect.size.height) {
                             CGRect tempRect4=ballPointer.rect;
-                            tempRect4.origin.x=(randomRect.leftRect.origin.x-(tempRect.size.height+3));
+                            tempRect4.origin.x=(randomRect.leftRect.origin.x-(ballPointerRect.size.height+3));
                             xbounce=-xbounce+0.1f;
                             ballPointer.rect=tempRect4;
-                            tempRect=ballPointer.rect;
+                            ballPointerRect=ballPointer.rect;
                         }
-                        if (CGRectIntersectsRect(randomRect.rightRect, tempRect)&&intersectRect.size.width<intersectRect.size.height) {
+                        // We are intersecting the right.
+                        if (CGRectIntersectsRect(randomRect.rightRect, ballPointerRect)&&intersectRect.size.width<intersectRect.size.height) {
                             CGRect tempRect4=ballPointer.rect;
                             tempRect4.origin.x=(randomRect.rightRect.origin.x+3);
                             xbounce=-xbounce+0.1f;
                             ballPointer.rect=tempRect4;
-                            tempRect=ballPointer.rect;
+                            ballPointerRect=ballPointer.rect;
                         }
                         if (whichBrick==i&&randomRect.powerUpAbsorbed!=0) {
                             brickIntersectionEnablePowerUp=YES;
@@ -728,56 +523,55 @@ const GLubyte powerUpIndicies[] = {
                         }
                         potentialScore += 20;
                         [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
-                    } else if(!CGRectIntersectsRect(tempRect, rectOfBrick)) {
-                        randomBrickHitCounter=0;
                     }
+                    randomBrickHitCounter +=1;
+                } else if(!CGRectIntersectsRect(ballPointerRect, rectOfBrick)) {
+                    randomBrickHitCounter=0;
                 }
             }
-            // We hit the paddle.
-            if (!CGRectIsNull(intersectRect)) {
-                if (ballHitCounterScore<1)
-                {
-                    isPlaying = YES;
-                    // Get the center of the collision and convert it to the paddle's coordinate system.
-                    float whereBallHit = ((paddleRect.origin.x + paddleRect.size.width/2) - (intersectRect.origin.x+(intersectRect.size.width/2)));
-                    float whereBallHitY = ((paddleRect.origin.y + paddleRect.size.height/2) - (intersectRect.origin.y+(intersectRect.size.height/2)));
-                    NSLog(@"whereBallHit: %f", whereBallHit);
-                    NSLog(@"whereBallHitY: %f", whereBallHitY);
-                    // Our score to reward the player.
-                    potentialScore += (20*scoreMultiplier);
-                    // Get the hit location as a ratio.
-                    float ratioX=(whereBallHit/(paddleRect.size.width/2));
-                    float ratioY=(whereBallHitY/(paddleRect.size.height/2));
-                    NSLog(@"ratioX: %f", ratioX);
-                    NSLog(@"ratioY: %f", ratioY);
-                    bounceAngle=((60.0f*(M_PI/180)));
-                    // Get our ball trajectory.
-                    if (ABS(ratioX) < ABS(ratioY)) {
-                        xbounce = sinf(bounceAngle * ratioX);
-                        bounce = cosf(bounceAngle * ratioX) * ratioY;
-                    } else {
-                        xbounce = cosf(bounceAngle * ratioY) * ratioX;
-                        bounce = sinf(bounceAngle * ratioY);
-                    }
-                    // Apply speed multiplier.
-                    bounce *=ballPointer.speedMultiplier;
-                    xbounce *=ballPointer.speedMultiplier;
-                    // Play our audio.
-                    [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
+        }
+        // We hit the paddle.
+        if (!CGRectIsNull(intersectRect)) {
+            if (ballHitCounterScore<1)
+            {
+                isPlaying = YES;
+                // Get the center of the collision and convert it to the paddle's coordinate system.
+                float whereBallHit = ((paddleRect.origin.x + paddleRect.size.width/2) - (intersectRect.origin.x+(intersectRect.size.width/2)));
+                float whereBallHitY = ((paddleRect.origin.y + paddleRect.size.height/2) - (intersectRect.origin.y+(intersectRect.size.height/2)));
+                // Our score to reward the player.
+                potentialScore += (20*scoreMultiplier);
+                // Get the hit location as a ratio.
+                float ratioX=(whereBallHit/(paddleRect.size.width/2));
+                float ratioY=(whereBallHitY/(paddleRect.size.height/2));
+                bounceAngle=((60.0f*(M_PI/180)));
+                // Get our ball trajectory.
+                if (ABS(ratioX) < ABS(ratioY)) {
+                    xbounce = sinf(bounceAngle * ratioX);
+                    bounce = cosf(bounceAngle * ratioX) * ratioY;
+                } else {
+                    xbounce = cosf(bounceAngle * ratioY) * ratioX;
+                    bounce = sinf(bounceAngle * ratioY);
                 }
-                // Increment ball counters.
-                ballHitCounterScore = ballHitCounterScore + 1;
-                ballHitCounter = ballHitCounter+1;
+                // Apply speed multiplier.
+                bounce *=ballPointer.speedMultiplier;
+                xbounce *=ballPointer.speedMultiplier;
+                // Play our audio.
+                [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
             }
-            else if (!CGRectIntersectsRect(tempRect2, tempRect)){
-                ballHitCounter=0;
-            }
-        END:
-        if((!(CGRectIntersectsRect(noScoreZone, tempRect2) && CGRectIntersectsRect(noScoreZone, tempRect))&&!(CGRectIntersectsRect(noScoreZone2, tempRect2) && CGRectIntersectsRect(noScoreZone2, tempRect))&&!(CGRectIntersectsRect(noScoreZone3, tempRect2) && CGRectIntersectsRect(noScoreZone3, tempRect))&&!(CGRectIntersectsRect(noScoreZone4, tempRect2) && CGRectIntersectsRect(noScoreZone4, tempRect))))
+            // Increment ball counters.
+            ballHitCounterScore = ballHitCounterScore + 1;
+            ballHitCounter = ballHitCounter+1;
+        }
+        else if (!CGRectIntersectsRect(paddleRectangle, ballPointerRect)){
+            ballHitCounter=0;
+        }
+        // Check for cheating.
+        if((!(CGRectIntersectsRect(noScoreZone, paddleRectangle) && CGRectIntersectsRect(noScoreZone, ballPointerRect))&&!(CGRectIntersectsRect(noScoreZone2, paddleRectangle) && CGRectIntersectsRect(noScoreZone2, ballPointerRect))&&!(CGRectIntersectsRect(noScoreZone3, paddleRectangle) && CGRectIntersectsRect(noScoreZone3, ballPointerRect))&&!(CGRectIntersectsRect(noScoreZone4, paddleRectangle) && CGRectIntersectsRect(noScoreZone4, ballPointerRect))))
         {
             score += potentialScore;
         
         }
+        // Update the ball with our newly calculated information.
         ballPointer.xBounce=xbounce;
         ballPointer.bounce=bounce;
         ballPointer.ballHitCounter=ballHitCounter;
@@ -786,10 +580,10 @@ const GLubyte powerUpIndicies[] = {
         ballPointer.ballHitCounterRight=ballHitCounterRight;
         ballViewArray[i] = ballPointer;
         [self unlockPaddle];
-        tempRect.origin.y=tempRect.origin.y-ballPointer.bounce;
-        tempRect.origin.x=tempRect.origin.x-ballPointer.xBounce;
-        ballPointer.rect=tempRect;
-        if (!(CGRectIntersectsRect(tempRect2, tempRect)||CGRectIntersectsRect(tempRect, topOfScreen)||CGRectIntersectsRect(tempRect, leftOfScreen)||CGRectIntersectsRect(tempRect, rightOfScreen)||CGRectIntersectsRect(tempRect, bottomOfScreen))) {
+        ballPointerRect.origin.y=ballPointerRect.origin.y-ballPointer.bounce;
+        ballPointerRect.origin.x=ballPointerRect.origin.x-ballPointer.xBounce;
+        ballPointer.rect=ballPointerRect;
+        if (!(CGRectIntersectsRect(paddleRectangle, ballPointerRect)||CGRectIntersectsRect(ballPointerRect, topOfScreen)||CGRectIntersectsRect(ballPointerRect, leftOfScreen)||CGRectIntersectsRect(ballPointerRect, rightOfScreen)||CGRectIntersectsRect(ballPointerRect, bottomOfScreen))) {
             ballHitCounterScore=0;
         }
         scoreField.text=[NSString localizedStringWithFormat:NSLocalizedString(@"SCORE:", nil), score];
@@ -928,173 +722,8 @@ const GLubyte powerUpIndicies[] = {
         [wallScoreBoostTimer fire];
         wallEnabled = NO;
     }
-    [self updateWalls];
 }
--(void)updateWalls {
-    if (wallToLose == 1) {
-        for (int i=0; i<4; i++) {
-            WallVertices[i].Color[0] = 1.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=16; i<20; i++) {
-            WallVertices[i].Color[0] = 0.5f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    }
-    else if (wallToEnable == 1) {
-        for (int i=0; i<4; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 1.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=16; i<20; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.5f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else {
-        for (int i=0; i<4; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 1.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=16; i<20; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.5f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    }
-    if (wallToLose == 2) {
-        for (int i=12; i<16; i++) {
-            WallVertices[i].Color[0] = 1.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=28; i<32; i++) {
-            WallVertices[i].Color[0] = 0.5f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else if (wallToEnable == 2) {
-        for (int i=12; i<16; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 1.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=28; i<32; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.5f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else {
-        for (int i=12; i<16; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 1.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=28; i<32; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.5f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    }
-    if (wallToLose == 3) {
-        for (int i=4; i<8; i++) {
-            WallVertices[i].Color[0] = 1.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=20; i<24; i++) {
-            WallVertices[i].Color[0] = 0.5f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else if (wallToEnable == 3) {
-        for (int i=4; i<8; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 1.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=20; i<24; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.5f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else {
-        for (int i=4; i<8; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 1.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=20; i<24; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.5f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    }
-    if (wallToLose == 4||wallToLose==0) {
-        for (int i=8; i<12; i++) {
-            WallVertices[i].Color[0] = 1.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=24; i<28; i++) {
-            WallVertices[i].Color[0] = 0.5f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else if (wallToEnable == 4) {
-        for (int i=8; i<12; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 1.0f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=24; i<28; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.5f;
-            WallVertices[i].Color[2] = 0.0f;
-            WallVertices[i].Color[3] = 0.5f;
-        }
-    } else {
-        for (int i=8; i<12; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 1.0f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-        for (int i=24; i<28; i++) {
-            WallVertices[i].Color[0] = 0.0f;
-            WallVertices[i].Color[1] = 0.0f;
-            WallVertices[i].Color[2] = 0.5f;
-            WallVertices[i].Color[3] = 1.0f;
-        }
-    }
-    glBindBuffer(GL_ARRAY_BUFFER, _wallVertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(WallVertices), WallVertices, GL_STATIC_DRAW);
-}
+
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     // Return if the paddle is locked.
@@ -1220,18 +849,11 @@ const GLubyte powerUpIndicies[] = {
             tempRect2.origin.x=paddleImagePointTemp.x-(paddleSize/2);
             tempRect2.origin.y=paddleImagePointTemp.y-(paddleSize/2);
             tempRect2.size=CGSizeMake(paddleSize, paddleSize);
-            if (!CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)) {
-                //goto SKIP4;
-                //i=0;
-            } else if ((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)||CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)||CGRectIntersectsRect(randomRect3.rectOfView, tempRect2))&&i==2){
-                //return;
-            }
         }
     }
     if (goThroughAgain==YES&&goThroughAgain2==YES) {
         skip4jump=YES;
     }
-SKIP4:
     for (i=0; i<ballViewArray.count; i++) {
         RPBBall *ballPointer = ballViewArray[i];
         CGRect intersectRect = CGRectIntersection(tempRect, ballPointer.rect);
@@ -1263,78 +885,27 @@ SKIP4:
 }
 -(void)powerUpCreate:(NSTimer *)theTimer
 {
+    // If this is the first time the timer fired, then set did start to 0 and get out of here.
 	if(didStartPowerUp == 1)
 	{
 		didStartPowerUp = 0;
 		return;
 	}
+    
+    // If the powerup is already on the screen, then get out of here.
 	if (powerUpEnabledEnabled ==1) {
 		return;
 	}
+    
+    // If we don't have a powerup on the screen.
 	if(powerUpEnabled == 0)
 	{
-		whichPowerUp = (rand() % 4) +1;
-		if(whichPowerUp == 1){
-			powerUpEnabled = 1;
-			powerUpRect = [self randomRectangle];
-            for (int i=0; i<4; i++) {
-                PowerUpVerticies[i].Color[0] = 1.0f;
-                PowerUpVerticies[i].Color[1] = 1.0f;
-                PowerUpVerticies[i].Color[2] = 1.0f;
-                PowerUpVerticies[i].Color[3] = 1.0f;
-            }
-            glBindBuffer(GL_ARRAY_BUFFER, _powerUpVertexBuffer);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(PowerUpVerticies), PowerUpVerticies, GL_STATIC_DRAW);
-            self.powerUpEffect.texture2d0.name = self.powerUpTexture1.name;
-            self.powerUpEffect.texture2d0.enabled = GL_TRUE;
-            self.powerUpEffect.texture2d0.envMode = GLKTextureEnvModeDecal;
-			return;
-		} else if (whichPowerUp == 2) {
-			powerUpEnabled = 1;
-			powerUpRect2 = [self randomRectangle];
-            for (int i=0; i<4; i++) {
-                PowerUpVerticies[i].Color[0] = 1.0f;
-                PowerUpVerticies[i].Color[1] = 1.0f;
-                PowerUpVerticies[i].Color[2] = 1.0f;
-                PowerUpVerticies[i].Color[3] = 1.0f;
-            }
-            glBindBuffer(GL_ARRAY_BUFFER, _powerUpVertexBuffer);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(PowerUpVerticies), PowerUpVerticies, GL_STATIC_DRAW);
-            self.powerUpEffect.texture2d0.name = self.powerUpTexture2.name;
-            self.powerUpEffect.texture2d0.enabled = GL_TRUE;
-            self.powerUpEffect.texture2d0.envMode = GLKTextureEnvModeDecal;
-			return;
-		} else if (whichPowerUp == 3) {
-            powerUpEnabled = 1;
-            powerUpRect3 = [self randomRectangle];
-            for (int i=0; i<4; i++) {
-                PowerUpVerticies[i].Color[0] = BallVerticies[i].Color[0];
-                PowerUpVerticies[i].Color[1] = BallVerticies[i].Color[1];
-                PowerUpVerticies[i].Color[2] = BallVerticies[i].Color[2];
-                PowerUpVerticies[i].Color[3] = 1.0f;
-            }
-            glBindBuffer(GL_ARRAY_BUFFER, _powerUpVertexBuffer);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(PowerUpVerticies), PowerUpVerticies, GL_STATIC_DRAW);
-            self.powerUpEffect.texture2d0.name = self.powerUpTexture3.name;
-            self.powerUpEffect.texture2d0.enabled = GL_TRUE;
-            self.powerUpEffect.texture2d0.envMode = GLKTextureEnvModeDecal;
-            return;
-        } else if (whichPowerUp == 4) {
-            powerUpEnabled = 1;
-            powerUpRect4 = [self randomRectangle];
-            for (int i=0; i<4; i++) {
-                PowerUpVerticies[i].Color[0] = 1.0f;
-                PowerUpVerticies[i].Color[1] = 0.0f;
-                PowerUpVerticies[i].Color[2] = 0.0f;
-                PowerUpVerticies[i].Color[3] = 1.0f;
-            }
-            glBindBuffer(GL_ARRAY_BUFFER, _powerUpVertexBuffer);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(PowerUpVerticies), PowerUpVerticies, GL_STATIC_DRAW);
-            self.powerUpEffect.texture2d0.enabled = GL_FALSE;
-            return;
-        }
-	}
-	if (powerUpEnabled == 1) {
+        // Then update for a random location on the screen, and randomize the powerup.
+        powerup.rectangle.rect = [self randomRectangle];
+        [powerup randomizePowerup];
+        powerUpEnabled = 1;
+	} else {
+        // Disable the power up from the screen.
 		powerUpEnabled=0;
 	}
 }
@@ -1384,11 +955,9 @@ SKIP4:
     [mainView setNeedsDisplay];
     [theTimer invalidate];
     powerUpEnabledEnabled=0;
-    [self updateWalls];
 }
 -(IBAction)endGame:(id)sender
 {
-	//[pauseView removeFromSuperview];
     [pauseView removeFromSuperview];
     [mainView addSubview:areYouSureView];
 	
@@ -1404,9 +973,7 @@ SKIP4:
     [mainView addSubview:pauseView];
 }
 -(IBAction)resumeGame:(id)sender
-{	
-	//self.ballTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
-	//[ballTimer fire];
+{
 	didStart = 1;
 	didStartPowerUp = 1;
 	self.speedTimer = [NSTimer scheduledTimerWithTimeInterval:10.00 target:self selector:@selector(speedUp:) userInfo:nil repeats:YES];
@@ -1415,7 +982,7 @@ SKIP4:
 	[powerUpTimer fire];
     randomBrickTimer = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(randomBrickTimerFire:) userInfo:nil repeats:YES];
     [randomBrickTimer fire];
-    if (powerUpEnabledEnabled==1 && whichPowerUp==4) {
+    if (powerUpEnabledEnabled==1 && powerup.whichPowerUp==4) {
         didStartLoseWall=YES;
         self.loseWallChangeTimer=[NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(loseTimeChangeWall:) userInfo:nil repeats:YES];
         [loseWallChangeTimer fire];
@@ -1438,6 +1005,8 @@ SKIP4:
     self.paused = NO;
 	[pauseView removeFromSuperview];
 }
+
+// Slightly speed up the ball.
 -(void)speedUp:(NSTimer *)theTimer
 {
 	if (didStart == 1)
@@ -1460,28 +1029,33 @@ SKIP4:
     }
 	speedBounce = speedBounce + .5;
 }
+
+// End the power that was on the screen.
 -(void)powerUpEndPowerUp:(NSTimer *)theTimer
 {
 	if (didStartStartPowerUp == 1) {
 		didStartStartPowerUp = 0;
 		return;
 	}
+    // Loop through for each ball, and if we have modified the speed of the ball,
+    // then bring it back to normal.
     int k;
     for (k=0; k<ballViewArray.count; k++) {
         RPBBall *ballPointer=ballViewArray[k];
-        if (whichPowerUp == 1) {
+        if (powerup.whichPowerUp == RPBPowerUpTypeSpeedUp) {
             [ballPointer undoSpeedUp];
-        } else if (whichPowerUp == 2) {
+        } else if (powerup.whichPowerUp == RPBPowerUpTypeSlowDown) {
             [ballPointer undoSlowDown];
         }
     }
+    // Disable the powerup and invalidate ourself.
 	powerUpEnabledEnabled = 0;
 	scoreMultiplier = 1.0f;
 	[theTimer invalidate];
-	//RPBLOG(@"Method Called!");
 }
 -(void)lostGame
 {
+    // Tear down all timers and shut down OpenGL rendering.
 	[ballTimer invalidate];
 	[speedTimer invalidate];
 	[powerUpTimer invalidate];
@@ -1490,13 +1064,10 @@ SKIP4:
 	}
     powerUpEnabled=0;
     [randomBrickTimer invalidate];
-    [pauseButton setEnabled:YES];
     [wallScoreBoostTimer invalidate];
+    [pauseButton setEnabled:YES];
 	didInvalidate = 1;
 	isPaused = 1;
-	//mainView.ballRect = mainView.oldBallRect;
-	//mainView.ballRect2 = mainView.oldPaddleRect;
-    accelerometerDelegate = nil;
     [self tearDownGL];
 }
 -(void)newGame
@@ -1528,6 +1099,13 @@ SKIP4:
     doAddOnToScore = YES;
     wallEnabled = NO;
     justStartedWallTimer = YES;
+    
+    // Setup OpenGL.
+    [self setupGL];
+    
+    // Setup shaders.
+    [RPBRectangle setupShaders];
+    
     // Setup various objects on the display.
     ballViewArray = [[NSMutableArray alloc] init];
     randomBrickArray=[[NSMutableArray alloc] init];
@@ -1539,6 +1117,8 @@ SKIP4:
     CGRect areYouSureViewRect = areYouSureView.frame;
 	CGRect newAreYouSureViewRect = CGRectMake((screenSize.size.width/2)-121, (screenSize.size.height/2)-104, areYouSureViewRect.size.width, areYouSureViewRect.size.height);
 	areYouSureView.frame = newAreYouSureViewRect;
+    
+    // Set size of ball and paddle for the correct screen size.
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         ballRect.size.width = 20;
         ballRect.size.height = 20;
@@ -1551,36 +1131,15 @@ SKIP4:
     } else {
         paddleSize=PADDLESIZE;
     }
-    // setup verticies
+    // Setup verticies.
     float multiplyFactor;
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         multiplyFactor = 2.0f;
     } else {
         multiplyFactor = 1.0f;
     }
-    // Setup the paddle and the one ball.
-    // Sets up the walls.
-    // Setup the random bricks.
-    [self updateWalls];
-    for (int i=0; i<4; i++) {
-        RandomBrickVerticies[i].Color[0] = 0.0f;
-        RandomBrickVerticies[i].Color[1] = 1.0f;
-        RandomBrickVerticies[i].Color[2] = 0.0f;
-        RandomBrickVerticies[i].Color[3] = 1.0f;
-    }
-    memcpy(RandomBrickRedVerticies, RandomBrickVerticies, sizeof(RandomBrickVerticies));
-    for (int i=0; i<4; i++) {
-        RandomBrickRedVerticies[i].Color[0] = 1.0f;
-        RandomBrickRedVerticies[i].Color[1] = 0.0f;
-        RandomBrickRedVerticies[i].Color[2] = 0.0f;
-        RandomBrickRedVerticies[i].Color[3] = 1.0f;
-    }
-    for (int i=0; i<4; i++) {
-        PowerUpVerticies[i].Color[0] = 1.0f;
-        PowerUpVerticies[i].Color[1] = 1.0f;
-        PowerUpVerticies[i].Color[2] = 1.0f;
-        PowerUpVerticies[i].Color[3] = 1.0f;
-    }
+    
+    // Setup proper images for powerup based off scaling.
     if ([UIScreen mainScreen].scale>1.0f) {
         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
             self.powerUpTexture1 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"LightningBolt@2x~ipad.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
@@ -1602,7 +1161,6 @@ SKIP4:
             self.powerUpTexture3 = [GLKTextureLoader textureWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BallSplit.png" ofType:nil] options:@{GLKTextureLoaderOriginBottomLeft: @YES} error:nil];
         }
     }
-    [self setupGL];
     CGRect paddleImageRect = CGRectMake(paddleCenter.x-(paddleSize/2), paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
     paddleImageRect.size.width = paddleSize;
     paddleImageRect.size.height = paddleSize;
@@ -1665,9 +1223,12 @@ SKIP4:
     ball1.color = ballColor;
     [ballViewArray addObject:ball1];
     
+    // Setup the power up object.
+    powerup = [[RPBPowerUp alloc] init];
+    powerup.rectangle.projectionMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, self.view.frame.size.height, 0, -1024, 1024);
+    
     // Setup the wall.
     walls = [[RPBWall alloc] initWithViewSize:self.view.bounds];
-    //walls.projectMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, self.view.frame.size.height, 0, -1024, 1024);
     
     // Setup high scores.
     NSMutableArray *highScoreArray=[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] highScores];
@@ -1679,35 +1240,36 @@ SKIP4:
     
     // Seed random number generator.
 	srand((unsigned int)time(NULL));
-    NSError *error;
+    
+    // Load audio files.
     audioFile1 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"BallHit" withExtension:@"caf"]];
-    RPBLog(@"%@", error);
     audioFile2 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall FX Lightning" withExtension:@"caf"]];
     audioFile3 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall Slow Down" withExtension:@"caf"]];
     audioFile4 = [[NSData alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"RetroPaddleBall Ball Splitter" withExtension:@"caf"]];
     randomBrickDidStart=YES;
     randomBrickTimer = [NSTimer scheduledTimerWithTimeInterval:21.0 target:self selector:@selector(randomBrickTimerFire:) userInfo:nil repeats:YES];
-    [randomBrickTimer fire];
-    [bounceArray addObject:@1.0f];
-    [xBounceArray addObject:@0.0f];
     
     // Setup timers and get them going.
-    //self.ballTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(moveBall:) userInfo:nil repeats:YES];
     self.speedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(speedUp:) userInfo:nil repeats:YES];
 	self.powerUpTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpCreate:) userInfo:nil repeats:YES];
     double time = [self randomTimerTime];
     self.wallScoreBoostTimer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(wallScoreBoostEnableOrDisable:) userInfo:nil repeats:YES];
-	//[ballTimer fire];
+	
+    // Fire timers.
 	[speedTimer fire];
 	[powerUpTimer fire];
     [wallScoreBoostTimer fire];
+    [randomBrickTimer fire];
+    
     // Unpause the game.
     self.paused = NO;
 }
+// Sets paddle locked variable to 1 (locked).
 -(void)lockPaddle
 {
 	paddleLocked=1;
 }
+// Sets paddle locked variable to 0 (unlocked).
 -(void)unlockPaddle
 {
 	paddleLocked=0;
@@ -1726,16 +1288,12 @@ SKIP4:
 
 
 - (void)dealloc {
+    // Invalidate timers.
 	[ballTimer invalidate];
 	[speedTimer invalidate];
 	[powerUpTimer invalidate];
 	[powerUpStartedTimer invalidate];
     [wallScoreBoostTimer invalidate];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBAccelerometerEnabled"] == YES) {
-        //accelerometerDelegate.delegate = nil;
-        [accelerometerDelegate stopAccelerometerUpdates];
-        accelerometerDelegate = nil;
-    }
 }
 
 @end
