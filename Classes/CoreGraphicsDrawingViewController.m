@@ -100,6 +100,7 @@
     float randomNumbery;
     CGRect randomRect;
     // Generate a random location for the rect.
+    // For iPad.
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         if (j==0) {
             randomNumberx = (arc4random() % 214 - 38) + 38;
@@ -112,7 +113,9 @@
             randomNumbery = (arc4random() % 500 - 260) + 260;
         }
         randomRect=CGRectMake(randomNumberx, randomNumbery, 160, 60);
-    } else {
+    }
+    // For the iPhone.
+    else {
         if (j==0) {
             randomNumberx = (arc4random() % 70 - 19) + 19;
             randomNumbery = (arc4random() % 120 - 50) + 50;
