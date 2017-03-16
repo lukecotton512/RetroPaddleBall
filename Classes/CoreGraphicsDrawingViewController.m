@@ -103,28 +103,28 @@
     // For iPad.
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         if (j==0) {
-            randomNumberx = (arc4random() % 214 - 38) + 38;
-            randomNumbery = (arc4random() % 200 - 50) + 50;
+            randomNumberx = (arc4random() % (214 - 38)) + 38;
+            randomNumbery = (arc4random() % (200 - 50)) + 50;
         } else if (j==1) {
-            randomNumberx = (arc4random() % 400 - 204) + 204;
-            randomNumbery = (arc4random() % 200 - 50) + 50;
+            randomNumberx = (arc4random() % (400 - 204)) + 204;
+            randomNumbery = (arc4random() % (200 - 50)) + 50;
         } else {
-            randomNumberx = (arc4random() % 400 - 38) + 38;
-            randomNumbery = (arc4random() % 500 - 260) + 260;
+            randomNumberx = (arc4random() % (400 - 38)) + 38;
+            randomNumbery = (arc4random() % (500 - 260)) + 260;
         }
         randomRect=CGRectMake(randomNumberx, randomNumbery, 160, 60);
     }
     // For the iPhone.
     else {
         if (j==0) {
-            randomNumberx = (arc4random() % 70 - 19) + 19;
-            randomNumbery = (arc4random() % 120 - 50) + 50;
+            randomNumberx = (arc4random() % (70 - 19)) + 19;
+            randomNumbery = (arc4random() % (120 - 50)) + 50;
         } else if (j==1) {
-            randomNumberx = (arc4random() % 120 - 101) + 101;
-            randomNumbery = (arc4random() % 120 - 50) + 50;
+            randomNumberx = (arc4random() % (120 - 101)) + 101;
+            randomNumbery = (arc4random() % (120 - 50)) + 50;
         } else {
-            randomNumberx = (arc4random() % 150 - 19) + 19;
-            randomNumbery = (arc4random() % 200 - 81) + 81;
+            randomNumberx = (arc4random() % (150 - 19)) + 19;
+            randomNumbery = (arc4random() % (200 - 81)) + 81;
         }
         randomRect=CGRectMake(randomNumberx, randomNumbery, 80, 30);
     }
