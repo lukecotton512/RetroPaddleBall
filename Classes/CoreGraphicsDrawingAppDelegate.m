@@ -61,16 +61,13 @@
     } else {
         isOniPad=NO;
     }
-    // Add the view controller's view to the window and display.
-	//[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+    // Setup audio settings and hide status bar on older verisons of iOS.
 	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
     [[AVAudioSession sharedInstance] setActive: YES error:nil];
-    //self.window.rootViewController=viewController;
-    //[self.window addSubview:viewController.view];
-	//currentViewController = viewController;
     self.alreadyChecked=NO;
     [self.window makeKeyAndVisible];
+    
     // Set the default preferences if they have never been set before and register our keys with the OS.
 	userDefaults = [NSUserDefaults standardUserDefaults];
     defaults = @{@"RPBRedColorPaddle": @0.0f, @"RPBGreenColorPaddle": @255.0f, @"RPBBlueColorPaddle": @0.0f, @"RPBRedColorBall": @255.0f, @"RPBGreenColorBall": @0.0f, @"RPBBlueColorBall": @0.0f, @"RPBDifficultyMultiplier": @0.0, @"RPBAccelerometerEnabled": @NO, @"RPBSound": @YES, @"RPBAlreadyChecked": @NO, @"RPBDatabaseCreated": @NO, @"RPBUpgradeEligible": @NO, @"RPBUpgradeBought": @NO, @"RPBFreeUpgradeNotice": @NO};

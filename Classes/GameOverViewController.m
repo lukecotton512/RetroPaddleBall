@@ -50,12 +50,16 @@
 }
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    // If we hit cancel, then get out of here.
 	if (buttonIndex == 0) {
 		return;
-	}if(highScoreAlertField.text.length == 0)
+	}
+    
+    if(highScoreAlertField.text.length == 0)
     {
         return;
     }
+    
 	NSDictionary *dictionary = @{@"RPBScore": @(score), @"RPBName": highScoreAlertField.text};
 	int i;
 	for (i=0; i<highScores.count; i++) {

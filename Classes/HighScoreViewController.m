@@ -56,6 +56,7 @@
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"HIGHSCORESMESSAGETITLE", nil) message:NSLocalizedString(@"HIGHSCORESMESSAGEMESSAGE", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"HIGHSCORESMESSAGENO", nil) otherButtonTitles:NSLocalizedString(@"HIGHSCORESMESSAGEDELETE", nil), nil];
 	[alertView show];
 }
+// Handles the delete alert.
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     // If the user tapped cancel, then get out of here.
@@ -76,13 +77,6 @@
 	[appDelegate saveHighScores];
 	[self loadHighScores];
 }
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

@@ -10,7 +10,7 @@
 #import "RPBRectangle.h"
 
 @implementation RPBBall
-@synthesize ballRect, ballHitCounter, ballHitCounterLeft, ballHitCounterTop, ballHitCounterRight, ballHitCounterScore, oldbounce, oldxBounce, oldSpeedMultiplier, xBounce, bounce, multiplyFactor;
+@synthesize ballRect, ballHitCounter, ballHitCounterLeft, ballHitCounterTop, ballHitCounterRight, ballHitCounterScore, ballHitCounterRandomBrick, ballHitCounterBottom, oldSpeedMultiplier, xBounce, bounce, multiplyFactor;
 -(instancetype)init
 {
     if (self=[super init]) {
@@ -24,20 +24,19 @@
         ballHitCounterScore = 0;
         xBounce = 0.0f;
         bounce = 2.0f;
-        oldbounce=1.0f;
-        oldxBounce=0.0f;
         multiplyFactor = 1.0f;
     }
     return self;
 }
--(float)speedMultiplier{
+// Speed multiplier setters and getters.
+-(float)speedMultiplier {
     return speedMultiplier;
 }
 -(void)setSpeedMultiplier:(float)theSpeedMultiplier
 {
     speedMultiplier=theSpeedMultiplier;
 }
-
+// Speed up the ball for the speed up powerup.
 -(void)speedUpBall
 {
     oldSpeedMultiplier=speedMultiplier;
@@ -49,6 +48,7 @@
     xBounce *= speedMultiplier;
     bounce *= speedMultiplier;
 }
+// Slow down the ball for the slow down power up.
 -(void)slowDownBall
 {
     oldSpeedMultiplier=speedMultiplier;
@@ -60,6 +60,7 @@
     xBounce *= speedMultiplier;
     bounce *= speedMultiplier;
 }
+// Reverts speeding up the ball.
 -(void)undoSpeedUp
 {
     xBounce = xBounce/speedMultiplier;
@@ -68,6 +69,7 @@
     xBounce *= speedMultiplier;
     bounce *= speedMultiplier;
 }
+// Reverts slowing down the ball.
 -(void)undoSlowDown
 {
     xBounce = xBounce/speedMultiplier;

@@ -24,7 +24,7 @@
 
 @implementation CoreGraphicsDrawingViewController
 // Synthesize various variables.
-@synthesize ballTimer, mainView, didStart, speedBounce, speedTimer, scoreField, score, oldBallRect, oldPaddleRect, pauseView, didInvalidate, isPaused, powerUpRect, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, timerToRelease, scoreMultiplier, fireTimeInterval, difficultyMultiplier, ballRect, paddlelocation, paddleLocked, cheatCheckTimer, doAddOnToScore, noScoreZone,noScoreZone2,noScoreZone3,noScoreZone4, lastTimeUpdate, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer, isPlaying, soundIsOn, leftTopRect, rightTopRect, leftBottomRect, rightBottomRect, upperLeftRect, lowerLeftRect, upperRightRect, lowerRightRect, areYouSureView, pauseButton, ballViewArray, audioFile1, audioFile2, audioFile3, playcount, audioFile4, speedMultiplier, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, highScoreField, didStartLoseWall, loseWallChangeTimer, dontmoveUp, dontmoveDown, randomBrickHitCounter, randomRect1, randomRect2, randomRect3, velocityLockEnabled, paddleSize, context, paddleEffect;
+@synthesize mainView, didStart, speedTimer, scoreField, score, pauseView, didInvalidate, isPaused, powerUpEnabled, powerUpTimer, powerUpEnabledEnabled, didStartPowerUp, powerUpStartedTimer, didStartStartPowerUp, scoreMultiplier, fireTimeInterval, difficultyMultiplier, paddleLocked, noScoreZone, noScoreZone2, noScoreZone3, noScoreZone4, wallScoreBoostTimer, wallEnabled, wallToEnable, justStartedWallTimer, isPlaying, soundIsOn, areYouSureView, pauseButton, ballViewArray, audioFile1, audioFile2, audioFile3, playcount, audioFile4, doSlowDown, randomBrickArray, randomBrickTimer, wallToLose, highScoreField, didStartLoseWall, loseWallChangeTimer, randomBrickHitCounter, paddleSize, context;
 
 
 
@@ -71,6 +71,7 @@
     self.paused = YES;
 }
 
+// View appeared and disappeared functions.
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self newGame];
@@ -83,75 +84,82 @@
 // Generates random rectangle for bricks.
 -(CGRect)randomRectangle2:(int)j count:(int)k;
 {
-    if(CGRectIntersectsRect(RANDOMBRICKAREA, CGRectMake(self.paddle.paddleCenter.x-(paddleSize/2), self.paddle.paddleCenter.y-(paddleSize/2), paddleSize, paddleSize))){
+    // The paddle is in the middle of where the random rects go, so get out of here.
+    if(CGRectIntersectsRect(RANDOMBRICKAREA, self.paddle.rect)){
         randomBrickFailed = YES;
         return CGRectNull;
     } else {
         randomBrickFailed = NO;
     }
+    // We have gone on for too long, so get out of here.
     if (k==19) {
         return CGRectMake(-9999999, -9999999, 0, 0);
     }
+    // Some variables.
     float randomNumberx;
     float randomNumbery;
     CGRect randomRect;
+    // Generate a random location for the rect.
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         if (j==0) {
-            randomNumberx = (arc4random() % 214) + 38;
-            randomNumbery = (arc4random() % 200) + 50;
+            randomNumberx = (arc4random() % 214 - 38) + 38;
+            randomNumbery = (arc4random() % 200 - 50) + 50;
         } else if (j==1) {
-            randomNumberx = (arc4random() % 400) + 204;
-            randomNumbery = (arc4random() % 200) + 50;
+            randomNumberx = (arc4random() % 400 - 204) + 204;
+            randomNumbery = (arc4random() % 200 - 50) + 50;
         } else {
-            randomNumberx = (arc4random() % 400) + 38;
-            randomNumbery = (arc4random() % 500) + 260;
+            randomNumberx = (arc4random() % 400 - 38) + 38;
+            randomNumbery = (arc4random() % 500 - 260) + 260;
         }
         randomRect=CGRectMake(randomNumberx, randomNumbery, 160, 60);
     } else {
         if (j==0) {
-            randomNumberx = (arc4random() % 70) + 19;
-            randomNumbery = (arc4random() % 120) + 50;
+            randomNumberx = (arc4random() % 70 - 19) + 19;
+            randomNumbery = (arc4random() % 120 - 50) + 50;
         } else if (j==1) {
-            randomNumberx = (arc4random() % 120) + 101;
-            randomNumbery = (arc4random() % 120) + 50;
+            randomNumberx = (arc4random() % 120 - 101) + 101;
+            randomNumbery = (arc4random() % 120 - 50) + 50;
         } else {
-            randomNumberx = (arc4random() % 150) + 19;
-            randomNumbery = (arc4random() % 200) + 81;
+            randomNumberx = (arc4random() % 150 - 19) + 19;
+            randomNumbery = (arc4random() % 200 - 81) + 81;
         }
         randomRect=CGRectMake(randomNumberx, randomNumbery, 80, 30);
     }
+    // Debug logging.
 	RPBLog(@"randomRectangle2: x: %f y: %f j: %i count:%i", randomNumberx, randomNumbery, j, k);
-    int i;
-    for (i=0;i<randomBrickArray.count;i++) {
-        if (CGRectIntersectsRect([randomBrickArray[i] rectOfView], randomRect)) {
+    
+    // Loop through all the bricks.
+    for (int i=0;i<randomBrickArray.count;i++) {
+        // We are in the middle of the paddle.
+        if (CGRectIntersectsRect(self.paddle.rect, randomRect)) {
             randomRect=[self randomRectangle2:j count:k+1];
         }
-        if (CGRectIntersectsRect(CGRectMake(self.paddle.paddleCenter.x-(paddleSize/2), self.paddle.paddleCenter.y-(paddleSize/2), paddleSize, paddleSize), randomRect)) {
-            randomRect=[self randomRectangle2:j count:k+1];
-        }
-        if (CGRectIntersectsRect(powerUpRect, randomRect)&&powerUpEnabled==1) {
-            powerUpAbsorbed=1;
-            whichBrick=j;
-        }
-        else if(CGRectIntersectsRect(powerUpRect2, randomRect)&&powerUpEnabled==1){
-            powerUpAbsorbed=2;
-            whichBrick=j;
-        }
-        else if (CGRectIntersectsRect(powerUpRect3, randomRect)&&powerUpEnabled==1) {
-            powerUpAbsorbed=3;
-            whichBrick=j;
-        } else if (CGRectIntersectsRect(powerUpRect4, randomRect)&&powerUpEnabled==1) {
-            powerUpAbsorbed=4;
-            whichBrick=j;
-        } else {
-            powerUpAbsorbed=0;
+        // Check for an available powerup, and if it is there and we intersect, then absorb it.
+        if (powerUpEnabled == 1 && CGRectIntersectsRect(powerup.rectangle.rect, randomRect)) {
+            if (powerup.whichPowerUp == RPBPowerUpTypeSpeedUp) {
+                powerUpAbsorbed=1;
+                whichBrick=j;
+            } else if(powerup.whichPowerUp == RPBPowerUpTypeSlowDown){
+                powerUpAbsorbed=2;
+                whichBrick=j;
+            } else if (powerup.whichPowerUp == RPBPowerUpTypeSplitBall) {
+                powerUpAbsorbed=3;
+                whichBrick=j;
+            } else if (powerup.whichPowerUp == RPBPowerUpTypeChangeWall) {
+                powerUpAbsorbed=4;
+                whichBrick=j;
+            } else {
+                powerUpAbsorbed=0;
+            }
         }
     }
-    for (i=0; i<ballViewArray.count; i++) {
+    // Get new random rect if the ball is in the middle of one.
+    for (int i=0; i<ballViewArray.count; i++) {
         if (CGRectIntersectsRect([(RPBBall *)ballViewArray[i] rect], randomRect)) {
             randomRect=[self randomRectangle2:j count:k+1];
         }
     }
+    // Return the new rect.
     return randomRect;
 }
 -(CGRect)randomRectangle
@@ -169,6 +177,7 @@
         return CGRectMake(randomNumberx, randomNumbery, 20, 20);
     }
 }
+// Returns a random amount of time for a timer.
 -(double)randomTimerTime
 {
 	return (arc4random() % 60 - 20) + 20;
@@ -213,37 +222,43 @@
 
 // Called when the view controller wants to update the frame, in this case we call moveball.
 -(void)update {
-    [self moveBall:nil];
+    [self moveBall];
 }
 
--(void)moveBall:(NSTimer *)theTimer
+// Our main animation method..
+-(void)moveBall
 {
-    int i;
-    for (i=0; i<ballViewArray.count; i++) {
-        RPBBall *ballPointer=ballViewArray[i];
+    // Loop through all balls.
+    for (int i = 0; i < ballViewArray.count; i++) {
+        // Get the ball.
+        RPBBall *ballPointer = ballViewArray[i];
         // Lock the paddle.
         [self lockPaddle];
         // Get various variables we need to manipulate.
         float bounceAngle;
-        int potentialScore=0;
-        float xbounce=ballPointer.xBounce;
-        float bounce=ballPointer.bounce;
+        int potentialScore = 0;
+        
+        // Get velocity vectors and the ball's rectangle.
+        float xbounce = ballPointer.xBounce;
+        float bounce = ballPointer.bounce;
         CGRect ballPointerRect = ballPointer.rect;
+        
+        // Ball hit counters, useful for making sure we only hit something once, and the ball doesn't get stuck.
         int ballHitCounter = ballPointer.ballHitCounter;
         int ballHitCounterTop = ballPointer.ballHitCounterTop;
         int ballHitCounterLeft = ballPointer.ballHitCounterLeft;
         int ballHitCounterRight = ballPointer.ballHitCounterRight;
-        int ballHitCounterScore = ballPointer.ballHitCounterScore;
+        int ballHitCounterBottom = ballPointer.ballHitCounterBottom;
         CGRect paddleRect = self.paddle.rect;
-        CGRect paddleRectangle = paddleRect;
         
         // Get intersection of paddle and ball.
         CGRect intersectRect = CGRectIntersection(paddleRect, ballPointerRect);
         
         // If there is a powerup on the screen and we intersected it.
-        if (powerUpEnabled == 1 && CGRectIntersectsRect(powerup.rectangle.rect, ballPointerRect)) {
+        if (powerUpEnabled == 1 && (CGRectIntersectsRect(powerup.rectangle.rect, ballPointerRect) || brickIntersectionEnablePowerUp==YES)) {
             // We intersected the first power-up.
-            if ((powerup.whichPowerUp == RPBPowerUpTypeSpeedUp) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp==1)) {
+            if ((powerup.whichPowerUp == RPBPowerUpTypeSpeedUp) || absorbedPowerup==1) {
+                // Handle the case where we hit a brick, and disable the powerup.
                 powerUpEnabledEnabled = 1;
                 brickIntersectionEnablePowerUp=NO;
                 if (whichBrick!=4) {
@@ -254,20 +269,24 @@
                 didStartStartPowerUp = 1;
                 scoreMultiplier = 3.0f;
                 powerUpEnabled = 0;
-                speedBounce = speedBounce+2;
-                int k;
-                for (k=0; k<ballViewArray.count; k++) {
+                
+                // Speed up the ball.
+                for (int k=0; k<ballViewArray.count; k++) {
                     RPBBall *ballPointer2=ballViewArray[k];
                     [ballPointer2 speedUpBall];
                 }
-                speedMultiplier=(1+speedBounce);
+                
+                // Start the expiration timer.
                 self.powerUpStartedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpEndPowerUp:) userInfo:nil repeats:YES];
                 [powerUpStartedTimer fire];
+                
+                // Play a sound.
                 [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile2];
                 return;
             }
             // We intersected the second power-up.
-            if ((powerup.whichPowerUp == RPBPowerUpTypeSlowDown) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp == 2)) {
+            else if ((powerup.whichPowerUp == RPBPowerUpTypeSlowDown) || absorbedPowerup == 2) {
+                // Handle the case where we hit a brick, and enable the powerup.
                 powerUpEnabledEnabled = 1;
                 brickIntersectionEnablePowerUp=NO;
                 if (whichBrick!=4) {
@@ -278,21 +297,25 @@
                 didStartStartPowerUp = 1;
                 scoreMultiplier = 2.0f;
                 powerUpEnabled = 0;
-                speedBounce = speedBounce-2;
-                int k;
-                for (k=0; k<ballViewArray.count; k++) {
+                
+                // Slow down the ball.
+                for (int k=0; k<ballViewArray.count; k++) {
                     RPBBall *ballPointer2=ballViewArray[k];
                     [ballPointer2 slowDownBall];
                 }
-                speedMultiplier=(1+speedBounce);
+                
+                // Start the expiration timer.
                 self.powerUpStartedTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(powerUpEndPowerUp:) userInfo:nil repeats:YES];
                 [powerUpStartedTimer fire];
+                
+                // Play the sound.
                 [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile3];
                 return;
             }
             
             // We intersected the ball split powerup.
-            if ((powerup.whichPowerUp == RPBPowerUpTypeSplitBall) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp == 3)) {
+            else if ((powerup.whichPowerUp == RPBPowerUpTypeSplitBall) || absorbedPowerup == 3) {
+                // Handle the case where we hit a brick, and disable the powerup.
                 brickIntersectionEnablePowerUp=NO;
                 if (whichBrick!=4) {
                     [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
@@ -300,21 +323,24 @@
                 whichBrick=4;
                 powerUpAbsorbed=0;
                 powerUpEnabled = 0;
-                RPBBall *currentBall = ballViewArray[i];
+                
+                // Create a new ball and split it off.
                 RPBBall *newBall=[[RPBBall alloc] init];
                 newBall.rect=CGRectMake(ballPointerRect.origin.x-(ballPointerRect.size.width+1), ballPointerRect.origin.y, ballPointerRect.size.width, ballPointerRect.size.height);
-                newBall.bounce=currentBall.bounce;
-                newBall.xBounce=-(currentBall.xBounce);
-                newBall.speedMultiplier=currentBall.speedMultiplier;
+                newBall.bounce=ballPointer.bounce;
+                newBall.xBounce=-(ballPointer.xBounce);
+                newBall.speedMultiplier=ballPointer.speedMultiplier;
                 newBall.projectMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, self.view.frame.size.height, 0, -1024, 1024);
-                newBall.multiplyFactor = currentBall.multiplyFactor;
+                newBall.multiplyFactor = ballPointer.multiplyFactor;
                 [ballViewArray addObject:newBall];
+                
                 // Play the power up sound.
                 [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile4];
             }
             
             // We intersected the fourth power-up.
-            if ((powerup.whichPowerUp == RPBPowerUpTypeChangeWall) || (brickIntersectionEnablePowerUp==YES&&powerUpAbsorbedTemp == 4)) {
+            else if ((powerup.whichPowerUp == RPBPowerUpTypeChangeWall) || absorbedPowerup == 4) {
+                // Handle the case where we hit a brick, and start the powerup.
                 brickIntersectionEnablePowerUp=NO;
                 if (whichBrick!=4) {
                     [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
@@ -324,15 +350,19 @@
                 powerUpEnabled = 0;
                 didStartStartPowerUp=1;
                 powerUpEnabledEnabled=1;
+                
+                // Change the wall based off a random number.
                 int oldWallToLose=wallToLose;
                 while (oldWallToLose==wallToLose||wallToLose==wallEnabled) {
                     wallToLose = (arc4random() % 4) + 1;
                     walls.wallToLose = wallToLose;
                 }
                 scoreMultiplier=4.0f;
+                
+                // Start the expiration timer for the powerup.
                 self.loseWallChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0 target:self selector:@selector(loseTimeChangeWall:) userInfo:nil repeats:YES];
-                didStartLoseWall=YES;
                 [loseWallChangeTimer fire];
+                didStartLoseWall=YES;
             }
         }
         
@@ -341,16 +371,20 @@
             ballHitCounterLeft = ballHitCounterLeft+1;
             // We hit the losing wall.
             if (walls.wallToLose==1) {
+                // We have only one ball, so end the game.
                 if (ballViewArray.count==1) {
                     [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
                     return;
                 } else {
+                    // We have more than one, so get rid of the one that hit the wall.
                     [ballViewArray removeObjectAtIndex:i];
                     return;
                 }
             } else {
+                // This isn't the losing wall, and we aren't stuck in the wall.
                 if (ballHitCounterRight<=1)
                 {
+                    // Play sound, change direction, and add to score.
                     [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
                     xbounce = -xbounce;
                     xbounce = xbounce+0.01f;
@@ -358,30 +392,33 @@
                         potentialScore += (250*scoreMultiplier);
                     } else {
                         potentialScore += (10*scoreMultiplier);
+                    }
                 }
             }
-            ballHitCounterScore = ballHitCounterScore + 1;
-            }
-            if(ballHitCounterLeft>=5)
-            {
-                return;
-            }
         } else {
+            // Set hit counter for left wall back to 0.
             ballHitCounterLeft=0;
         }
+        // We hit the right wall.
         if (CGRectIntersectsRect(walls.rightWall.rect, ballPointerRect)) {
+            // Increment ball counter.
             ballHitCounterRight= ballHitCounterRight+1;
+            // We are the losing wall.
             if (walls.wallToLose==3) {
                 if (ballViewArray.count==1) {
+                    // We are the only ball left, so end the game.
                     [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
                     return;
                 } else {
+                    // We aren't the only ball, so just remove the current ball.
                     [ballViewArray removeObjectAtIndex:i];
                     return;
                 }
             } else {
                 if (ballHitCounterRight<=1)
                 {
+                    // We aren't the losing wall, and we aren't stuck in the wall.
+                    // As before, play sound, increment, and add to score.
                     xbounce = -xbounce;
                     xbounce = xbounce+0.01f;
                     [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
@@ -390,41 +427,49 @@
                     } else {
                         potentialScore += (10*scoreMultiplier);
                     }
-                    ballHitCounterScore = ballHitCounterScore + 1;
-                }
-                if(ballHitCounterRight>=5)
-                {
-                    return;
                 }
             }
         } else {
+            // We haven't hit the right wall, so revert to 0.
             ballHitCounterRight=0;
         }
+        // We hit the bottom wall.
         if (CGRectIntersectsRect(walls.bottomWall.rect, ballPointerRect)) {
+            // Increment ball counter.
+            ballHitCounterBottom = ballHitCounterBottom+1;
+            // We are the losing wall.
             if (walls.wallToLose==4) {
+                // We are the last abll, so end the game.
                 if (ballViewArray.count==1) {
                     [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
-                        return;
-                    } else {
-                        [ballViewArray removeObjectAtIndex:i];
-                        return;
-                    }
-            } else {
-                bounce = -bounce;
-                bounce = bounce +0.01f;
-                [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
-                if (walls.wallToEnable == 6) {
-                    potentialScore += (250*scoreMultiplier);
+                    return;
                 } else {
-                    potentialScore += (10*scoreMultiplier);
+                    // We are not the only ball, so remove the ball that got hit.
+                    [ballViewArray removeObjectAtIndex:i];
+                    return;
                 }
-                ballHitCounterScore = ballHitCounterScore + 1;
+            } else {
+                if (ballHitCounterBottom<=1)
+                {
+                    // We are not the losing wall, so invert the ball trajectory and proceed to play a sound.
+                    bounce = -bounce;
+                    bounce = bounce + 0.01f;
+                    [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
+                    if (walls.wallToEnable == 6) {
+                        potentialScore += (250*scoreMultiplier);
+                    } else {
+                        potentialScore += (10*scoreMultiplier);
+                    }
+                }
             }
         }
+        // We hit the top wall.
         if (CGRectIntersectsRect(walls.topWall.rect, ballPointerRect)) {
             ballHitCounterTop = ballHitCounterTop+1;
+            // We hit the losing wall, so end the game.
             if (walls.wallToLose==2) {
                 if (ballViewArray.count==1) {
+                    // End the game, safe for future multithreading.
                     [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
                     return;
                 } else {
@@ -432,24 +477,23 @@
                     return;
                 }
             } else {
-                if (ballHitCounterTop<=1)
-                {
+                // We didn't hit the losing wall.
+                if (ballHitCounterTop<=1) {
+                    // Reverse ball with variance.
                     bounce = -bounce;
-                    bounce = bounce +0.01f;
-                    [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
+                    bounce = bounce + 0.01f;
+                    // Calculate the points earned if we are a
                     if (walls.wallToEnable == 2) {
                         potentialScore += (250*scoreMultiplier);
                     } else {
                         potentialScore += (10*scoreMultiplier);
                     }
-                        ballHitCounterScore = ballHitCounterScore + 1;
-                    }
+                    // Play a sound, safe for future multithreading.
+                    [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
                 }
-                if(ballHitCounterTop>=5)
-                {
-                    return;
-                }
+            }
         } else {
+            // We haven't hit the top wall, so revert to 0.
             ballHitCounterTop=0;
         }
         // Random bricks are on the screen
@@ -459,76 +503,72 @@
                 // Get it and where it is on the screen.
                 RPBRandomRect *randomRect = randomBrickArray[i];
                 CGRect rectOfBrick = randomRect.rectOfView;
-                //
+                // We intersect the ball.
                 if (CGRectIntersectsRect(ballPointerRect, rectOfBrick)) {
+                    // Get intersection.
+                    CGRect brickIntersect = CGRectIntersection(ballPointerRect, rectOfBrick);
+                    // If hit counter is less than 1.
                     if (randomBrickHitCounter<=1) {
-                        CGRect intersectRect = CGRectIntersection(rectOfBrick, ballPointerRect);
-                        if (CGRectIntersectsRect(randomRect.bottomRectBall, ballPointerRect)&&CGRectIntersectsRect(randomRect.bottomRectBall, paddleRect)) {
-                            dontmoveUp=YES;
-                        } else {
-                            dontmoveUp=NO;
-                        }
-                        if (CGRectIntersectsRect(randomRect.topRectBall, ballPointerRect)&&CGRectIntersectsRect(randomRect.topRectBall, paddleRect)) {
-                            dontmoveDown=YES;
-                        } else {
-                            dontmoveDown=NO;
-                        }
                         // Don't let the paddle move if we are wedged between the ball and the paddle.
                         if ((CGRectIntersectsRect(randomRect.topRectBall, ballPointerRect)||CGRectIntersectsRect(randomRect.bottomRectBall, ballPointerRect)||CGRectIntersectsRect(randomRect.leftRectBall, ballPointerRect)||CGRectIntersectsRect(randomRect.rightRectBall, ballPointerRect))&&(CGRectIntersectsRect(randomRect.topRectBall, paddleRect)||CGRectIntersectsRect(randomRect.bottomRectBall, paddleRect)||CGRectIntersectsRect(randomRect.leftRectBall, paddleRect)||CGRectIntersectsRect(randomRect.rightRectBall, paddleRect))) {
                             dontmove=YES;
                         } else {
                             dontmove=NO;
                         }
+                        // Temporary rect to prevent the ball from being stuck in the brick.
+                        CGRect currentBallRect=ballPointer.rect;
                         // We are intesecting the top.
-                        if (CGRectIntersectsRect(randomRect.topRect, ballPointerRect)&&intersectRect.size.width>intersectRect.size.height) {
-                            CGRect tempRect4=ballPointer.rect;
-                            tempRect4.origin.y=(randomRect.topRect.origin.y-(ballPointerRect.size.height+3));
+                        if (CGRectIntersectsRect(randomRect.topRect, ballPointerRect)&&brickIntersect.size.width>brickIntersect.size.height) {
+                            // We, in addition to reversing the bounce, we also move the ball back so it doesn't get stuck in the brick.
+                            currentBallRect.origin.y=(randomRect.topRect.origin.y-(ballPointerRect.size.height+3));
                             bounce=-bounce+0.1f;
-                            ballPointer.rect=tempRect4;
-                            ballPointerRect=ballPointer.rect;
                         }
                         // We are intersecting the bottom.
-                        if (CGRectIntersectsRect(randomRect.bottomRect, ballPointerRect)&&intersectRect.size.width>intersectRect.size.height) {
-                            CGRect tempRect4=ballPointer.rect;
-                            tempRect4.origin.y=(randomRect.bottomRect.origin.y+3);
+                        if (CGRectIntersectsRect(randomRect.bottomRect, ballPointerRect)&&brickIntersect.size.width>brickIntersect.size.height) {
+                            // We, in addition to reversing the bounce, we also move the ball back so it doesn't get stuck in the brick.
+                            currentBallRect.origin.y=(randomRect.bottomRect.origin.y+3);
                             bounce=-bounce+0.1f;
-                            ballPointer.rect=tempRect4;
-                            ballPointerRect=ballPointer.rect;
                         }
                         // We are intersecting the left side.
-                        if (CGRectIntersectsRect(randomRect.leftRect, ballPointerRect)&&intersectRect.size.width<intersectRect.size.height) {
-                            CGRect tempRect4=ballPointer.rect;
-                            tempRect4.origin.x=(randomRect.leftRect.origin.x-(ballPointerRect.size.height+3));
+                        if (CGRectIntersectsRect(randomRect.leftRect, ballPointerRect) && brickIntersect.size.width<brickIntersect.size.height) {
+                            // We, in addition to reversing the bounce, we also move the ball back so it doesn't get stuck in the brick.
+                            currentBallRect.origin.x=(randomRect.leftRect.origin.x-(ballPointerRect.size.height+3));
                             xbounce=-xbounce+0.1f;
-                            ballPointer.rect=tempRect4;
-                            ballPointerRect=ballPointer.rect;
                         }
                         // We are intersecting the right.
-                        if (CGRectIntersectsRect(randomRect.rightRect, ballPointerRect)&&intersectRect.size.width<intersectRect.size.height) {
-                            CGRect tempRect4=ballPointer.rect;
-                            tempRect4.origin.x=(randomRect.rightRect.origin.x+3);
+                        if (CGRectIntersectsRect(randomRect.rightRect, ballPointerRect) && brickIntersect.size.width<brickIntersect.size.height) {
+                            // We, in addition to reversing the bounce, we also move the ball back so it doesn't get stuck in the brick.
+                            currentBallRect.origin.x=(randomRect.rightRect.origin.x+3);
                             xbounce=-xbounce+0.1f;
-                            ballPointer.rect=tempRect4;
-                            ballPointerRect=ballPointer.rect;
                         }
+                        // Put the new rect back.
+                        ballPointerRect=currentBallRect;
+                        ballPointer.rect = ballPointerRect;
+                        
+                        // If we hit a brick with an absorbed power up, then set variables for the next round where the absorbed powerup is transferred to the ball.
                         if (whichBrick==i&&randomRect.powerUpAbsorbed!=0) {
                             brickIntersectionEnablePowerUp=YES;
-                            powerUpAbsorbedTemp=randomRect.powerUpAbsorbed;
+                            absorbedPowerup=randomRect.powerUpAbsorbed;
                         }
+                        // Increment the score.
                         potentialScore += 20;
+                        // Play a hit sound.
                         [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
                     }
+                    // Increment brick counter.
                     randomBrickHitCounter +=1;
                 } else if(!CGRectIntersectsRect(ballPointerRect, rectOfBrick)) {
+                    // Set random brick hit counter back to 0.
                     randomBrickHitCounter=0;
                 }
             }
         }
+        
         // We hit the paddle.
         if (!CGRectIsNull(intersectRect)) {
-            if (ballHitCounterScore<1)
+            // Make sure ball hit counter not greater than 1.
+            if (ballHitCounter<1)
             {
-                isPlaying = YES;
                 // Get the center of the collision and convert it to the paddle's coordinate system.
                 float whereBallHit = ((paddleRect.origin.x + paddleRect.size.width/2) - (intersectRect.origin.x+(intersectRect.size.width/2)));
                 float whereBallHitY = ((paddleRect.origin.y + paddleRect.size.height/2) - (intersectRect.origin.y+(intersectRect.size.height/2)));
@@ -553,14 +593,14 @@
                 [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
             }
             // Increment ball counters.
-            ballHitCounterScore = ballHitCounterScore + 1;
             ballHitCounter = ballHitCounter+1;
-        }
-        else if (!CGRectIntersectsRect(paddleRectangle, ballPointerRect)){
+        } else {
+            // Set ball hit counter for a collision with the paddle to 0.
             ballHitCounter=0;
         }
+        
         // Check for cheating.
-        if((!(CGRectIntersectsRect(noScoreZone, paddleRectangle) && CGRectIntersectsRect(noScoreZone, ballPointerRect))&&!(CGRectIntersectsRect(noScoreZone2, paddleRectangle) && CGRectIntersectsRect(noScoreZone2, ballPointerRect))&&!(CGRectIntersectsRect(noScoreZone3, paddleRectangle) && CGRectIntersectsRect(noScoreZone3, ballPointerRect))&&!(CGRectIntersectsRect(noScoreZone4, paddleRectangle) && CGRectIntersectsRect(noScoreZone4, ballPointerRect))))
+        if((!(CGRectIntersectsRect(noScoreZone, paddleRect) && CGRectIntersectsRect(noScoreZone, ballPointerRect))&&!(CGRectIntersectsRect(noScoreZone2, paddleRect) && CGRectIntersectsRect(noScoreZone2, ballPointerRect))&&!(CGRectIntersectsRect(noScoreZone3, paddleRect) && CGRectIntersectsRect(noScoreZone3, ballPointerRect))&&!(CGRectIntersectsRect(noScoreZone4, paddleRect) && CGRectIntersectsRect(noScoreZone4, ballPointerRect))))
         {
             score += potentialScore;
         
@@ -572,29 +612,29 @@
         ballPointer.ballHitCounterTop=ballHitCounterTop;
         ballPointer.ballHitCounterLeft=ballHitCounterLeft;
         ballPointer.ballHitCounterRight=ballHitCounterRight;
-        ballViewArray[i] = ballPointer;
-        [self unlockPaddle];
+        
+        // Animate the ball.
         ballPointerRect.origin.y=ballPointerRect.origin.y-ballPointer.bounce;
         ballPointerRect.origin.x=ballPointerRect.origin.x-ballPointer.xBounce;
         ballPointer.rect=ballPointerRect;
-        if (!(CGRectIntersectsRect(paddleRectangle, ballPointerRect)||CGRectIntersectsRect(ballPointerRect, walls.topWall.rect)||CGRectIntersectsRect(ballPointerRect, walls.leftWall.rect)||CGRectIntersectsRect(ballPointerRect, walls.rightWall.rect)||CGRectIntersectsRect(ballPointerRect, walls.bottomWall.rect))) {
-            ballHitCounterScore=0;
-        }
+        
+        // Update the score with the new score.
         scoreField.text=[NSString localizedStringWithFormat:NSLocalizedString(@"SCORE:", nil), score];
-        ballViewArray[i] = ballPointer;
+        [self unlockPaddle];
     }
 }
 // Our function to put random bricks on the screen.
 -(void)randomBrickTimerFire:(NSTimer *)theTimer
 {
+    // Prevents the timer from starting if we haven't fired once.
     if (randomBrickDidStart==YES) {
         randomBrickDidStart=NO;
         return;
     }
+    // If the bricks are on the screen.
     if(randomBrickIsEnabled==NO)
     {
-        int i;
-        for (i=0;i<3;i++) {
+        for (int i = 0; i < 3; i++) {
             [randomBrickArray addObject:[[RPBRandomRect alloc] init]];
             CGRect randomRect = [self randomRectangle2:i count:0];
             if (randomBrickFailed) {
@@ -610,20 +650,13 @@
                 ((RPBRandomRect *)randomBrickArray[i]).color = [UIColor greenColor];
             }
             [randomBrickArray[i] setRectOfView:randomRect];
-            if(i==1) {
-                randomRect1=randomBrickArray[i];
-            } else if(i==2) {
-                randomRect2=randomBrickArray[i];
-            } else if(i==3) {
-                randomRect3=randomBrickArray[i];
-            }
         }
         randomBrickIsEnabled=YES;
         return;
     }
     if(randomBrickIsEnabled==YES) {
-        int i;
-        for (i=0;i<3;i++) {
+        // Remove all bricks from the screen and get out of here.
+        for (int i = 0; i < 3; i++) {
             [randomBrickArray removeObjectAtIndex:0];
         }
         randomBrickIsEnabled=NO;
@@ -634,19 +667,25 @@
 // Ends the game.
 -(void)theEnd
 {
+    // Set game over to true.
     _gameOver = YES;
+    // More clean up after losing the game.
     [self lostGame];
+    // Update score in app delegate and call the end game function.
 	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] setScore:score];
     [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] endGame];
+    // Load in the appropriate storyboard.
     UIStoryboard *theStoryboard;
     if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         theStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPad" bundle:nil];
     } else {
         theStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPhone" bundle:nil];
     }
+    // Unset all audio players's delegates.
     for (AVAudioPlayer *thePlayer in self.audioPlayers) {
         thePlayer.delegate = nil;
     }
+    // Push in the game over view controller and show it.
     GameOverViewController *gameOver = [theStoryboard instantiateViewControllerWithIdentifier:@"GameOverScene"];
     UINavigationController *naviControl = self.navigationController;
     NSMutableArray *viewControllerArray = [NSMutableArray arrayWithArray:naviControl.viewControllers];
@@ -660,13 +699,16 @@
 -(void)playSound:(NSData *)soundData
 {
     @autoreleasepool {
+        // If the user requested no sound, then return.
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBSound"]== NO) {
             return;
         }
+        // If we are already playing a sound and playing too many, then return.
         if(isPlaying==YES&&playcount>=10)
         {
             return;
         }
+        // Create a new audio player, and play the sound.
         AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData:soundData  error:nil];
         if (audioPlayer==nil) {
             return;
@@ -693,13 +735,15 @@
 }
 -(void)wallScoreBoostEnableOrDisable:(NSTimer *)theTimer
 {
+    // If we just started, then return.
     if (justStartedWallTimer == YES) {
         justStartedWallTimer = NO;
         return;
     }
     if(wallEnabled == NO)
     {
-        wallToEnable = (rand() % 3) + 1;
+        // Choose a wall to give the 250 point boost, and enable that wall.
+        wallToEnable = (arc4random() % 3) + 1;
         walls.wallToEnable = wallToEnable;
         [wallScoreBoostTimer invalidate];
         self.wallScoreBoostTimer = [NSTimer scheduledTimerWithTimeInterval:20.00 target:self selector:@selector(wallScoreBoostEnableOrDisable:) userInfo:nil repeats:YES];
@@ -707,7 +751,7 @@
         [wallScoreBoostTimer fire];
         wallEnabled = YES;
     } else if (wallEnabled == YES) {
-        // Change wall back
+        // Change wall back.
         wallToEnable = 0;
         walls.wallToEnable = wallToEnable;
         [wallScoreBoostTimer invalidate];
@@ -724,8 +768,12 @@
     if(paddleLocked == 1) {
         return;
     }
-    BOOL dontsety=NO;
-    BOOL dontsetx=NO;
+    
+    // If we are wedged between the ball and then paddle, then just return.
+    if (dontmove == YES) {
+        return;
+    }
+    
     // Get the current position from the touch object.
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:self.mainView];
@@ -755,112 +803,24 @@
     tempRect2.origin.x=paddlePointTemp.x-(paddleSize/2);
     tempRect2.origin.y=paddlePointTemp.y-(paddleSize/2);
     tempRect2.size=CGSizeMake(paddleSize, paddleSize);
-    BOOL stillIntersecting=YES;
-    int i;
-    for (i=0; (i<randomBrickArray.count&&(stillIntersecting==YES)); i++) {
-        RPBRandomRect *brickPointer = randomBrickArray[i];
+    for (RPBRandomRect *brickPointer in randomBrickArray) {
         if (CGRectIntersectsRect(brickPointer.rectOfView, tempRect2)) {
-            tempRect2.origin.x=paddlePointTemp.x-(paddleSize/2);
-            tempRect2.origin.y=paddlePointTemp.y-(paddleSize/2);
-            tempRect2.size=CGSizeMake(paddleSize, paddleSize);
-            CGRect intersectRect = CGRectIntersection(brickPointer.rectOfView, tempRect);
-            if (((CGRectIntersectsRect(brickPointer.topRect, tempRect2))||(CGRectIntersectsRect(brickPointer.bottomRect, tempRect2)))&&((CGRectIntersectsRect(brickPointer.leftRect, tempRect2))||(CGRectIntersectsRect(brickPointer.rightRect, tempRect2)))) {
-                return;
-            }
-            // If we intersect a like side, then don't do anything but just get out of here.
-            if ((CGRectIntersectsRect(brickPointer.topRect, tempRect2))&&CGRectIntersectsRect(walls.topPaddleWall.rect, tempRect2)) {
-                return;
-            }
-            if ((CGRectIntersectsRect(brickPointer.bottomRect, tempRect2))&&CGRectIntersectsRect(walls.bottomPaddleWall.rect, tempRect2)) {
-                return;
-            }
-            if ((CGRectIntersectsRect(brickPointer.leftRect, tempRect))&&CGRectIntersectsRect(walls.leftPaddleWall.rect, tempRect2)) {
-                return;
-            }
-            if ((CGRectIntersectsRect(brickPointer.rightRect, tempRect2))&&CGRectIntersectsRect(walls.rightPaddleWall.rect, tempRect2)) {
-                return;
-            }
-            if (CGRectIntersectsRect(brickPointer.topRect, tempRect2)&&(intersectRect.size.width>intersectRect.size.height)&&!dontsety) {
-                //paddleImagePointTemp.x=paddleImagePointTemp.x;
-                if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
-                    //return;
-                    RPBLog(@"Condition Met");
-                }
-                velocityLockEnabled=YES;
-                velocitySignY=NO;
-                paddlePointTemp.y=brickPointer.topRect.origin.y-(paddleSize/2);
-                //dontsety=YES;
-            }
-            if(CGRectIntersectsRect(brickPointer.bottomRect, tempRect2)&&(intersectRect.size.width>intersectRect.size.height)&&!dontsety) {
-                //paddleImagePointTemp.x=paddleImagePointTemp.x;
-                if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
-                    //return;
-                    RPBLog(@"Condition Met");
-                }
-                velocityLockEnabled=YES;
-                velocitySignY=YES;
-                paddlePointTemp.y=brickPointer.bottomRect.origin.y+(paddleSize/2);
-                //dontsety=YES;
-            }
-            if (CGRectIntersectsRect(brickPointer.leftRect, tempRect2)&&(intersectRect.size.height>intersectRect.size.width)&&!dontsetx) {
-                //paddleImagePointTemp.y=paddleImagePointTemp.y;
-                if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
-                    //return;
-                    RPBLog(@"Condition Met");
-                }
-                velocityLockEnabled=YES;
-                velocitySignX=YES;
-                paddlePointTemp.x=brickPointer.leftRect.origin.x-(paddleSize/2);
-                //dontsetx=YES;
-            }
-            if (CGRectIntersectsRect(brickPointer.rightRect, tempRect2)&&(intersectRect.size.height>intersectRect.size.width)&&!dontsetx) {
-                //paddleImagePointTemp.y=paddleImagePointTemp.y;
-                if (((CGRectIntersectsRect(randomRect1.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect1.rectOfView))||(CGRectIntersectsRect(randomRect2.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect2.rectOfView))||(CGRectIntersectsRect(randomRect3.rectOfView, tempRect2)&&!CGRectEqualToRect(brickPointer.rectOfView, randomRect3.rectOfView)))){
-                    //return;
-                    RPBLog(@"Condition Met");
-                }
-                velocityLockEnabled=YES;
-                velocitySignX=NO;
-                paddlePointTemp.x=brickPointer.rightRect.origin.x+(paddleSize/2);
-            }
-            if (CGRectIntersectsRect(tempRect2, walls.topPaddleWall.rect)) {
-                paddlePointTemp.y = walls.topPaddleWall.rect.size.height+((paddleSize/2)+wallSize);
-            }
-            if (CGRectIntersectsRect(tempRect2, walls.bottomPaddleWall.rect)) {
-                paddlePointTemp.y = walls.bottomPaddleWall.rect.origin.y-(paddleSize/2);
-            } if (CGRectIntersectsRect(tempRect2, walls.leftPaddleWall.rect)) {
-                paddlePointTemp.x = walls.leftPaddleWall.rect.size.width+((paddleSize/2)+wallSize);
-            } if(CGRectIntersectsRect(tempRect2, walls.rightPaddleWall.rect)){
-                paddlePointTemp.x = walls.rightPaddleWall.rect.origin.x-(paddleSize/2);
-            }
-            tempRect2.origin.x=paddlePointTemp.x-(paddleSize/2);
-            tempRect2.origin.y=paddlePointTemp.y-(paddleSize/2);
-            tempRect2.size=CGSizeMake(paddleSize, paddleSize);
+            // If we have an intersection, well have the paddle freeze in place in the vicinity.
+            // So in this case, just return.
+            return;
         }
     }
     
     // If we intersect a ball, then don't update anything and just get out of here.
-    for (i=0; i<ballViewArray.count; i++) {
-        RPBBall *ballPointer = ballViewArray[i];
-        CGRect intersectRect = CGRectIntersection(tempRect, ballPointer.rect);
-        if (!CGRectIsNull(intersectRect)) {
+    for (RPBBall *ballPointer in ballViewArray) {
+        if (CGRectIntersectsRect(tempRect, ballPointer.rect)) {
             return;
         }
     }
     
     // Set the new position for the paddle.
     self.paddle.paddleCenter = paddlePointTemp;
-    tempRect = self.paddle.rect;
     
-    
-    leftTopRect = CGRectMake(tempRect.origin.x, tempRect.origin.y-4, (paddleSize/2), 4);
-    rightTopRect = CGRectMake(tempRect.origin.x+(paddleSize/2), tempRect.origin.y-4, (paddleSize/2), 4);
-    leftBottomRect = CGRectMake(tempRect.origin.x, tempRect.origin.y+paddleSize+4, (paddleSize/2), 4);
-    rightBottomRect = CGRectMake(tempRect.origin.x+(paddleSize/2), tempRect.origin.y+paddleSize+4, (paddleSize/2), 4);
-    upperLeftRect = CGRectMake(tempRect.origin.x-4, tempRect.origin.y, 4, (paddleSize/2));
-    lowerLeftRect = CGRectMake(tempRect.origin.x-4, tempRect.origin.y+(paddleSize/2), 4, (paddleSize/2));
-    upperRightRect = CGRectMake(tempRect.origin.x+paddleSize, tempRect.origin.y, 4, (paddleSize/2));
-    lowerRightRect = CGRectMake(tempRect.origin.x+paddleSize, tempRect.origin.y+(paddleSize/2), 4, (paddleSize/2));
 }
 // We moved the paddle, so really call the method that handles the beginning of the touch.
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -868,10 +828,6 @@
     [self touchesBegan:touches withEvent:event];
 }
 
--(void)releaseBallTimer
-{
-	[timerToRelease invalidate];
-}
 -(void)powerUpCreate:(NSTimer *)theTimer
 {
     // If this is the first time the timer fired, then set did start to 0 and get out of here.
@@ -882,7 +838,7 @@
 	}
     
     // If the powerup is already on the screen, then get out of here.
-	if (powerUpEnabledEnabled ==1) {
+	if (powerUpEnabledEnabled == 1) {
 		return;
 	}
     
@@ -894,16 +850,19 @@
         [powerup randomizePowerup];
         powerUpEnabled = 1;
 	} else {
-        // Disable the power up from the screen.
-		powerUpEnabled=0;
+        // Remove the power up from the screen.
+		powerUpEnabled = 0;
 	}
 }
+// Pause the game.
 -(IBAction)pauseGame:(id)sender
 {
+    // if we are already paused, then return.
     if(isPaused == 1)
     {
         return;
     }
+    // If the app delegate paused the game, then set that it did pause us.
     if (sender == [CoreGraphicsDrawingAppDelegate sharedAppDelegate]) {
         _pausedAtUI = NO;
     } else {
@@ -911,25 +870,31 @@
     }
 	[speedTimer invalidate];
 	[powerUpTimer invalidate];
+    
+    // If the timer is running for the lost wall., then invalidate it.
     if (loseWallChangeTimer.valid) {
         [loseWallChangeTimer invalidate];
     }
-    lastTimeUpdate=0;
+
+    // Save the amount of time we have left on the powerup.
 	if (powerUpStartedTimer.valid) {
 		NSDate *fireTime = powerUpStartedTimer.fireDate;
 		fireTimeInterval = fireTime.timeIntervalSinceNow;
 		[powerUpStartedTimer invalidate];
 	}
+    // Invalidate other timers.
     [wallScoreBoostTimer invalidate];
     [randomBrickTimer invalidate];
+    // Set other variables back to some defaults.
     randomBrickDidStart = YES;
-	[self lockPaddle];
 	didStartStartPowerUp = 1;
 	didInvalidate = 1;
 	isPaused = 1;
+    // Update UI and pause game.
     pauseButton.enabled=NO;
     self.paused = YES;
 	[self.mainView addSubview:pauseView];
+    [self lockPaddle];
 }
 -(void)loseTimeChangeWall:(NSTimer *)theTimer
 {
@@ -947,22 +912,25 @@
 }
 -(IBAction)endGame:(id)sender
 {
+    // Check to make sure the user is sure.
     [pauseView removeFromSuperview];
     [mainView addSubview:areYouSureView];
-	
 }
 -(IBAction)yesClicked:(id)sender
 {
+    // They are, so end the game.
     [areYouSureView removeFromSuperview];
     [self theEnd];
 }
 -(IBAction)noClicked:(id)sender
 {
+    // If they aren't, then go back to pause.
     [areYouSureView removeFromSuperview];
     [mainView addSubview:pauseView];
 }
 -(IBAction)resumeGame:(id)sender
 {
+    // Refire timers, while setting their respective did start variables to true.
 	didStart = 1;
 	didStartPowerUp = 1;
 	self.speedTimer = [NSTimer scheduledTimerWithTimeInterval:10.00 target:self selector:@selector(speedUp:) userInfo:nil repeats:YES];
@@ -988,6 +956,7 @@
 		self.powerUpStartedTimer = [NSTimer scheduledTimerWithTimeInterval:fireTimeInterval target:self selector:@selector(powerUpEndPowerUp:) userInfo:nil repeats:YES];
 		[powerUpStartedTimer fire];
 	}
+    // Undo the pause and start the game.
 	didInvalidate = 0;
 	isPaused = 0;
     pauseButton.enabled=YES;
@@ -998,16 +967,18 @@
 // Slightly speed up the ball.
 -(void)speedUp:(NSTimer *)theTimer
 {
+    // If we started, then get out of here.
 	if (didStart == 1)
 	{
 		didStart = 0;
 		return;
 	}
+    // If the user hit a powerup, then also get out of here.
 	if (powerUpEnabledEnabled == 1) {
 		return;
 	}
-    int i;
-    for(i=0; i<ballViewArray.count; i++)
+    // Loop through for each ball and boost the speed multiplier.
+    for(int i=0; i<ballViewArray.count; i++)
     {
         RPBBall *ballPointer=ballViewArray[i];
         ballPointer.xBounce=ballPointer.xBounce/ballPointer.speedMultiplier;
@@ -1016,7 +987,6 @@
         ballPointer.xBounce=ballPointer.xBounce*ballPointer.speedMultiplier;
         ballPointer.bounce=ballPointer.bounce*ballPointer.speedMultiplier;
     }
-	speedBounce = speedBounce + .5;
 }
 
 // End the power that was on the screen.
@@ -1045,17 +1015,16 @@
 -(void)lostGame
 {
     // Tear down all timers and shut down OpenGL rendering.
-	[ballTimer invalidate];
 	[speedTimer invalidate];
 	[powerUpTimer invalidate];
 	if (powerUpStartedTimer.valid) {
 		[powerUpStartedTimer invalidate];
 	}
-    powerUpEnabled=0;
     [randomBrickTimer invalidate];
     [wallScoreBoostTimer invalidate];
     [pauseButton setEnabled:YES];
 	didInvalidate = 1;
+    powerUpEnabled = 0;
 	isPaused = 1;
     [self tearDownGL];
 }
@@ -1082,12 +1051,10 @@
     difficultyMultiplier = [[NSUserDefaults standardUserDefaults] doubleForKey:@"RPBDifficultyMultiplier"];
     didInvalidate = 0;
     isPaused = 0;
-    speedBounce = 1.0;
-    speedMultiplier=1;
     scoreMultiplier = 1.0f;
-    doAddOnToScore = YES;
     wallEnabled = NO;
     justStartedWallTimer = YES;
+    self.audioPlayers = [[NSMutableArray alloc] init];
     
     // Setup OpenGL.
     [self setupGL];
@@ -1098,7 +1065,6 @@
     // Setup various objects on the display.
     ballViewArray = [[NSMutableArray alloc] init];
     randomBrickArray=[[NSMutableArray alloc] init];
-    self.audioPlayers = [[NSMutableArray alloc] init];
     CGRect screenSize = [UIScreen mainScreen].bounds;
 	CGRect pauseViewRect = pauseView.frame;
 	CGRect newPauseViewRect = CGRectMake((screenSize.size.width/2)-138, (screenSize.size.height/2)-121, pauseViewRect.size.width, pauseViewRect.size.height);
@@ -1108,6 +1074,7 @@
 	areYouSureView.frame = newAreYouSureViewRect;
     
     // Set size of ball and paddle for the correct screen size.
+    CGRect ballRect;
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         ballRect.size.width = 20;
         ballRect.size.height = 20;
@@ -1128,7 +1095,7 @@
         multiplyFactor = 1.0f;
     }
 
-    
+    // Set right size for walls.
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         wallSize = WALLSIZEIPAD;
         wallBorderSize = WALLBORDERIPAD;
@@ -1138,19 +1105,12 @@
         wallBorderSize = WALLBORDER;
         noscorezone=NOSCOREZONE;
     }
+    
+    // Setup areas where the player can't score.
     noScoreZone = CGRectMake(wallSize,wallSize, screenSize.size.width-(wallSize*2), noscorezone);
     noScoreZone2 = CGRectMake(wallSize, noscorezone+wallSize, noscorezone, screenSize.size.height-(noscorezone*2));
     noScoreZone3 = CGRectMake(wallSize, screenSize.size.height-(noscorezone+wallSize), screenSize.size.width-(wallSize*2), noscorezone);
     noScoreZone4 = CGRectMake(screenSize.size.height-(noscorezone+wallSize), noscorezone+wallSize, noscorezone, screenSize.size.height-(noscorezone*2));
-    CGRect tempRect = CGRectMake(self.paddle.paddleCenter.x-(paddleSize/2), self.paddle.paddleCenter.y-(paddleSize/2), paddleSize, paddleSize);
-    leftTopRect = CGRectMake(tempRect.origin.x, tempRect.origin.y-4, paddleSize/2, 4);
-    rightTopRect = CGRectMake(tempRect.origin.x+(paddleSize/2), tempRect.origin.y-4, (paddleSize/2), 4);
-    leftBottomRect = CGRectMake(leftTopRect.origin.x, leftTopRect.origin.y+(paddleSize/2), (paddleSize/2), 4);
-    rightBottomRect = CGRectMake(rightTopRect.origin.x, rightTopRect.origin.y+paddleSize, (paddleSize/2), 4);
-    upperLeftRect = CGRectMake(tempRect.origin.x-4, tempRect.origin.y, 4, (paddleSize/2));
-    lowerLeftRect = CGRectMake(tempRect.origin.x-4, tempRect.origin.y+(paddleSize/2), 4, (paddleSize/2));
-    upperRightRect = CGRectMake(tempRect.origin.x+paddleSize, tempRect.origin.y, 4, (paddleSize/2));
-    lowerRightRect = CGRectMake(tempRect.origin.x+paddleSize, tempRect.origin.y+(paddleSize/2), 4, (paddleSize/2));
     
     // Setup the paddle.
     self.paddle = [[RPBPaddle alloc] init];
@@ -1241,15 +1201,8 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
-
-
 - (void)dealloc {
     // Invalidate timers.
-	[ballTimer invalidate];
 	[speedTimer invalidate];
 	[powerUpTimer invalidate];
 	[powerUpStartedTimer invalidate];
