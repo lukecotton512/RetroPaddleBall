@@ -14,9 +14,8 @@
 @class HighScoreViewController;
 @class HowToPlayViewController;
 @class HighScoreDocument;
-@interface CoreGraphicsDrawingAppDelegate : NSObject <UIApplicationDelegate,UIAlertViewDelegate, UIPageViewControllerDataSource, UIPageViewControllerDelegate> {
+@interface CoreGraphicsDrawingAppDelegate : NSObject <UIApplicationDelegate, UIPageViewControllerDataSource, UIPageViewControllerDelegate> {
     UIWindow *window;
-	UIViewController *__weak currentViewController;
 	NSUserDefaults *userDefaults;
 	NSDictionary *defaults;
 	NSMutableArray *highScores;
@@ -25,20 +24,17 @@
     HighScoreDocument *highScoreDoc;
     BOOL icloudEnabled;
     BOOL databaseCreated;
-    BOOL upgradePurchased;
     int currentTutorialController;
 	int score;
     BOOL highScoresEnabled;
     BOOL alreadyChecked;
     BOOL soundIsOn;
-    BOOL upgradeEligible;
 	double difficultyMultiplier;
     BOOL isDone;
     BOOL isOniPad;
 }
--(void)endGame;
 +(CoreGraphicsDrawingAppDelegate*)sharedAppDelegate;
-@property (NS_NONATOMIC_IOSONLY, getter=getPathToSave, readonly, copy) NSString *pathToSave;
+@property (nonatomic, getter=getPathToSave, readonly, copy) NSString *pathToSave;
 -(void)saveHighScores;
 -(void)loadData:(NSMetadataQuery *)query2;
 -(void)queryDidFinishGathering:(NSNotification *)notification;

@@ -23,9 +23,11 @@
 #pragma mark -
 #pragma mark Application lifecycle
 -(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // URL for iCloud container.
     ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
     //load high scores and iCloud
     if (ubiq) {
+        // Start a query search the proper way for our high score database.
         icloudEnabled=YES;
         query = [[NSMetadataQuery alloc] init];
         query.searchScopes = @[NSMetadataQueryUbiquitousDocumentsScope];
@@ -34,6 +36,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryDidFinishGathering:) name:NSMetadataQueryDidFinishGatheringNotification object:query];
         [query startQuery];
     } else {
+        // Load high scores from normal place, and create them if they don't exist.
         self.highScores = [NSMutableArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]];
         if(highScores==nil) {
             self.highScores = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]]]];
@@ -44,15 +47,13 @@
                     NSDictionary *dictionary = @{@"RPBScore": @0, @"RPBName": @" "};
                     [highScores addObject:dictionary];
                 }
-                //self.databaseCreated=YES;
                 [self saveHighScores];
             }
         }
     }
     return YES;
 }
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-    
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.databaseCreated=NO;
     highScoresEnabled=NO;
@@ -84,6 +85,7 @@
 // Called once we are done finding the high score database.
 -(void)queryDidFinishGathering:(NSNotification *)notification
 {
+    // Get the query object and stop it. Also, load the data in.
     NSMetadataQuery *query2 = notification.object;
     [query2 disableUpdates];
     [query2 stopQuery];
@@ -94,13 +96,16 @@
 
 // Loads the data from disk.
 -(void)loadData:(NSMetadataQuery *)query2 {
+    // We have a file.
     if (query2.resultCount==1) {
+        // Get the URL and load it in.
         NSMetadataItem *item = [query2 resultAtIndex:0];
         NSURL *url = [item valueForAttribute:NSMetadataItemURLKey];
         HighScoreDocument *doc = [[HighScoreDocument alloc] initWithFileURL:url];
         self.highScoreDoc = doc;
         [self.highScoreDoc openWithCompletionHandler:^(BOOL success){
             if (success) {
+                // We are successful, so load in the array contents into the delegate.
                 self.highScores=self.highScoreDoc.arrayContents;
                 RPBLog(@"iCloud Access To Document");
                 [self saveHighScores];
@@ -111,9 +116,12 @@
             }
          }];
     } else {
+        // Try load in a non-iCloud file in the new format.
         self.highScores = [NSMutableArray arrayWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]];
         if(highScores==nil) {
+            // If we can't, load in the old format in the non-iCloud container and also load it in.
             self.highScores = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]]]]];
+            // If we still have nothing, then create a new file.
             if (highScores==nil||highScores.count==0) {
                 highScores = [NSMutableArray array];
                 int i;
@@ -122,11 +130,9 @@
                     [highScores addObject:dictionary];
                 }
                 [self saveHighScores];
-            } else {
             }
-        } else {
-            
         }
+        // Now, save the file to the document container.
         NSURL *ubiqPackage = [[[[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil] URLByAppendingPathComponent:@"Documents"] URLByAppendingPathComponent:@"highscoredatabase.db"];
         self.highScoreDoc = [[HighScoreDocument alloc] initWithFileURL:ubiqPackage];
         self.highScoreDoc.arrayContents=self.highScores;
@@ -142,28 +148,35 @@
     }
     isDone=YES;
 }
+// Get the non-iCloud save directory.
 - (NSString *)getPathToSave
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = paths[0];
     return documentsDirectory;
 }
+// Save the high scores to the appropriate container.
 -(void)saveHighScores
 {
+    // Save to iCloud container.
     if (icloudEnabled==YES) {
         self.highScoreDoc.arrayContents=self.highScores;
         [self.highScoreDoc saveToURL:(self.highScoreDoc).fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
         }];
     } else {
+        // Save to non-iCloud container.
         NSData *arrayData=[NSKeyedArchiver archivedDataWithRootObject:highScores];
         [arrayData writeToFile:[NSString stringWithFormat:@"%@/highscoredatabase.db", [self getPathToSave]] atomically:YES];
     }
 }
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
+    // If we are bigger than 6, then we have hit the end, so return nil.
     if ((currentTutorialController+1)>6) {
         return nil;
     }
+    // Get the identifier based off the current view controller index.
     NSString *viewIdentifier = [NSString stringWithFormat:@"tutorial%i", (currentTutorialController+1), nil];
+    // Get the correct storyboard and load the correct view controller in.
     UIStoryboard *storyboard;
     if (self.isOniPad) {
         storyboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPad" bundle:nil];
@@ -174,10 +187,13 @@
     
 }
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+    // If we are less than 0, then we have hit the end, so return nil.
     if ((currentTutorialController-1)<0) {
         return nil;
     }
+    // Get the correct view controller.
     NSString *viewIdentifier = [NSString stringWithFormat:@"tutorial%i", (currentTutorialController-1), nil];
+    // Load it in from the storyboard.
     UIStoryboard *storyboard;
     if (self.isOniPad) {
         storyboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPad" bundle:nil];
@@ -187,23 +203,24 @@
     return [storyboard instantiateViewControllerWithIdentifier:viewIdentifier];
 }
 - (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
+    // We have a total of 7 view controllers, 0-6.
     return 7;
 }
 - (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
+    // Return the index of the current view controller.
     return currentTutorialController;
 }
 -(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
+    // We have fully completed the transition.
     if (completed==YES&&pageViewController.viewControllers[0]!=nil) {
+        // We are going forward, so increment the current index.
         if(((TutorialViewController *)pageViewController.viewControllers[0]).view.tag>((TutorialViewController *)previousViewControllers[0]).view.tag) {
             currentTutorialController++;
         } else if  (((TutorialViewController *)pageViewController.viewControllers[0]).view.tag<((TutorialViewController *)previousViewControllers[0]).view.tag) {
+            // We are going back, so deincrement the current index.
             currentTutorialController--;
         }
     }
-}
--(void)endGame
-{
-	
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -257,14 +274,6 @@
     /*
      Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
      */
-}
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    // Dismiss paid users dialog.
-    if([alertView.title isEqualToString:@"For Paid Users"]) {
-        return;
-    }
 }
 
 

@@ -59,7 +59,7 @@
     {
         return;
     }
-    
+    // Put the score in the dictionary, and then delete the value at the very end.
 	NSDictionary *dictionary = @{@"RPBScore": @(score), @"RPBName": highScoreAlertField.text};
 	int i;
 	for (i=0; i<highScores.count; i++) {
@@ -71,26 +71,17 @@
 			break;
 		}
 	}
+    // Save the high scores.
 	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] setHighScores:highScores];
 	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] saveHighScores];
-	//[highScoreAlertField release];
 }
-/*- (void)willPresentAlertView:(UIAlertView *)highScoreAlert {
-	CGRect alertFrame = highScoreAlert.frame;
-	alertFrame.size.height = alertFrame.size.height + 75;
-	highScoreAlert.frame = alertFrame;}*/
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
+// Reload score field with new high score.
 -(void)updateScore
 {
 	scoreTextView.text=[NSString stringWithFormat:@"Score: %d", self.score];
 }
+
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -98,21 +89,18 @@
     // Release any cached data, images, etc. that aren't in use.
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
 }
 -(void)playAgain:(id)sender {
+    // Get the correct storyboard for the device we are on.
     UIStoryboard *theStoryboard;
     if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
         theStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPad" bundle:nil];
     } else {
         theStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboardiPhone" bundle:nil];
     }
+    // Load in the game view controller, and show it.
     CoreGraphicsDrawingViewController *newGame = [theStoryboard instantiateViewControllerWithIdentifier:@"GameController"];
     UINavigationController *naviControl = self.navigationController;
     NSMutableArray *viewControllerArray = [NSMutableArray arrayWithArray:naviControl.viewControllers];

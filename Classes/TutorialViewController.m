@@ -33,6 +33,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.stageNumber = 0;
+    // We are on the second view controller.
     if (self.view.tag==1) {
         CGRect ballFrame = self.ballView2.frame;
         CGRect paddleFrame = self.paddleView2.frame;
@@ -45,8 +46,9 @@
         }
         self.paddleView2.frame = paddleFrame;
         self.ballView2.frame = ballFrame;
-        self.viewTimer = [NSTimer scheduledTimerWithTimeInterval:.025 target:self selector:@selector(animateView2:) userInfo:nil repeats:YES];
+        self.viewTimer = [NSTimer scheduledTimerWithTimeInterval:0.025 target:self selector:@selector(animateView2:) userInfo:nil repeats:YES];
     } else if (self.view.tag==2) {
+        // We are on the third view controller.
         self.viewTimer = [NSTimer scheduledTimerWithTimeInterval:0.025 target:self selector:@selector(animateView3:) userInfo:nil repeats:YES];
     }
     [self.viewTimer fire];
@@ -59,8 +61,10 @@
 {
     
 }
+// Animates the second view.
 -(void)animateView2:(NSTimer *)theTimer
 {
+    // Move up until we intersect the ball.
     if (self.stageNumber == 0) {
         CGRect paddleFrame = self.paddleView2.frame;
         paddleFrame.origin.y -= 2;
@@ -69,6 +73,7 @@
             self.stageNumber = 1;
         }
     } else if (self.stageNumber == 1) {
+        // Move the ball up until we hit the top wall.
         CGRect ballFrame = self.ballView2.frame;
         ballFrame.origin.y -= 2;
         self.ballView2.frame = ballFrame;
@@ -76,6 +81,7 @@
             self.stageNumber = 2;
         }
     } else if (self.stageNumber == 2) {
+        // Move the ball down until we hit the ball.
         CGRect ballFrame = self.ballView2.frame;
         ballFrame.origin.y += 2;
         self.ballView2.frame = ballFrame;
@@ -84,7 +90,9 @@
         }
     }
 }
+// Animation for third view.
 -(void)animateView3:(NSTimer *)theTimer {
+    // Move the ball up until we hit the wall.
     if (self.stageNumber == 0) {
         CGRect ballFrame = self.ballView2.frame;
         ballFrame.origin.y -= 2;
@@ -93,6 +101,7 @@
             self.stageNumber = 1;
         }
     } else if (self.stageNumber == 1) {
+        // Move the ball down until we hit the paddle.
         CGRect ballFrame = self.ballView2.frame;
         ballFrame.origin.y += 2;
         self.ballView2.frame = ballFrame;

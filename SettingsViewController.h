@@ -20,8 +20,6 @@
     IBOutlet UIButton *easyButton;
     IBOutlet UIButton *mediumButton;
     IBOutlet UIButton *hardButton;
-    IBOutlet UIButton *touchButton;
-    IBOutlet UIButton *accelerometerButton;
     IBOutlet UIButton *offSoundButton;
     IBOutlet UIButton *onSoundButton;
     IBOutlet UIView *develView;
@@ -48,8 +46,6 @@
 @property (nonatomic, strong) IBOutlet UIButton *easyButton;
 @property (nonatomic, strong) IBOutlet UIButton *mediumButton;
 @property (nonatomic, strong) IBOutlet UIButton *hardButton;
-@property (nonatomic, strong) IBOutlet UIButton *touchButton;
-@property (nonatomic, strong) IBOutlet UIButton *accelerometerButton;
 @property (nonatomic, strong) IBOutlet UIButton *offSoundButton;
 @property (nonatomic, strong) IBOutlet UIButton *onSoundButton;
 @property (nonatomic, strong) IBOutlet UIView *develView;

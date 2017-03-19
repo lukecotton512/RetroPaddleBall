@@ -676,7 +676,6 @@
     [self lostGame];
     // Update score in app delegate and call the end game function.
 	[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] setScore:score];
-    [[CoreGraphicsDrawingAppDelegate sharedAppDelegate] endGame];
     // Load in the appropriate storyboard.
     UIStoryboard *theStoryboard;
     if([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {

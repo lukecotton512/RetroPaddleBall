@@ -11,7 +11,7 @@
 #import "RPBUsefulFunctions.h"
 
 @implementation SettingsViewController
-@synthesize greenBallColorButton, redBallColorButton, blueBallColorButton, yellowBallColorButton, greenPaddleColorButton, redPaddleColorButton, bluePaddleColorButton, yellowPaddleColorButton, selectedButtonBall, selectedButtonPaddle, easyButton, mediumButton, hardButton, selectedButtonDifficulty, touchButton, accelerometerButton, selectedButtonControl, selectedButtonSound, offSoundButton, onSoundButton, develSettings, develView, paddleColorPopUp, paddlePopUpIsEnabled, ballPopUpIsEnabled, paddlePopUpButton, ballPopUpButton;
+@synthesize greenBallColorButton, redBallColorButton, blueBallColorButton, yellowBallColorButton, greenPaddleColorButton, redPaddleColorButton, bluePaddleColorButton, yellowPaddleColorButton, selectedButtonBall, selectedButtonPaddle, easyButton, mediumButton, hardButton, selectedButtonDifficulty,  selectedButtonControl, selectedButtonSound, offSoundButton, onSoundButton, develSettings, develView, paddleColorPopUp, paddlePopUpIsEnabled, ballPopUpIsEnabled, paddlePopUpButton, ballPopUpButton;
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -38,6 +38,7 @@
     self.ballColorPopUp.layer.borderWidth=1.0f;
     
 	// Ball init.
+    // Green ball selected.
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorBall"] == 0.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorBall"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorBall"] == 0.0f) {
 		greenBallColorButton.selected=YES;
 		blueBallColorButton.selected=NO;
@@ -46,6 +47,7 @@
 		selectedButtonBall = greenBallColorButton;
         [self.ballPopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // Red ball selected.
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorBall"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorBall"] == 0.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorBall"] == 0.0f) {
 		greenBallColorButton.selected=NO;
 		blueBallColorButton.selected=NO;
@@ -54,6 +56,7 @@
 		selectedButtonBall = redBallColorButton;
         [self.ballPopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // Blue ball selected.
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorBall"] == 0.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorBall"] == 0.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorBall"] == 255.0f) {
 		greenBallColorButton.selected=NO;
 		blueBallColorButton.selected=YES;
@@ -62,6 +65,7 @@
 		selectedButtonBall = blueBallColorButton;
         [self.ballPopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // Yellow ball selected.
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorBall"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorBall"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorBall"] == 0.0f) {
 		greenBallColorButton.selected=NO;
 		blueBallColorButton.selected=NO;
@@ -70,7 +74,8 @@
 		selectedButtonBall = yellowBallColorButton;
         [self.ballPopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}	
-	//Paddle init.
+	// Paddle init.
+    // Green paddle selected.
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorPaddle"] == 0.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorPaddle"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorPaddle"] == 0.0f) {
 		greenPaddleColorButton.selected=YES;
 		bluePaddleColorButton.selected=NO;
@@ -79,6 +84,7 @@
 		selectedButtonPaddle = greenPaddleColorButton;
         [self.paddlePopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // Red paddle selected.
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorPaddle"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorPaddle"] == 0.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorPaddle"] == 0.0f) {
 		greenPaddleColorButton.selected=NO;
 		bluePaddleColorButton.selected=NO;
@@ -95,6 +101,7 @@
 		selectedButtonPaddle = bluePaddleColorButton;
         [self.paddlePopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueBallButton" ofType:@"png"]] forState:UIControlStateNormal];
 	}
+    // Yellow paddle selected.
 	if ([[NSUserDefaults standardUserDefaults] floatForKey:@"RPBRedColorPaddle"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBGreenColorPaddle"] == 255.0f && [[NSUserDefaults standardUserDefaults] floatForKey:@"RPBBlueColorPaddle"] == 0.0f) {
 		greenPaddleColorButton.selected=NO;
 		bluePaddleColorButton.selected=NO;
@@ -102,7 +109,9 @@
 		yellowPaddleColorButton.selected=YES;
 		selectedButtonPaddle = yellowPaddleColorButton;
         [self.paddlePopUpButton setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowBallButton" ofType:@"png"]] forState:UIControlStateNormal];
-	} if ([[NSUserDefaults standardUserDefaults] doubleForKey:@"RPBDifficultyMultiplier"] == 1.0) {
+	}
+    // Handle difficulty multiplier, which currently isn't in the game.
+    if ([[NSUserDefaults standardUserDefaults] doubleForKey:@"RPBDifficultyMultiplier"] == 1.0) {
 		easyButton.selected=YES;
 		mediumButton.selected=NO;
 		hardButton.selected=NO;
@@ -117,15 +126,10 @@
 		mediumButton.selected=NO;
 		hardButton.selected=YES;
 		selectedButtonDifficulty = hardButton;
-	} if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBAccelerometerEnabled"]== NO) {
-        touchButton.selected=YES;
-        accelerometerButton.selected=NO;
-        selectedButtonControl = touchButton;
-    } if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBAccelerometerEnabled"]== YES) {
-        touchButton.selected=NO;
-        accelerometerButton.selected=YES;
-        selectedButtonControl = accelerometerButton;
-    } if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBSound"]== YES) {
+	}
+    
+    // Update sound settings.
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RPBSound"]== YES) {
         onSoundButton.selected=YES;
         offSoundButton.selected=NO;
         selectedButtonSound = onSoundButton;
@@ -261,18 +265,21 @@
 }
 -(IBAction)changeDifficulty:(id)sender
 {
+    // Easy difficulty.
 	if ([sender tag] == 1) {
 		[[NSUserDefaults standardUserDefaults] setDouble:1.0 forKey:@"RPBDifficultyMultiplier"];
 		selectedButtonDifficulty.selected = NO;
 		easyButton.selected = YES;
 		selectedButtonDifficulty = easyButton;
 	}
+    // Medium difficulty.
 	if ([sender tag] == 2) {
 		[[NSUserDefaults standardUserDefaults] setDouble:2.0 forKey:@"RPBDifficultyMultiplier"];
 		selectedButtonDifficulty.selected = NO;
 		mediumButton.selected = YES;
 		selectedButtonDifficulty = mediumButton;
 	}
+    // Hard difficulty.
 	if ([sender tag] == 3) {
 		[[NSUserDefaults standardUserDefaults] setDouble:5.0 forKey:@"RPBDifficultyMultiplier"];
 		selectedButtonDifficulty.selected = NO;
@@ -300,9 +307,11 @@
 }
 -(IBAction)showPaddleColorPopUp:(id)sender {
     if (self.paddlePopUpIsEnabled==NO) {
+        // If the ball popup is showing, then hide it.
         if (self.ballPopUpIsEnabled==YES) {
             [self showBallColorPopUp:nil];
         }
+        // Display the popup by centering it on the paddle color button.
         CGRect originalFrame = self.paddleColorPopUp.frame;
         float sizeOfScreen;
         sizeOfScreen = self.view.bounds.size.width;
@@ -310,18 +319,23 @@
         buttonFrame = [self.view convertRect: buttonFrame fromView: ((UIButton *) sender).superview];
         CGRect newFrame = CGRectMake((sizeOfScreen/2)-(self.paddleColorPopUp.frame.size.width/2), buttonFrame.origin.y+buttonFrame.size.height, originalFrame.size.width, originalFrame.size.height);
         self.paddleColorPopUp.frame = newFrame;
+        // Show the popup.
         [self.view addSubview:self.paddleColorPopUp];
         self.paddlePopUpIsEnabled=YES;
     } else {
+        // Hide the popup by removing it.
         [self.paddleColorPopUp removeFromSuperview];
         self.paddlePopUpIsEnabled=NO;
     }
 }
+// Show the pop up for the ball color popup.
 -(IBAction)showBallColorPopUp:(id)sender {
     if (self.ballPopUpIsEnabled==NO) {
+        // If the paddle popup is showing, then hide it.
         if (self.paddlePopUpIsEnabled==YES) {
             [self showPaddleColorPopUp:nil];
         }
+        // Display popup by centering it on the button.
         CGRect originalFrame = self.ballColorPopUp.frame;
         float sizeOfScreen;
         sizeOfScreen = self.view.bounds.size.width;
@@ -332,6 +346,7 @@
         [self.view addSubview:self.ballColorPopUp];
         self.ballPopUpIsEnabled=YES;
     } else {
+        // Hide the popup.
         [self.ballColorPopUp removeFromSuperview];
         self.ballPopUpIsEnabled=NO;
     }
