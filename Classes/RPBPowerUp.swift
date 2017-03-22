@@ -44,7 +44,7 @@ import UIKit
      Randomizes powerup
     */
     func randomizePowerup() {
-        let numGen = SCDNumberGenerator(upperBound: 4, lowerBound: 0)
+        let numGen = SCDNumberGenerator(upperBound: 5, lowerBound: 1)
         self.whichPowerUp = RPBPowerUpType(rawValue: numGen.randomNumber)!
     }
     

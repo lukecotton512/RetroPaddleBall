@@ -1,6 +1,6 @@
 //
 //  SCDNumberGenerator.swift
-//  RetroPaddleBall 2
+//  RetroPaddleBall
 //
 //  Created by Luke Cotton on 10/6/16.
 //  Copyright © 2016 Luke Cotton. All rights reserved.

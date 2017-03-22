@@ -212,9 +212,11 @@
     [walls render];
     
     // Render each ball.
-    for (RPBBall *ball in ballViewArray) {
-        [ball render];
+    for (int i = 0; i < ballViewArray.count; i++) {
+        RPBBall * ballPointer = ballViewArray[i];
+        [ballPointer render];
     }
+    
     // Render each random brick if they are supposed to be on display.
     if (randomBrickIsEnabled == YES) {
         for (RPBRandomRect *randomRectPointer in randomBrickArray) {
@@ -266,6 +268,7 @@
                 brickIntersectionEnablePowerUp=NO;
                 if (whichBrick!=4) {
                     [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
+                    ((RPBRandomRect*) randomBrickArray[whichBrick]).color = [UIColor greenColor];
                 }
                 whichBrick=4;
                 powerUpAbsorbed=0;
@@ -294,6 +297,7 @@
                 brickIntersectionEnablePowerUp=NO;
                 if (whichBrick!=4) {
                     [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
+                    ((RPBRandomRect*) randomBrickArray[whichBrick]).color = [UIColor greenColor];
                 }
                 whichBrick=4;
                 powerUpAbsorbed=0;
@@ -322,6 +326,7 @@
                 brickIntersectionEnablePowerUp=NO;
                 if (whichBrick!=4) {
                     [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
+                    ((RPBRandomRect*) randomBrickArray[whichBrick]).color = [UIColor greenColor];
                 }
                 whichBrick=4;
                 powerUpAbsorbed=0;
@@ -347,6 +352,7 @@
                 brickIntersectionEnablePowerUp=NO;
                 if (whichBrick!=4) {
                     [randomBrickArray[whichBrick] setPowerUpAbsorbed:0];
+                    ((RPBRandomRect*) randomBrickArray[whichBrick]).color = [UIColor greenColor];
                 }
                 whichBrick=4;
                 powerUpAbsorbed=0;
@@ -442,7 +448,7 @@
             ballHitCounterBottom = ballHitCounterBottom+1;
             // We are the losing wall.
             if (walls.wallToLose==4) {
-                // We are the last abll, so end the game.
+                // We are the last ball, so end the game.
                 if (ballViewArray.count==1) {
                     [self performSelectorOnMainThread:@selector(theEnd) withObject:nil waitUntilDone:YES];
                     return;
@@ -634,9 +640,10 @@
         randomBrickDidStart=NO;
         return;
     }
-    // If the bricks are on the screen.
+    // If the bricks are not on the screen.
     if(randomBrickIsEnabled==NO)
     {
+        // Create them.
         for (int i = 0; i < 3; i++) {
             [randomBrickArray addObject:[[RPBRandomRect alloc] init]];
             CGRect randomRect = [self randomRectangle2:i count:0];
@@ -645,6 +652,7 @@
             }
             // Create a new random rect and set it up, and add it to the view.
             ((RPBRandomRect *)randomBrickArray[i]).projectMatrix = GLKMatrix4MakeOrtho(0, self.view.frame.size.width, self.view.frame.size.height, 0, -1024, 1024);
+            // Check for absorbed powerup and if so then enable powerup absorbtion.
             if (powerUpAbsorbed!=0) {
                 ((RPBRandomRect *)randomBrickArray[i]).color = [UIColor redColor];
                 powerUpEnabled=1;
@@ -1075,38 +1083,23 @@
 	CGRect newAreYouSureViewRect = CGRectMake((screenSize.size.width/2)-121, (screenSize.size.height/2)-104, areYouSureViewRect.size.width, areYouSureViewRect.size.height);
 	areYouSureView.frame = newAreYouSureViewRect;
     
-    // Set size of ball and paddle for the correct screen size.
-    CGRect ballRect;
-    if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
-        ballRect.size.width = 20;
-        ballRect.size.height = 20;
-    } else {
-        ballRect.size.width = 10;
-        ballRect.size.height = 10;
-    }
-    if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
-        paddleSize=PADDLESIZEIPAD;
-    } else {
-        paddleSize=PADDLESIZE;
-    }
-    // Setup verticies.
+    // Setup multiply factor.
     float multiplyFactor;
     if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
-        multiplyFactor = 2.0f;
+        multiplyFactor = 1.5f;
     } else {
         multiplyFactor = 1.0f;
     }
+    
+    // Set size of ball and paddle for the correct screen size.
+    CGRect ballRect;
+    ballRect.size.width = 10 * multiplyFactor;
+    ballRect.size.height = 10 * multiplyFactor;
+    paddleSize = PADDLESIZE * multiplyFactor;
 
     // Set right size for walls.
-    if ([[CoreGraphicsDrawingAppDelegate sharedAppDelegate] isOniPad]) {
-        wallSize = WALLSIZEIPAD;
-        wallBorderSize = WALLBORDERIPAD;
-        noscorezone=NOSCOREZONEIPAD;
-    } else {
-        wallSize = WALLSIZE;
-        wallBorderSize = WALLBORDER;
-        noscorezone=NOSCOREZONE;
-    }
+    wallSize = WALLSIZE * multiplyFactor;
+    noscorezone = NOSCOREZONE * multiplyFactor;
     
     // Setup areas where the player can't score.
     noScoreZone = CGRectMake(wallSize,wallSize, screenSize.size.width-(wallSize*2), noscorezone);
@@ -1151,6 +1144,7 @@
     
     // Setup the wall.
     walls = [[RPBWall alloc] initWithViewSize:self.view.bounds];
+    walls.sizeMultiplier = multiplyFactor;
     
     // Setup high scores.
     NSMutableArray *highScoreArray=[[CoreGraphicsDrawingAppDelegate sharedAppDelegate] highScores];

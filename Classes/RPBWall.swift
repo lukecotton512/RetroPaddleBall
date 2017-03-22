@@ -22,6 +22,13 @@ import GLKit
     private(set) var topPaddleWall: RPBRectangle
     private(set) var bottomPaddleWall: RPBRectangle
     
+    // Size multiplier.
+    var sizeMultiplier: CGFloat = 1.0 {
+        didSet {
+            self.updateWallDimensions();
+        }
+    }
+    
     // Losing wall.
     var wallToLose = 4 {
         didSet {
@@ -84,16 +91,16 @@ import GLKit
     // Sets the dimensions of each wall.
     func updateWallDimensions() {
         // Main Walls.
-        self.leftWall.rect = CGRect(x: 0, y: 0, width: 5, height: viewSize.size.height)
-        self.rightWall.rect = CGRect(x: viewSize.size.width-5, y: 0, width: 5, height: viewSize.size.height)
-        self.topWall.rect = CGRect(x: 0, y: 0, width: viewSize.size.width, height: 5)
-        self.bottomWall.rect = CGRect(x: 0, y: viewSize.size.height-5, width: viewSize.size.width, height: 5)
+        self.leftWall.rect = CGRect(x: 0, y: 0, width: 5 * sizeMultiplier, height: viewSize.size.height)
+        self.rightWall.rect = CGRect(x: viewSize.size.width - (5 * sizeMultiplier), y: 0, width: 5 * sizeMultiplier, height: viewSize.size.height)
+        self.topWall.rect = CGRect(x: 0, y: 0, width: viewSize.size.width, height: 5 * sizeMultiplier)
+        self.bottomWall.rect = CGRect(x: 0, y: viewSize.size.height -  (5 * sizeMultiplier), width: viewSize.size.width, height: 5 * sizeMultiplier)
         
         // Paddle walls.
-        self.leftPaddleWall.rect = CGRect(x: 5, y: 5, width: 15, height: viewSize.size.height - 10)
-        self.rightPaddleWall.rect = CGRect(x: viewSize.size.width-20, y: 5, width: 15, height: viewSize.size.height-10)
-        self.topPaddleWall.rect = CGRect(x: 5, y: 5, width: viewSize.size.width-10, height: 15)
-        self.bottomPaddleWall.rect = CGRect(x: 5, y: viewSize.size.height-20, width: viewSize.size.width-10, height: 15)
+        self.leftPaddleWall.rect = CGRect(x: 5 * sizeMultiplier, y: 5 * sizeMultiplier, width: 15 * sizeMultiplier, height: viewSize.size.height - (10 * sizeMultiplier))
+        self.rightPaddleWall.rect = CGRect(x: viewSize.size.width - (20 * sizeMultiplier), y: 5 * sizeMultiplier, width: 15 * sizeMultiplier, height: viewSize.size.height - (10 * sizeMultiplier))
+        self.topPaddleWall.rect = CGRect(x: 5 * sizeMultiplier, y: 5 * sizeMultiplier, width: viewSize.size.width - (10 * sizeMultiplier), height: 15 * sizeMultiplier)
+        self.bottomPaddleWall.rect = CGRect(x: 5 * sizeMultiplier, y: viewSize.size.height - (20 * sizeMultiplier), width: viewSize.size.width - (10 * sizeMultiplier), height: 15 * sizeMultiplier)
     }
     
     // Updates wall colors.
