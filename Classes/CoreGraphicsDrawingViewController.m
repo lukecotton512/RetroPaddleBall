@@ -391,7 +391,7 @@
                 }
             } else {
                 // This isn't the losing wall, and we aren't stuck in the wall.
-                if (ballHitCounterRight<=1)
+                if (ballHitCounterLeft<=1)
                 {
                     // Play sound, change direction, and add to score.
                     [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
@@ -471,6 +471,9 @@
                     }
                 }
             }
+        } else {
+            // We haven't hit the bottom wall, so revert to 0.
+            ballHitCounterBottom = 0;
         }
         // We hit the top wall.
         if (CGRectIntersectsRect(walls.topWall.rect, ballPointerRect)) {
