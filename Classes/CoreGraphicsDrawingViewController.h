@@ -33,6 +33,7 @@
 	int score;
     int playcount;
     BOOL dontmove;
+    BOOL dontmoveball;
     float paddleSize;
 	NSTimer *speedTimer;
 	NSTimer *powerUpTimer;

@@ -597,21 +597,32 @@
                 if (ABS(ratioX) < ABS(ratioY)) {
                     xbounce = sinf(bounceAngle * ratioX);
                     bounce = cosf(bounceAngle * ratioX) * ratioY;
+                    
+                    // Also, move back by the intersection.
+                    ballPointerRect.origin.y += intersectRect.size.height * ratioY;
                 } else {
                     xbounce = cosf(bounceAngle * ratioY) * ratioX;
                     bounce = sinf(bounceAngle * ratioY);
+                    
+                    // Also, move back by the intersection.
+                    ballPointerRect.origin.x += intersectRect.size.width * ratioX;
                 }
                 // Apply speed multiplier.
                 bounce *=ballPointer.speedMultiplier;
                 xbounce *=ballPointer.speedMultiplier;
                 // Play our audio.
                 [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile1];
+            } else {
+                // Don't let the paddle move if we are in the ball.
+                dontmoveball = YES;
             }
             // Increment ball counters.
             ballHitCounter = ballHitCounter+1;
         } else {
             // Set ball hit counter for a collision with the paddle to 0.
             ballHitCounter=0;
+            // Reset don't move.
+            dontmoveball = NO;
         }
         
         // Check for cheating.
@@ -787,6 +798,11 @@
     
     // If we are wedged between the ball and then paddle, then just return.
     if (dontmove == YES) {
+        return;
+    }
+    
+    // If the ball is still in the paddle, then don't let it move.
+    if (dontmoveball) {
         return;
     }
     
@@ -1069,6 +1085,7 @@
     wallToLose=4;
     wallToEnable = 0;
     doSlowDown=NO;
+    dontmoveball = NO;
     score=0;
     didStart = 1;
     didStartPowerUp = 1;
@@ -1137,7 +1154,7 @@
     // Setup the ball.
     RPBBall *ball1 = [[RPBBall alloc] init];
     ballRect.origin.x = (screenSize.size.width/2)-5;
-    ballRect.origin.y = (self.paddle.paddleCenter.y-paddleSize/2)-(ballRect.size.height/2)-5;
+    ballRect.origin.y = (self.paddle.paddleCenter.y-paddleSize/2)-(ballRect.size.height/2)-10;
     ball1.rect=ballRect;
     ball1.xBounce=0.0f;
     ball1.bounce=2.0f;
