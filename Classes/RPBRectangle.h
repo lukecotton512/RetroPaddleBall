@@ -19,7 +19,7 @@
 }
 // Properties.
 @property (nonatomic, assign) CGRect rect;
-@property (nonatomic, strong) UIColor *rectColor;
+@property (nonatomic, copy) UIColor *rectColor;
 @property (nonatomic, assign) GLKMatrix4 projectionMatrix;
 // Class methods.
 +(void)initialize;

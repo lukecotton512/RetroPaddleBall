@@ -344,6 +344,9 @@
                 
                 // Play the power up sound.
                 [NSThread detachNewThreadSelector:@selector(playSound:) toTarget:self withObject:self.audioFile4];
+                
+                // Get out of here.
+                return;
             }
             
             // We intersected the fourth power-up.
@@ -791,13 +794,21 @@
     UITouch *touch = [touches anyObject];
     CGPoint location = [touch locationInView:self.mainView];
     
-    // First, adjust the paddle according to the walls.
-    // If we collide, then set the respective coordinate to the edge of that wall.
+    // Determine where the paddle will be.
     CGRect tempRect;
     tempRect.origin.x=location.x-(paddleSize/2);
     tempRect.origin.y=location.y-(paddleSize/2);
     tempRect.size=CGSizeMake(paddleSize, paddleSize);
     CGPoint paddlePointTemp = location;
+    
+    // If we are outside of the screen, then get out of here.
+    if (!CGRectContainsPoint(self.view.bounds, paddlePointTemp)) {
+        // If we are, then get out of here.
+        return;
+    }
+    
+    // First, adjust the paddle according to the walls.
+    // If we collide, then set the respective coordinate to the edge of that wall.
     if (CGRectIntersectsRect(tempRect, walls.topPaddleWall.rect)) {
         paddlePointTemp.y = walls.topPaddleWall.rect.origin.x-(paddleSize/2);
     }

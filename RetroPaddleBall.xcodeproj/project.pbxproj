@@ -18,7 +18,6 @@
 		6C0396DC193EAA1700E809FA /* BallSplit@2x~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0396D8193EAA1700E809FA /* BallSplit@2x~iPad.png */; };
 		6C0396DD193EAA1700E809FA /* BallSplit~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0396D9193EAA1700E809FA /* BallSplit~iPad.png */; };
 		6C05AF6C15796509005DAF3E /* RPBRandomRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C05AF6B15796509005DAF3E /* RPBRandomRect.m */; };
-		6C06153B17D24E140019F93C /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C06153A17D24E140019F93C /* CoreMotion.framework */; };
 		6C0B8FDC1378A11F00E2C9D1 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6C0B8FDB1378A11F00E2C9D1 /* Entitlements.plist */; };
 		6C0C075118629E6D0020F77A /* MainStoryboardiPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C0C075018629E6D0020F77A /* MainStoryboardiPhone.storyboard */; };
 		6C0CA03113DB0A4900DA71B8 /* Off.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C0CA03313DB0A4900DA71B8 /* Off.png */; };
@@ -79,7 +78,6 @@
 		6C7B4251130C77660051DBE0 /* GameOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C7B424F130C77660051DBE0 /* GameOverViewController.m */; };
 		6C7FDF8E13CF964100F37CD2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6C7FDF9013CF964100F37CD2 /* Localizable.strings */; };
 		6C8165FF1947DF7A00F6DB83 /* RPBUsefulFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C8165FE1947DF7A00F6DB83 /* RPBUsefulFunctions.m */; };
-		6C834B9A1EBE606D0067A9EA /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 6C834B991EBE606D0067A9EA /* README.md */; };
 		6C86CEF5161D155200C7139C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C86CEF4161D155200C7139C /* Default-568h@2x.png */; };
 		6C9480F1147DF2CC00CF2F77 /* AreYouSure.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9480EF147DF2CC00CF2F77 /* AreYouSure.png */; };
 		6C9480F2147DF2CC00CF2F77 /* AreYouSure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C9480F0147DF2CC00CF2F77 /* AreYouSure@2x.png */; };
@@ -391,7 +389,6 @@
 			files = (
 				6CC7EABC192B0B3600B9307D /* OpenGLES.framework in Frameworks */,
 				6CC7EABA192B0B0800B9307D /* GLKit.framework in Frameworks */,
-				6C06153B17D24E140019F93C /* CoreMotion.framework in Frameworks */,
 				6C430AF014D5D23800127C6A /* QuartzCore.framework in Frameworks */,
 				6CE385DD13E0507C003BC3E5 /* AVFoundation.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
@@ -958,7 +955,6 @@
 				1D3623260D0F684500981E51 /* CoreGraphicsDrawingAppDelegate.m in Sources */,
 				6C8165FF1947DF7A00F6DB83 /* RPBUsefulFunctions.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* CoreGraphicsDrawingViewController.m in Sources */,
-				6C834B9A1EBE606D0067A9EA /* README.md in Sources */,
 				6C7B3C401306015C0051DBE0 /* MainMenuViewController.m in Sources */,
 				6C7B4251130C77660051DBE0 /* GameOverViewController.m in Sources */,
 				6C5494D21334018500FF4C20 /* SettingsViewController.m in Sources */,
