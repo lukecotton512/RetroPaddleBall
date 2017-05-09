@@ -12,7 +12,6 @@
 @class GameOverViewController;
 @class SettingsViewController;
 @class HighScoreViewController;
-@class HowToPlayViewController;
 @class HighScoreDocument;
 @interface CoreGraphicsDrawingAppDelegate : NSObject <UIApplicationDelegate, UIPageViewControllerDataSource, UIPageViewControllerDelegate> {
     UIWindow *window;
