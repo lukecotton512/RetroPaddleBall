@@ -192,8 +192,8 @@
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28D7ACF60DDB3853001CB0EB /* CoreGraphicsDrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreGraphicsDrawingViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* CoreGraphicsDrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreGraphicsDrawingViewController.m; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		32CA4F630368D1EE00C91783 /* CoreGraphicsDrawing_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreGraphicsDrawing_Prefix.pch; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Other Sources/main.m"; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* CoreGraphicsDrawing_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreGraphicsDrawing_Prefix.pch; path = "Other Sources/CoreGraphicsDrawing_Prefix.pch"; sourceTree = "<group>"; };
 		6C0396D6193EAA1700E809FA /* BallSplit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BallSplit.png; sourceTree = "<group>"; };
 		6C0396D7193EAA1700E809FA /* BallSplit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BallSplit@2x.png"; sourceTree = "<group>"; };
 		6C0396D8193EAA1700E809FA /* BallSplit@2x~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BallSplit@2x~iPad.png"; sourceTree = "<group>"; };
@@ -251,8 +251,8 @@
 		6C4EF4B41DDEBFB60065A491 /* RPBPaddle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPBPaddle.h; sourceTree = "<group>"; };
 		6C4EF4B51DDEBFB60065A491 /* RPBPaddle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPBPaddle.m; sourceTree = "<group>"; };
 		6C5149C417B31E4300DCC45F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RetroPaddleBall/Images.xcassets; sourceTree = "<group>"; };
-		6C5494CF1334018500FF4C20 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = ../SettingsViewController.h; sourceTree = "<group>"; };
-		6C5494D01334018500FF4C20 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = ../SettingsViewController.m; sourceTree = "<group>"; };
+		6C5494CF1334018500FF4C20 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		6C5494D01334018500FF4C20 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		6C59770A14EC6580008444B5 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		6C59770B14EC6580008444B5 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		6C60458619B423CD00E7C249 /* RetroPaddleBallTextMain~iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RetroPaddleBallTextMain~iPad@2x.png"; sourceTree = "<group>"; };
@@ -266,7 +266,7 @@
 		6C7B424E130C77660051DBE0 /* GameOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverViewController.h; sourceTree = "<group>"; };
 		6C7B424F130C77660051DBE0 /* GameOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverViewController.m; sourceTree = "<group>"; };
 		6C7FDF8F13CF964100F37CD2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6C8165FE1947DF7A00F6DB83 /* RPBUsefulFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPBUsefulFunctions.m; sourceTree = "<group>"; };
+		6C8165FE1947DF7A00F6DB83 /* RPBUsefulFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RPBUsefulFunctions.m; path = "Other Sources/RPBUsefulFunctions.m"; sourceTree = "<group>"; };
 		6C834B991EBE606D0067A9EA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6C86CEF4161D155200C7139C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6C9480EF147DF2CC00CF2F77 /* AreYouSure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AreYouSure.png; sourceTree = "<group>"; };
@@ -403,6 +403,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				6C7FDF9013CF964100F37CD2 /* Localizable.strings */,
 				6CE5AFA31E0F002E00733B1C /* View Controllers */,
 				6CE5AFA41E0F003F00733B1C /* Delegates */,
 				6CE5AFA21E0F001500733B1C /* OpenGL Objects */,
@@ -505,6 +506,7 @@
 				6C1DB122186146F200EAD601 /* LightningBolt@2x~ipad.png */,
 			);
 			name = iPad;
+			path = Images/iPad;
 			sourceTree = "<group>";
 		};
 		6CC834761974D3CB0008B6A2 /* Storyboards */ = {
@@ -571,7 +573,6 @@
 				6CC7B6FA197AE3C600F25454 /* RetroPaddleBall Ball Splitter.caf */,
 				6CC7B6FC197AE41200F25454 /* RetroPaddleBall FX Lightning.caf */,
 				6CC7B6FE197AE44500F25454 /* RetroPaddleBall Slow Down.caf */,
-				6C7FDF9013CF964100F37CD2 /* Localizable.strings */,
 				6C0CA03D13DB0B8100DA71B8 /* Off-Disabled.png */,
 				6C0CA03E13DB0B8100DA71B8 /* Off-Disabled@2x.png */,
 				6C0CA03F13DB0B8100DA71B8 /* On-Disabled.png */,
@@ -657,6 +658,7 @@
 				6C7B3C52130603360051DBE0 /* RetroPaddleBallMainDisplay.png */,
 			);
 			name = "iPhone and Other Images";
+			path = "Images/iPhone and Other Images";
 			sourceTree = "<group>";
 		};
 		6CD759AF1DE3959900A951D7 /* Shaders */ = {
@@ -1010,8 +1012,8 @@
 				6C7FDF8F13CF964100F37CD2 /* en */,
 			);
 			name = Localizable.strings;
-			path = Classes;
-			sourceTree = "<group>";
+			path = "/Users/lukecotton/Documents/iPhone Development/RetroPaddleBall/Classes";
+			sourceTree = "<absolute>";
 		};
 		6CBDAB4913C0EAB3003569E2 /* TouchButton@2x.png */ = {
 			isa = PBXVariantGroup;
@@ -1275,7 +1277,8 @@
 				6CBDABB413C0EB87003569E2 /* en */,
 			);
 			name = SettingsButton.png;
-			sourceTree = "<group>";
+			path = "/Users/lukecotton/Documents/iPhone Development/RetroPaddleBall/Images/iPhone and Other Images";
+			sourceTree = "<absolute>";
 		};
 		6CBDABB813C0EB8B003569E2 /* SettingsButton@2x.png */ = {
 			isa = PBXVariantGroup;
@@ -1283,7 +1286,8 @@
 				6CBDABB713C0EB8B003569E2 /* en */,
 			);
 			name = "SettingsButton@2x.png";
-			sourceTree = "<group>";
+			path = "/Users/lukecotton/Documents/iPhone Development/RetroPaddleBall/Images/iPhone and Other Images";
+			sourceTree = "<absolute>";
 		};
 		6CBDABBB13C0EB8D003569E2 /* MainMenuButton.png */ = {
 			isa = PBXVariantGroup;
