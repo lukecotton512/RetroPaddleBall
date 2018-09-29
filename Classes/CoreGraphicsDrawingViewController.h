@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <GLKit/GLKit.h>
+#import <MetalKit/MetalKit.h>
+#import <Metal/Metal.h>
 #import "RPBBall.h"
 #import "RPBPaddle.h"
 #import "RPBRandomRect.h"

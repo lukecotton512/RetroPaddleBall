@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Darwin
 
 // Random number generator class.
 class SCDNumberGenerator {
@@ -17,7 +16,7 @@ class SCDNumberGenerator {
     // Return a random number within the given range.
     var randomNumber: Int {
         get {
-            return Int(arc4random_uniform(UInt32(upperBound - lowerBound))) + lowerBound
+            return Int.random(in: lowerBound ..< upperBound)
         }
     }
     // Initalizers.

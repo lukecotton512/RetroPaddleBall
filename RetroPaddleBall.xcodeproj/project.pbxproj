@@ -71,6 +71,8 @@
 		6C59770D14EC6580008444B5 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C59770B14EC6580008444B5 /* Icon@2x.png */; };
 		6C60458819B423CD00E7C249 /* RetroPaddleBallTextMain~iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C60458619B423CD00E7C249 /* RetroPaddleBallTextMain~iPad@2x.png */; };
 		6C60458919B423CD00E7C249 /* RetroPaddleBallTextMain~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C60458719B423CD00E7C249 /* RetroPaddleBallTextMain~iPad.png */; };
+		6C701274215F283E00447BA7 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C701273215F283E00447BA7 /* MetalKit.framework */; };
+		6C701276215F284300447BA7 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C701275215F284300447BA7 /* Metal.framework */; };
 		6C78401715F68B34008F9D0A /* HighScoreDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C78401615F68B34008F9D0A /* HighScoreDocument.m */; };
 		6C7B3C401306015C0051DBE0 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C7B3C3E1306015C0051DBE0 /* MainMenuViewController.m */; };
 		6C7B3C53130603360051DBE0 /* RetroPaddleBallMainDisplay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6C7B3C52130603360051DBE0 /* RetroPaddleBallMainDisplay.png */; };
@@ -257,6 +259,8 @@
 		6C59770B14EC6580008444B5 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		6C60458619B423CD00E7C249 /* RetroPaddleBallTextMain~iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RetroPaddleBallTextMain~iPad@2x.png"; sourceTree = "<group>"; };
 		6C60458719B423CD00E7C249 /* RetroPaddleBallTextMain~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RetroPaddleBallTextMain~iPad.png"; sourceTree = "<group>"; };
+		6C701273215F283E00447BA7 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		6C701275215F284300447BA7 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		6C78401515F68B34008F9D0A /* HighScoreDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoreDocument.h; sourceTree = "<group>"; };
 		6C78401615F68B34008F9D0A /* HighScoreDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoreDocument.m; sourceTree = "<group>"; };
 		6C7B3C3D1306015C0051DBE0 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewController.h; sourceTree = "<group>"; };
@@ -387,6 +391,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C701276215F284300447BA7 /* Metal.framework in Frameworks */,
+				6C701274215F283E00447BA7 /* MetalKit.framework in Frameworks */,
 				6CC7EABC192B0B3600B9307D /* OpenGLES.framework in Frameworks */,
 				6CC7EABA192B0B0800B9307D /* GLKit.framework in Frameworks */,
 				6C430AF014D5D23800127C6A /* QuartzCore.framework in Frameworks */,
@@ -458,6 +464,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6C701275215F284300447BA7 /* Metal.framework */,
+				6C701273215F283E00447BA7 /* MetalKit.framework */,
 				6CC7EABB192B0B3600B9307D /* OpenGLES.framework */,
 				6CC7EAB9192B0B0800B9307D /* GLKit.framework */,
 				6C06153A17D24E140019F93C /* CoreMotion.framework */,
@@ -752,7 +760,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 1000;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = A99QTMLY78;
@@ -1476,11 +1484,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -1552,11 +1562,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -1627,11 +1639,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -1665,11 +1679,13 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
