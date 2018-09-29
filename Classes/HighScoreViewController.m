@@ -53,29 +53,32 @@
 -(IBAction)resetHighScores:(id)sender
 {
     // Present an alert view to the user asking to remove all high scores and present it.
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"HIGHSCORESMESSAGETITLE", nil) message:NSLocalizedString(@"HIGHSCORESMESSAGEMESSAGE", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"HIGHSCORESMESSAGENO", nil) otherButtonTitles:NSLocalizedString(@"HIGHSCORESMESSAGEDELETE", nil), nil];
-	[alertView show];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"HIGHSCORESMESSAGETITLE", nil) message:NSLocalizedString(@"HIGHSCORESMESSAGEMESSAGE", nil) preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"HIGHSCORESMESSAGENO", nil) style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"HIGHSCORESMESSAGEDELETE", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+        [self deleteScores];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:true completion:nil];
 }
-// Handles the delete alert.
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    // If the user tapped cancel, then get out of here.
-	if (buttonIndex == 0) {
-		return;
-	}
+
+// Deletes all scores.
+-(void)deleteScores {
     // If the didn't then clear out all high scores by creating a new array to replace the original.
-	highScores = [NSMutableArray array];
-	int i;
-	for (i=0; i<10; i++) {
-		NSDictionary *dictionary = @{@"RPBScore": @0, @"RPBName": @" "};
-		[highScores addObject:dictionary];
-	}
+    highScores = [NSMutableArray array];
+    int i;
+    for (i=0; i<10; i++) {
+        NSDictionary *dictionary = @{@"RPBScore": @0, @"RPBName": @" "};
+        [highScores addObject:dictionary];
+    }
+    
     // Delete all high scores by removing the original file and then replacing it.
     CoreGraphicsDrawingAppDelegate *appDelegate = [CoreGraphicsDrawingAppDelegate sharedAppDelegate];
-	appDelegate.highScores=highScores;
+    appDelegate.highScores=highScores;
     [[NSFileManager defaultManager] removeItemAtPath:[NSString stringWithFormat:@"%@/highscoredatabase.db", [appDelegate getPathToSave]] error:nil];
-	[appDelegate saveHighScores];
-	[self loadHighScores];
+    [appDelegate saveHighScores];
+    [self loadHighScores];
 }
 
 - (void)didReceiveMemoryWarning {

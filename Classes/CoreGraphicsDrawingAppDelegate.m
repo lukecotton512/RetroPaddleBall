@@ -25,7 +25,7 @@
 -(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // URL for iCloud container.
     ubiq = [[NSFileManager defaultManager] URLForUbiquityContainerIdentifier:nil];
-    //load high scores and iCloud
+    //load high scores and iCloud.
     if (ubiq) {
         // Start a query search the proper way for our high score database.
         icloudEnabled=YES;
@@ -63,7 +63,16 @@
         isOniPad=NO;
     }
     // Setup audio settings and hide status bar on older verisons of iOS.
-	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+    if (@available(iOS 11.0, *)) {
+        if (self.window.safeAreaInsets.top > 0.0f && !UIEdgeInsetsEqualToEdgeInsets(self.window.safeAreaInsets, UIEdgeInsetsZero)) {
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+        } else {
+            [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+        }
+    } else {
+        // We are certainly not on the iPhone X.
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
+    }
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:nil];
     [[AVAudioSession sharedInstance] setActive: YES error:nil];
     self.alreadyChecked=NO;

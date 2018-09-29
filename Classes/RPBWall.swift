@@ -11,32 +11,32 @@ import GLKit
 
 @objc class RPBWall: NSObject {
     // Main walls.
-    private(set) var leftWall: RPBRectangle
-    private(set) var rightWall: RPBRectangle
-    private(set) var topWall: RPBRectangle
-    private(set) var bottomWall: RPBRectangle
+    @objc private(set) var leftWall: RPBRectangle
+    @objc private(set) var rightWall: RPBRectangle
+    @objc private(set) var topWall: RPBRectangle
+    @objc private(set) var bottomWall: RPBRectangle
     
     // Paddle walls.
-    private(set) var leftPaddleWall: RPBRectangle
-    private(set) var rightPaddleWall: RPBRectangle
-    private(set) var topPaddleWall: RPBRectangle
-    private(set) var bottomPaddleWall: RPBRectangle
+    @objc private(set) var leftPaddleWall: RPBRectangle
+    @objc private(set) var rightPaddleWall: RPBRectangle
+    @objc private(set) var topPaddleWall: RPBRectangle
+    @objc private(set) var bottomPaddleWall: RPBRectangle
     
     // Size multiplier.
-    var sizeMultiplier: CGFloat = 1.0 {
+    @objc var sizeMultiplier: CGFloat = 1.0 {
         didSet {
             self.updateWallDimensions();
         }
     }
     
     // Losing wall.
-    var wallToLose = 4 {
+    @objc var wallToLose = 4 {
         didSet {
             // Update wall colors.
             self.updateWallColors()
         }
     }
-    var wallToEnable = 0 {
+    @objc var wallToEnable = 0 {
         didSet {
             // Update wall colors.
             self.updateWallColors()
@@ -44,13 +44,13 @@ import GLKit
     }
     
     // Projection matrix.
-    var projectMatrix: GLKMatrix4
+    @objc var projectMatrix: GLKMatrix4
     
     // Our view size.
-    var viewSize: CGRect = CGRect()
+    @objc var viewSize: CGRect = CGRect()
     
     // Initalizers.
-    init(viewSize: CGRect) {
+    @objc init(viewSize: CGRect) {
         // Set viewSize to the view size
         self.viewSize = viewSize
         // Create main walls
@@ -89,7 +89,7 @@ import GLKit
     }
     
     // Sets the dimensions of each wall.
-    func updateWallDimensions() {
+    @objc func updateWallDimensions() {
         // Main Walls.
         self.leftWall.rect = CGRect(x: 0, y: 0, width: 5 * sizeMultiplier, height: viewSize.size.height)
         self.rightWall.rect = CGRect(x: viewSize.size.width - (5 * sizeMultiplier), y: 0, width: 5 * sizeMultiplier, height: viewSize.size.height)
@@ -104,7 +104,7 @@ import GLKit
     }
     
     // Updates wall colors.
-    func updateWallColors() {
+    @objc func updateWallColors() {
         // Left walls.
         if (wallToLose == 1) {
             self.leftWall.rectColor = UIColor.red
@@ -155,7 +155,7 @@ import GLKit
     }
     
     // Render function.
-    func render() {
+    @objc func render() {
         // Render our underlying rectangles.
         // Main walls.
         self.leftWall.render()

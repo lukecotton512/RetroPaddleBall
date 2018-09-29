@@ -27,14 +27,14 @@ import UIKit
     /** 
      Create power up with random type.
     */
-    override init() {
+    @objc override init() {
         super.init()
         self.rectangle.rect.size = CGSize(width: 20, height: 20)
         self.randomizePowerup()
     }
     
     // Create power up with specified type.
-    init(powerUpType: RPBPowerUpType) {
+    @objc init(powerUpType: RPBPowerUpType) {
         self.whichPowerUp = powerUpType
         self.rectangle.rect.size = CGSize(width: 20, height: 20)
         super.init()
@@ -43,7 +43,7 @@ import UIKit
     /**
      Randomizes powerup
     */
-    func randomizePowerup() {
+    @objc func randomizePowerup() {
         let numGen = SCDNumberGenerator(upperBound: 5, lowerBound: 1)
         self.whichPowerUp = RPBPowerUpType(rawValue: numGen.randomNumber)!
     }
@@ -51,7 +51,7 @@ import UIKit
     /**
      Updates powerup color based on the type selected.
     */
-    func updatePowerUpColor() {
+    @objc func updatePowerUpColor() {
         switch (self.whichPowerUp) {
         case .speedUp:
             self.rectangle.rectColor = UIColor.green
@@ -67,7 +67,7 @@ import UIKit
     }
     
     // Render the power up.
-    func render() {
+    @objc func render() {
         // Really render the rect.
         self.rectangle.render()
     }
